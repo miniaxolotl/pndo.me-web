@@ -17,32 +17,25 @@ import { motion, MotionProps } from 'framer-motion';
 
 interface Props {
 	authorization?: AuthorizationState;
-	logoutFunc?: (e: React.MouseEvent<any>) => boolean;
 	dragInFunc?: (e: any) => any;
 	dragOutFunc?: (e: any) => any;
+	dropFunc?: (e: any) => any;
 };
 
 const DefaultLayout: React.FunctionComponent<Props> =
-	({ children, authorization, dragInFunc }) => {
-
-	const app_state = useSelector((state: RootState) => state)
+	({ children, authorization, dragInFunc, dragOutFunc, dropFunc }) => {
+		
+	const rootState = useSelector((state: RootState) => state);
 	const dispatch = useDispatch();
 	const router = useRouter();
+
+	/********* states *********/
+
+	/********* functions *********/
 	
-	const load = (e) => {
-		const element = e.target as HTMLAnchorElement;
-		console.log(element);
-		console.log("Hello World!");
-		
-		element.classList.add("bounce-enter-active");
-	};
-
-
 	const logout = (e: React.MouseEvent<HTMLInputElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
-
-		let status = false;
 
 		if(status) {
 			dispatch({
@@ -53,18 +46,24 @@ const DefaultLayout: React.FunctionComponent<Props> =
 			});
 			router.replace("/");
 		}
-
-		return status;
 	};
 
-	const variants = {
-		initial: { y: '100vw' },
-		enter: { y: '0vw', transition: { duration: 0.4 } },
-		exit: { y: '100vw', transition: { duration: 0.4 } },
+	/********* other *********/
+
+	const navigationVariants = {
+		initial: { opacity: 0, y: '100vw' },
+		enter: { opacity: 1, y: '0vw', transition: { duration: 0.4 } },
+		exit: { opacity: 0, y: '100vw', transition: { duration: 0.4 } },
 	}
+	
+	/********* component *********/
 	  
 	return (
-		<div id="body" className="text-center flex-direction-vertical" onDragEnter={dragInFunc} onDragOver={dragInFunc}>
+		<div id="body" className="text-center" onDragEnter={dragInFunc} onDragOver={dragInFunc}>
+
+			<div id="screen" className="full screen display-hidden"
+			onDragEnter={dragInFunc} onDragOver={dragInFunc}
+			onDragLeave={dragOutFunc} onDrop={dropFunc}/>
 
 			<Head />
 			<div id="navbar" className="">
@@ -73,12 +72,13 @@ const DefaultLayout: React.FunctionComponent<Props> =
 						pandome
 					</ActiveLink>
 				</h1>
-				<NavigationBar authorization={authorization} logoutFunc={logout} />
+				<NavigationBar authorization={authorization}
+				logoutFunc={logout} />
 			</div>
 			
 			<motion.div initial="initial" animate="enter" exit="exit" 
-			variants={variants}>
-				<div  id="masthead" className="container" onLoad={load}>
+			variants={navigationVariants}>
+				<div  id="masthead" className="container" >
 					{ children }
 				</div>
 			</motion.div>

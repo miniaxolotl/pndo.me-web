@@ -13,7 +13,7 @@ import ActiveLink from './ActiveLink';
 
 interface Props {
 	authorization: AuthorizationState;
-	logoutFunc: (e: React.MouseEvent<HTMLInputElement>) => boolean;
+	logoutFunc: (e: React.MouseEvent<HTMLInputElement>) => void;
 }
 
 const NavigationBar: React.FunctionComponent<Props> =

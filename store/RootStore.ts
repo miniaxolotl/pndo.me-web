@@ -30,6 +30,8 @@ export const reducer =
 
 		/* HISTORY */
 		case ActionGroup.HISTORY:
+			state.history = 
+				HistoryReducer(state.history, action as any);
 			return state;
 
 		/* DEFAULT */

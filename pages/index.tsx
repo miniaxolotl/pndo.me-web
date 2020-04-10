@@ -10,9 +10,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { RootAction, ActionGroup, HistoryAction } from '../store/_types';
-import HybridForm from '../components/forms/HybridForm';
 import DefaultLayout from '../components/layours/DefaultLayour';
 import { SyntheticEvent } from 'react';
+import { dragIn, dragOut, drop, upload } from '../scripts/DragDropUpload';
+import DownloadList from '../components/DownloadList';
 
 interface Props {
 	authorization: AuthorizationState;
@@ -20,24 +21,56 @@ interface Props {
 }
 
 /** Page */
-const Page: NextPage<Props> = props => {
-	const rootState = useSelector((state: RootState) => state);
+const Page: NextPage<RootState> = () => {
+
 	const dispatch = useDispatch();
+
+	const rootState = useSelector((state: RootState) => state);
 
 	const authorization = rootState.authorization;
 	const history = rootState.history;
 
+	/********* functions *********/
+
 	const dropFunc = async (event: SyntheticEvent<HTMLDivElement>) => {
+		const responce = await drop(event);
+
+		const action: RootAction = {
+			group: ActionGroup.HISTORY,
+			action: HistoryAction.ADD,
+		};
+
+		if(!responce.status) {
+			dispatch({
+				type: action,
+				item: responce.data,
+			});
+		}
 	}
 
 	const uploadFunc = async (event:  React.ChangeEvent<HTMLInputElement>) => {
+		const responce = await upload(event);
+
+		const action: RootAction = {
+			group: ActionGroup.HISTORY,
+			action: HistoryAction.ADD,
+		};
+
+		if(!responce.status) {
+			dispatch({
+				type: action,
+				item: responce.data,
+			});
+		}
 	}
 
-	return (
-		<DefaultLayout>
-			{/* <div id="screen" className="full screen display-hidden" onDragEnter={dragIn} onDragOver={dragIn} onDragLeave={dragOut} onDrop={dropFunc}/> */}
+	/********* component *********/
 
-			<form id="form" encType="multipart/form-data" method="POST">
+	return (
+		<DefaultLayout dragInFunc={dragIn} dragOutFunc={dragOut}
+		dropFunc={dropFunc} authorization={authorization}>
+
+			<form id="form" encType="multipart/form-data">
 				<div className="">
 					<label id="file-input-label" className="file-input outline">
 						select or drop files
@@ -45,6 +78,8 @@ const Page: NextPage<Props> = props => {
 					</label>
 				</div>
 			</form>
+			{authorization.admin}
+			<DownloadList data={history.list} />
 		</DefaultLayout>
 	);
 };

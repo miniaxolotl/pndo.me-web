@@ -27,4 +27,5 @@ type AuthorizationState = {
 
 type HistoryState = {
 	list: UploadResponce[];
+	item?: UploadResponce;
 };

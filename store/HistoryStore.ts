@@ -18,10 +18,17 @@ type StateAction = Action<RootAction> & HistoryState;
 
 export const HistoryReducer =
 	(state: HistoryState = initialState, action: StateAction) => {
-
+		
 	switch (action.type.action) {
-		/* LOGIN */
+		/* ADD */
 		case HistoryAction.ADD:
+			state.list = [...state.list, action.item];
+			
+			return state;
+
+		/* DELETE */
+		case HistoryAction.DELETE:
+			// state.list = state.list.filter((item) => item.id != action.item.id);
 			return state;
 
 		/* DEFAULT */

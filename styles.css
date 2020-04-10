@@ -24,6 +24,21 @@ div {
 	padding: 2rem 0rem 2rem 0rem;
 }
 
+.screen {
+	z-index: 100;
+	position: fixed;
+	display: flex;
+
+	top: 0rem;
+	left: 0rem;
+
+	width: 100vw;
+	height: 100vh;
+
+	background-color: #000;
+	opacity: 60%;
+}
+
 /******************* scrollbar *******************/
 
 /* width */
@@ -59,6 +74,10 @@ div {
 	opacity: .5;
 	margin: 0rem 0.75rem 0rem;
 	vertical-align: middle;
+}
+
+.nav-link svg {
+	font-size: 1.5rem;
 }
 
 .upload {
