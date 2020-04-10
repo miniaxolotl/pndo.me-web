@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { rootState, reducer } from '../store/RootStore';
 
-import '../styles/_style.css'
+import '../styles.css'
+import { AnimatePresence } from 'framer-motion';
 
 /**
  * @param initialState The store's initial state (on the client side, the state of the server-side store is passed here)
@@ -22,10 +23,12 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 	}
 
 	render() {
-		const { Component, pageProps, store } = this.props;
+		const { Component, pageProps, store, router  } = this.props;
 		return (
 		<Provider store={store}>
-			<Component {...pageProps} />
+			<AnimatePresence exitBeforeEnter>
+				<Component {...pageProps} key={router.route} />
+      		</AnimatePresence>
 		</Provider>
 		);
 	}

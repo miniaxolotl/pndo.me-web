@@ -1,0 +1,92 @@
+/******************* root *******************/
+
+#__next {
+	height: 100vh;
+	margin: 0rem 0rem 0rem 0rem;
+	overflow-y: scroll;
+}
+
+div {
+	width: 100%;
+}
+
+#body {
+	height: 100%;
+	margin: 0rem 0rem 0rem 0rem;
+}
+
+#navbar {
+	padding: 2rem 0rem 2rem 0rem;
+}
+
+#masthead {
+	height: 100%;
+	padding: 2rem 0rem 2rem 0rem;
+}
+
+/******************* scrollbar *******************/
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+	background: #282828;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+	background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+	background: #555;
+  }
+
+/******************* animations *******************/
+
+/******************* other *******************/
+
+.border-none {
+	border: none !important;
+}
+
+.nav-link {
+	transition: all .4s ease;
+	opacity: .5;
+	margin: 0rem 0.75rem 0rem;
+	vertical-align: middle;
+}
+
+.upload {
+	opacity: 1;
+}
+
+/******************* components *******************/
+
+/* navigation */
+
+.active-link svg {
+	color: #ffb7c5 !important;
+	fill: #ffb7c5 !important;
+}
+
+/* hybrid form */
+
+.HybridForm {
+	vertical-align: middle;
+}
+
+.HybridForm input {
+	text-align: center;
+	margin: 0.25rem 0.25rem;
+}
+
+.HybridForm #register {
+	margin: 0.0rem 0rem;
+	font-size: 0.8rem;
+}
+

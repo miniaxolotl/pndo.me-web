@@ -1,6 +1,6 @@
 /**
- * _error.ts
- * - Root level error page.
+ * index.ts
+ * - Application homepage.
  * Notes:
  * - N/A
  * @author Elias Mawa <elias@emawa.io>
@@ -10,6 +10,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { RootAction, ActionGroup } from '../store/_types';
+import HybridForm from '../components/forms/HybridForm';
+import DefaultLayout from '../components/layours/DefaultLayour';
 
 interface Props {
 	authorization: AuthorizationState;
@@ -29,9 +31,22 @@ const Page: NextPage<Props> = props => {
 	console.log(history);
 	
 	return (
-		<div>
-			Hello World!
-		</div>
+		<DefaultLayout>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+			<h1> OOF: Page not found! </h1>
+		</DefaultLayout>
 	);
 };
 
@@ -41,10 +56,8 @@ Page.getInitialProps = ({ store, isServer }) => {
 		/* Do some staff */
 	}
 
-	const action: RootAction = {
-		group: ActionGroup.ROOT,
-	}
-
+	const action: RootAction = { group: ActionGroup.ROOT };
+	
 	store.dispatch({ type: action });
 
 	const rootState: RootState = store.getState();

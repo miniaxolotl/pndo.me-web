@@ -1,6 +1,7 @@
 /**
- * index.ts
- * - Application homepage.
+ * dashboard.ts
+ * - User homepage.
+ * - Handles user authentication.
  * Notes:
  * - N/A
  * @author Elias Mawa <elias@emawa.io>
@@ -9,10 +10,9 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
-import { RootAction, ActionGroup, HistoryAction } from '../store/_types';
+import { RootAction, ActionGroup } from '../store/_types';
 import HybridForm from '../components/forms/HybridForm';
 import DefaultLayout from '../components/layours/DefaultLayour';
-import { SyntheticEvent } from 'react';
 
 interface Props {
 	authorization: AuthorizationState;
@@ -27,24 +27,9 @@ const Page: NextPage<Props> = props => {
 	const authorization = rootState.authorization;
 	const history = rootState.history;
 
-	const dropFunc = async (event: SyntheticEvent<HTMLDivElement>) => {
-	}
-
-	const uploadFunc = async (event:  React.ChangeEvent<HTMLInputElement>) => {
-	}
-
 	return (
 		<DefaultLayout>
-			{/* <div id="screen" className="full screen display-hidden" onDragEnter={dragIn} onDragOver={dragIn} onDragLeave={dragOut} onDrop={dropFunc}/> */}
-
-			<form id="form" encType="multipart/form-data" method="POST">
-				<div className="">
-					<label id="file-input-label" className="file-input outline">
-						select or drop files
-						<input type="file" id="file-input" name="file" onChange={uploadFunc} />
-					</label>
-				</div>
-			</form>
+			<HybridForm loginFunc={null} registerFunc={null}></HybridForm>
 		</DefaultLayout>
 	);
 };
