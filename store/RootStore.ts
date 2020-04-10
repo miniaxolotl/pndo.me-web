@@ -9,16 +9,18 @@
  */
 
 import { Action } from 'redux'
-import { ActionGroup, RootAction } from './_types';
+
 import { AuthorizationReducer } from './AuthorizationStore';
 import { HistoryReducer } from './HistoryStore';
+import { ActionGroup, RootAction } from './_types';
 
 const initialState: RootState = {
 	authorization: null,
 	history: null,
 };
 
-type StateAction = Action<RootAction> & RootState;
+type StateAction = Action<RootAction> & RootState
+	& HistoryState & AuthorizationState;
 
 export const reducer =
 	(state: RootState = initialState, action: StateAction) => {
@@ -26,21 +28,27 @@ export const reducer =
 	switch (action.type.group) {
 		/* AUTHORIZATION */
 		case ActionGroup.AUTHORIZATION:
+			state.authorization = 
+				AuthorizationReducer(state.authorization, action);
 			return state;
 
 		/* HISTORY */
 		case ActionGroup.HISTORY:
 			state.history = 
-				HistoryReducer(state.history, action as any);
+				HistoryReducer(state.history, action);
+			return state;
+
+			
+		case ActionGroup.ROOT:
+			state.authorization
+				= AuthorizationReducer(state.authorization, action);
+			state.history = 
+				HistoryReducer(state.history, action);
+			
 			return state;
 
 		/* DEFAULT */
 		default:
-			state.authorization = 
-				AuthorizationReducer(state.authorization, action as any);
-			state.history = 
-				HistoryReducer(state.history, action as any);
-				
 			return state;
 	}
 };

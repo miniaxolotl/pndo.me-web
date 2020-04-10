@@ -1,9 +1,6 @@
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux';
 
-function DownloadList({ children, data }: any) {
-  
-	const router = useRouter();
+function DownloadList({ data }: any) {
 
 	const copyFunc = (e: any) => {
 		e.target.select();

@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { RootAction, ActionGroup } from '../store/_types';
 import HybridForm from '../components/forms/HybridForm';
-import DefaultLayout from '../components/layours/DefaultLayour';
+import DefaultLayout from '../components/layours/DefaultLayout';
 
 interface Props {
 	authorization: AuthorizationState;

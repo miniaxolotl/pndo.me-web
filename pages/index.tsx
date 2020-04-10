@@ -10,7 +10,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { RootAction, ActionGroup, HistoryAction } from '../store/_types';
-import DefaultLayout from '../components/layours/DefaultLayour';
+import DefaultLayout from '../components/layours/DefaultLayout';
 import { SyntheticEvent } from 'react';
 import { dragIn, dragOut, drop, upload } from '../scripts/DragDropUpload';
 import DownloadList from '../components/DownloadList';
@@ -25,10 +25,14 @@ const Page: NextPage<RootState> = () => {
 
 	const dispatch = useDispatch();
 
-	const rootState = useSelector((state: RootState) => state);
 
-	const authorization = rootState.authorization;
-	const history = rootState.history;
+	// const authorization = rootState.authorization;
+	// const history = rootState.history;
+
+	const authorization
+		= useSelector((state: RootState) => state.authorization);
+	const history
+		= useSelector((state: RootState) => state.history.list);
 
 	/********* functions *********/
 
@@ -78,8 +82,7 @@ const Page: NextPage<RootState> = () => {
 					</label>
 				</div>
 			</form>
-			{authorization.admin}
-			<DownloadList data={history.list} />
+			<DownloadList data={history} />
 		</DefaultLayout>
 	);
 };

@@ -28,7 +28,6 @@ export const HistoryReducer =
 
 		/* DELETE */
 		case HistoryAction.DELETE:
-			// state.list = state.list.filter((item) => item.id != action.item.id);
 			return state;
 
 		/* DEFAULT */

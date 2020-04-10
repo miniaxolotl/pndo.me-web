@@ -60,12 +60,13 @@ const DefaultLayout: React.FunctionComponent<Props> =
 	  
 	return (
 		<div id="body" className="text-center" onDragEnter={dragInFunc} onDragOver={dragInFunc}>
+			
+			<Head />
 
 			<div id="screen" className="full screen display-hidden"
 			onDragEnter={dragInFunc} onDragOver={dragInFunc}
 			onDragLeave={dragOutFunc} onDrop={dropFunc}/>
 
-			<Head />
 			<div id="navbar" className="">
 				<h1 className="nav-link upload">
 					<ActiveLink href="/">
