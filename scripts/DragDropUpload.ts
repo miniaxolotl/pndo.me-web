@@ -75,6 +75,7 @@ export const sendFile = async (formData: FormData) => {
 		body: formData,
 	}).then(async (res) => {
 		const data: any = JSON.parse(await res.text());
+		responce.status = res.status;
 		responce.data = data;
 	}).catch((e) => {
 		// oof

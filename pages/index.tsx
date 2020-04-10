@@ -25,14 +25,8 @@ const Page: NextPage<RootState> = () => {
 
 	const dispatch = useDispatch();
 
-
-	// const authorization = rootState.authorization;
-	// const history = rootState.history;
-
-	const authorization
-		= useSelector((state: RootState) => state.authorization);
-	const history
-		= useSelector((state: RootState) => state.history.list);
+	const rootState = useSelector((state: RootState) => state);
+	const historyList = useSelector((state: RootState) => state.history.list);
 
 	/********* functions *********/
 
@@ -43,8 +37,8 @@ const Page: NextPage<RootState> = () => {
 			group: ActionGroup.HISTORY,
 			action: HistoryAction.ADD,
 		};
-
-		if(!responce.status) {
+		
+		if(responce.status == 200) {
 			dispatch({
 				type: action,
 				item: responce.data,
@@ -60,7 +54,7 @@ const Page: NextPage<RootState> = () => {
 			action: HistoryAction.ADD,
 		};
 
-		if(!responce.status) {
+		if(responce.status == 200) {
 			dispatch({
 				type: action,
 				item: responce.data,
@@ -72,7 +66,7 @@ const Page: NextPage<RootState> = () => {
 
 	return (
 		<DefaultLayout dragInFunc={dragIn} dragOutFunc={dragOut}
-		dropFunc={dropFunc} authorization={authorization}>
+		dropFunc={dropFunc} authorization={null}>
 
 			<form id="form" encType="multipart/form-data">
 				<div className="">
@@ -82,7 +76,7 @@ const Page: NextPage<RootState> = () => {
 					</label>
 				</div>
 			</form>
-			<DownloadList data={history} />
+			<DownloadList data={historyList} />
 		</DefaultLayout>
 	);
 };
