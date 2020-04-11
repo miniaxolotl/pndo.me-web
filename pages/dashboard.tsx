@@ -10,9 +10,10 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
-import { RootAction, ActionGroup } from '../store/_types';
+import { RootAction, ActionGroup, HistoryAction } from '../store/_types';
 import HybridForm from '../components/forms/HybridForm';
 import DefaultLayout from '../components/layours/DefaultLayout';
+import { parseCookies } from 'nookies';
 
 interface Props {
 	authorization: AuthorizationState;
@@ -35,19 +36,30 @@ const Page: NextPage<Props> = props => {
 };
 
 /** Initial props */
-Page.getInitialProps = ({ store, isServer }) => {
-	if (isServer) {
-		/* Do some staff */
-	}
+Page.getInitialProps = (ctx) => {
 
 	const action: RootAction = { group: ActionGroup.ROOT };
+	ctx.store.dispatch({ type: action });
 
-	store.dispatch({ type: action });
+	let rootState: RootState = ctx.store.getState();
+	let initialProps: RootState = rootState;
 
-	const rootState: RootState = store.getState();
-	const initialProps: Props = rootState;
-
+	if (ctx.isServer) {
+		const cleanupAction: RootAction = {
+			group: ActionGroup.HISTORY,
+			action: HistoryAction.CLEANUP
+		};
+		ctx.store.dispatch({ type: cleanupAction });
+		
+		const history = parseCookies(ctx).history;
+		if(history) {
+			let filteredHistory = JSON.parse(history);
+			filteredHistory = filteredHistory.filter((e) => !e.delta);
+			initialProps.history.list = filteredHistory;
+		}
+	}
 	return initialProps;
 };
+
 
 export default Page;

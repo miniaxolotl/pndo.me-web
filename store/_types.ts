@@ -25,6 +25,7 @@ export enum HistoryAction {
 export enum ActionGroup {
 	AUTHORIZATION,
 	HISTORY,
+	DISPLAY,
 	ROOT,
 }
 

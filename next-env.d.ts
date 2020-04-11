@@ -19,6 +19,7 @@ type UploadResponce = {
 type RootState = {
 	authorization: null | AuthorizationState,
 	history: null | HistoryState,
+	display: any,
 };
 
 type AuthorizationState = {

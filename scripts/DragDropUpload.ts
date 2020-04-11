@@ -1,6 +1,5 @@
 import { SyntheticEvent, InputHTMLAttributes, FormHTMLAttributes } from "react";
 import axios from 'axios';
-import Axios from "axios";
 
 /**
  * Enable screeen on drag in
@@ -66,6 +65,7 @@ export const upload = async (event: any, progressFunc) => {
  */
 export const sendFile = async (formData: FormData, progressFunc) => {
 
+	formData.set('protected', '0');
 	let responce: { status: number, data: UploadResponce } = {
 		status: null,
 		data: null

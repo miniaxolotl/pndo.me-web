@@ -110,6 +110,7 @@ const Page: NextPage<RootState> = () => {
 		</DefaultLayout>
 	);
 };
+
 /** Initial props */
 Page.getInitialProps = (ctx) => {
 

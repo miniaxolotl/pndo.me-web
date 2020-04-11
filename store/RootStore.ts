@@ -13,10 +13,12 @@ import { Action } from 'redux'
 import { AuthorizationReducer } from './AuthorizationStore';
 import { HistoryReducer } from './HistoryStore';
 import { ActionGroup, RootAction } from './_types';
+import { getFile } from '../scripts/Display';
 
 const initialState: RootState = {
 	authorization: null,
 	history: null,
+	display: null,
 };
 
 type StateAction = Action<RootAction> & RootState
@@ -36,6 +38,12 @@ export const reducer =
 		case ActionGroup.HISTORY:
 			state.history = 
 				HistoryReducer(state.history, action);
+			return state;
+
+		/* HISTORY */
+		case ActionGroup.DISPLAY:
+			getFile(action.id);
+			
 			return state;
 
 		/* DEFAULT */
