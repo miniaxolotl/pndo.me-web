@@ -25,7 +25,7 @@ const NavigationBar: React.FunctionComponent<Props> =
 				</span>
 			</ActiveLink>
 			
-			<ActiveLink href="/help">	
+			<ActiveLink href="/faq">	
 				<span className="nav-link">
 					<FaQuestionCircle />
 				</span>

@@ -1,6 +1,7 @@
 /**
- * index.ts
- * - Application homepage.
+ * dashboard.ts
+ * - User homepage.
+ * - Handles user authentication.
  * Notes:
  * - N/A
  * @author Elias Mawa <elias@emawa.io>
@@ -25,23 +26,10 @@ const Page: NextPage<Props> = props => {
 
 	const authorization = rootState.authorization;
 	const history = rootState.history;
-	
+
 	return (
 		<DefaultLayout>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
+			TODO
 		</DefaultLayout>
 	);
 };
@@ -53,7 +41,7 @@ Page.getInitialProps = ({ store, isServer }) => {
 	}
 
 	const action: RootAction = { group: ActionGroup.ROOT };
-	
+
 	store.dispatch({ type: action });
 
 	const rootState: RootState = store.getState();

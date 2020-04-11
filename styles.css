@@ -109,3 +109,22 @@ div {
 	font-size: 0.8rem;
 }
 
+.download {
+	list-style: none;
+	width: 100%;
+}
+
+.dl-container {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+.dl-text {
+	display: flex;
+}
+
+.dl-link {
+	margin: 0rem 0.75rem 0rem 0rem;
+	vertical-align: middle;
+}

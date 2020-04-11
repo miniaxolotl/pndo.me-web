@@ -2,7 +2,7 @@
 /// <reference types="next/types/global" />
 
 type UploadResponce = {
-	id: string;
+	id: string | FileUID | number;
 	name: string;
 	url?: string;
 	type?: string;
@@ -11,6 +11,9 @@ type UploadResponce = {
 	bytes?: number;
 	uploaded?: string;
 	expires?: string;
+	loaded?: number;
+	total?: number;
+	delta?: number;
 };
 
 type RootState = {
@@ -28,4 +31,12 @@ type AuthorizationState = {
 type HistoryState = {
 	list: UploadResponce[];
 	item?: UploadResponce;
+	uid?: FileUID;
+	id?: string;
+	progress?: ProgressEvent;
 };
+
+type FileUID = {
+	file: File,
+	delta: number
+}

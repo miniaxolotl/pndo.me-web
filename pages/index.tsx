@@ -15,6 +15,8 @@ import { SyntheticEvent } from 'react';
 import { dragIn, dragOut, drop, upload } from '../scripts/DragDropUpload';
 import DownloadList from '../components/DownloadList';
 
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
+
 interface Props {
 	authorization: AuthorizationState;
 	history: HistoryState;
@@ -30,8 +32,21 @@ const Page: NextPage<RootState> = () => {
 
 	/********* functions *********/
 
+	const progressFunc = (p: ProgressEvent, id: FileUID) => {
+		const action: RootAction = {
+			group: ActionGroup.HISTORY,
+			action: HistoryAction.PROGRESS,
+		};
+		
+		dispatch({
+			type: action,
+			progress: p,
+			uid: id,
+		});
+	};
+
 	const dropFunc = async (event: SyntheticEvent<HTMLDivElement>) => {
-		const responce = await drop(event);
+		const responce = await drop(event, progressFunc);
 
 		const action: RootAction = {
 			group: ActionGroup.HISTORY,
@@ -47,7 +62,7 @@ const Page: NextPage<RootState> = () => {
 	}
 
 	const uploadFunc = async (event:  React.ChangeEvent<HTMLInputElement>) => {
-		const responce = await upload(event);
+		const responce = await upload(event, progressFunc);
 
 		const action: RootAction = {
 			group: ActionGroup.HISTORY,
@@ -61,6 +76,21 @@ const Page: NextPage<RootState> = () => {
 			});
 		}
 	}
+
+	const filterFunc = (id: string, e: any) => {
+		e.preventDefault();
+		const element = e.target;
+		
+		const action: RootAction = {
+			group: ActionGroup.HISTORY,
+			action: HistoryAction.DELETE,
+		};
+
+		dispatch({
+			type: action,
+			id: id,
+		});
+	};
 
 	/********* component *********/
 
@@ -76,24 +106,33 @@ const Page: NextPage<RootState> = () => {
 					</label>
 				</div>
 			</form>
-			<DownloadList data={historyList} />
+			<DownloadList data={historyList} filterFunc={filterFunc} />
 		</DefaultLayout>
 	);
 };
-
 /** Initial props */
-Page.getInitialProps = ({ store, isServer }) => {
-	if (isServer) {
-		/* Do some staff */
-	}
+Page.getInitialProps = (ctx) => {
 
 	const action: RootAction = { group: ActionGroup.ROOT };
+	ctx.store.dispatch({ type: action });
 
-	store.dispatch({ type: action });
+	let rootState: RootState = ctx.store.getState();
+	let initialProps: RootState = rootState;
 
-	const rootState: RootState = store.getState();
-	const initialProps: Props = rootState;
-
+	if (ctx.isServer) {
+		const cleanupAction: RootAction = {
+			group: ActionGroup.HISTORY,
+			action:HistoryAction.CLEANUP
+		};
+		ctx.store.dispatch({ type: cleanupAction });
+		
+		const history = parseCookies(ctx).history;
+		if(history) {
+			let filteredHistory = JSON.parse(history);
+			filteredHistory = filteredHistory.filter((e) => !e.delta);
+			initialProps.history.list = filteredHistory;
+		}
+	}
 	return initialProps;
 };
 

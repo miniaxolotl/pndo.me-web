@@ -17,8 +17,9 @@ export enum AuthorizationAction {
 export enum HistoryAction {
 	LOAD,
 	ADD,
-	REMOVE,
+	PROGRESS,
 	DELETE,
+	CLEANUP,
 }
 
 export enum ActionGroup {

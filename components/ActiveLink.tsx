@@ -9,7 +9,8 @@ function ActiveLink({ children, href, clickFunc }: any) {
 }
 
   return (
-    <a href={href} onClick={clickFunc ? clickFunc : handleClick} className={router.pathname === href ? 'active-link' : void(0)}>
+	<a href={href} onClick={clickFunc ? clickFunc : handleClick}
+	className={router.pathname === href ? 'active-link' : void(0)}>
       {children}
     </a>
   )

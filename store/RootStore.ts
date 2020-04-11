@@ -38,17 +38,13 @@ export const reducer =
 				HistoryReducer(state.history, action);
 			return state;
 
-			
-		case ActionGroup.ROOT:
+		/* DEFAULT */
+		default:
 			state.authorization
 				= AuthorizationReducer(state.authorization, action);
 			state.history = 
 				HistoryReducer(state.history, action);
 			
-			return state;
-
-		/* DEFAULT */
-		default:
 			return state;
 	}
 };
