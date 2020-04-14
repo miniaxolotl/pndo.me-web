@@ -16,6 +16,7 @@ import { dragIn, dragOut, drop, upload } from '../scripts/DragDropUpload';
 import DownloadList from '../components/DownloadList';
 
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
+import { loadavg } from 'os';
 
 interface Props {
 	authorization: AuthorizationState;
@@ -28,6 +29,7 @@ const Page: NextPage<RootState> = () => {
 	const dispatch = useDispatch();
 
 	const rootState = useSelector((state: RootState) => state);
+	const loggedIn = useSelector((state: RootState) => state.authorization.loggedIn);
 	const historyList = useSelector((state: RootState) => state.history.list);
 
 	/********* functions *********/
@@ -63,6 +65,9 @@ const Page: NextPage<RootState> = () => {
 
 	const uploadFunc = async (event:  React.ChangeEvent<HTMLInputElement>) => {
 		const responce = await upload(event, progressFunc);
+
+		console.log(responce);
+		
 
 		const action: RootAction = {
 			group: ActionGroup.HISTORY,
@@ -102,8 +107,15 @@ const Page: NextPage<RootState> = () => {
 				<div className="">
 					<label id="file-input-label" className="file-input outline">
 						select or drop files
-						<input type="file" id="file-input" name="file" onChange={uploadFunc} />
+						<input type="file" id="file" name="file" onChange={uploadFunc} />
 					</label>
+					{
+						loggedIn ? 
+						<label>
+							private: 
+							<input type="checkbox" value="protected" />
+						</label> : null
+					}
 				</div>
 			</form>
 			<DownloadList data={historyList} filterFunc={filterFunc} />

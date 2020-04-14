@@ -51,7 +51,10 @@ const FileDisplay: React.FunctionComponent<Props> =
 				<div className="file-display">
 					<div>
 						<div className='img-container'>
-							<img src={'http://home.emawa.io:5656/download/'+data.id} />
+							{
+								image ? 
+								<img src={'http://home.emawa.io:5656/download/'+data.id} /> : null
+							}
 						</div>
 						
 						<div>
@@ -68,9 +71,9 @@ const FileDisplay: React.FunctionComponent<Props> =
 								</code>
 							</div>
 							<div>
-								uploaded by:
+								uploaded by
 								<code>
-									{data.owner_id ? data.owner_id : 'anonymous user'}
+									{data.owner_id ? data.owner_id : <span className="color-orange"> anonymous user </span>}
 								</code>
 							</div>
 						</div>

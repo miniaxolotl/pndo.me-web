@@ -37,7 +37,7 @@ export const drop = (event: SyntheticEvent<HTMLDivElement>, progressFunc) => {
 	screen.classList.add("display-hidden");
 
 	var form = document.getElementById('form') as HTMLFormElement;
-	var fileInput = document.getElementById('file-input') as HTMLInputElement;
+	var fileInput = document.getElementById('file') as HTMLInputElement;
 
 	fileInput.files = (event as unknown as DragEvent).dataTransfer.files;
 	var formData = new FormData(form);
@@ -76,7 +76,7 @@ export const sendFile = async (formData: FormData, progressFunc) => {
 
 	await axios.request({
 		method: 'post',
-		url: 'http://'+window.location.hostname+":5656/api/upload",
+		url: 'http://'+window.location.hostname+":4040/api/file/upload",
 		data: formData,
 		onUploadProgress: (e) => progressFunc(e, { file, delta }),
 	}).then(async (res: any) => {
@@ -85,6 +85,10 @@ export const sendFile = async (formData: FormData, progressFunc) => {
 		responce.data.delta = delta;
 		responce.data.loaded = 1;
 		responce.data.total = 1;
+
+		responce.data.name = res.data.filename;
+		responce.data.id = res.data.uuid;
+		responce.data.name = res.data.filename;
 	}).catch((err) => {
 		responce.status = 500;
 	});
