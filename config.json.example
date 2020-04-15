@@ -1,0 +1,12 @@
+{
+	"title": "a site title",
+	"description": "a site description",
+	"site": "http://this-url:port",
+	"server": "http://backend-url:port",
+	"og": {
+		"site": "pandome"
+	},
+	"tw": {
+		"site": "twitter-handle"
+	}
+}

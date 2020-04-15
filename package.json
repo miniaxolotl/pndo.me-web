@@ -17,6 +17,7 @@
 		"axios": "^0.19.2",
 		"framer-motion": "^1.10.3",
 		"next": "^9.3.4",
+		"next-pwa": "^2.3.3",
 		"next-redux-wrapper": "^5.0.0",
 		"next-seo": "^4.4.0",
 		"node-fetch": "^2.6.0",

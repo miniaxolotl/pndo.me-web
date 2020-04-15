@@ -18,6 +18,8 @@ import { parseCookies } from 'nookies'
 import { FaSignOutAlt, FaArrowAltCircleUp,
 	FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
 
+import config from '../config.json';
+
 /** Page */
 const Page: NextPage<RootState> = () => {
 
@@ -51,16 +53,15 @@ const Page: NextPage<RootState> = () => {
 	}];
 
 	const headProps = {
-		title: "string",
-		description: "string",
-		url: "string",
-		ogTitle: "string",
-		ogDescription: "string",
-		ogUrl: "string",
+		title: config.title,
+		description: config.description,
+		url: config.url,
+		ogTitle: config.title,
+		ogDescription: config.description,
+		ogUrl: config.url,
 		// ogImages?: OpenGraphImages[];
-		ogSiteName: "string",
-		twHandle: "string",
-		twSite: "string",
+		ogSiteName: config.og.site,
+		twSite: config.tw.site,
 	}
 
 	const dragInFunc = (e) => {
