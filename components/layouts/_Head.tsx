@@ -30,7 +30,6 @@ const Header: React.FunctionComponent<Props> = (props) => {
 			<Head>
 				<link rel="stylesheet"
 					href="https://cdn.jsdelivr.net/npm/ashleycss/dist/themes/ashleycss-dark.min.css" />
-				<link rel="manifest" href="/manifest.json" />
 				<link rel="apple-touch-icon" href="/img/icon.png" />
 			</Head>
 			<NextSeo
