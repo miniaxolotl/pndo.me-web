@@ -10,8 +10,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { RootAction, ActionGroup } from '../store/_types';
-import HybridForm from '../components/forms/HybridForm';
-import DefaultLayout from '../components/layours/DefaultLayout';
+import DefaultLayout from '../components/layouts/DefaultLayout';
 
 interface Props {
 	authorization: AuthorizationState;
@@ -28,19 +27,6 @@ const Page: NextPage<Props> = props => {
 	
 	return (
 		<DefaultLayout>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
-			<h1> OOF: Page not found! </h1>
 			<h1> OOF: Page not found! </h1>
 		</DefaultLayout>
 	);

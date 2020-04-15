@@ -10,98 +10,81 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { RootAction, ActionGroup, HistoryAction } from '../store/_types';
-import DefaultLayout from '../components/layours/DefaultLayout';
+import DragDropLayout from '../components/layouts/DragDropLayout';
 import { SyntheticEvent } from 'react';
 import { dragIn, dragOut, drop, upload } from '../scripts/DragDropUpload';
-import DownloadList from '../components/DownloadList';
 
-import { parseCookies, setCookie, destroyCookie } from 'nookies'
-import { loadavg } from 'os';
-
-interface Props {
-	authorization: AuthorizationState;
-	history: HistoryState;
-}
+import { parseCookies } from 'nookies'
+import { FaSignOutAlt, FaArrowAltCircleUp,
+	FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
 
 /** Page */
 const Page: NextPage<RootState> = () => {
 
-	const dispatch = useDispatch();
+	const rootState
+		= useSelector((state: RootState) => state);
+	const loggedIn
+		= useSelector((state: RootState) => state.authorization.loggedIn);
+	const historyList
+		= useSelector((state: RootState) => state.history.list);
 
-	const rootState = useSelector((state: RootState) => state);
-	const loggedIn = useSelector((state: RootState) => state.authorization.loggedIn);
-	const historyList = useSelector((state: RootState) => state.history.list);
-
-	/********* functions *********/
-
-	const progressFunc = (p: ProgressEvent, id: FileUID) => {
-		const action: RootAction = {
-			group: ActionGroup.HISTORY,
-			action: HistoryAction.PROGRESS,
-		};
-		
-		dispatch({
-			type: action,
-			progress: p,
-			uid: id,
-		});
+	const authLink: {
+		href: string,
+		icon: JSX.Element,
+	} = {
+		href: "123",
+		icon: <FaSignOutAlt />,
 	};
+	
+	const links: {
+		href: string,
+		icon: JSX.Element,
+	}[] = [{
+		href: "TODO",
+		icon: <FaArrowAltCircleUp />,
+	},{
+		href: "TODO",
+		icon: <FaQuestionCircle />,
+	},{
+		href: "TODO",
+		icon: <FaUserCircle />,
+	}];
 
-	const dropFunc = async (event: SyntheticEvent<HTMLDivElement>) => {
-		const responce = await drop(event, progressFunc);
-
-		const action: RootAction = {
-			group: ActionGroup.HISTORY,
-			action: HistoryAction.ADD,
-		};
-		
-		if(responce.status == 200) {
-			dispatch({
-				type: action,
-				item: responce.data,
-			});
-		}
+	const headProps = {
+		title: "string",
+		description: "string",
+		url: "string",
+		ogTitle: "string",
+		ogDescription: "string",
+		ogUrl: "string",
+		// ogImages?: OpenGraphImages[];
+		ogSiteName: "string",
+		twHandle: "string",
+		twSite: "string",
 	}
 
-	const uploadFunc = async (event:  React.ChangeEvent<HTMLInputElement>) => {
-		const responce = await upload(event, progressFunc);
+	const dragInFunc = (e) => {
 
-		console.log(responce);
-		
-
-		const action: RootAction = {
-			group: ActionGroup.HISTORY,
-			action: HistoryAction.ADD,
-		};
-
-		if(responce.status == 200) {
-			dispatch({
-				type: action,
-				item: responce.data,
-			});
-		}
-	}
-
-	const filterFunc = (id: string, e: any) => {
-		e.preventDefault();
-		const element = e.target;
-		
-		const action: RootAction = {
-			group: ActionGroup.HISTORY,
-			action: HistoryAction.DELETE,
-		};
-
-		dispatch({
-			type: action,
-			id: id,
-		});
 	};
 
-	/********* component *********/
+	const dragOut = (e) => {
+
+	};
+
+	const dropFunc = (e) => {
+
+	};
+
+	const uploadFunc = (e) => {
+
+	};
 
 	return (
-		<DefaultLayout dragInFunc={dragIn} dragOutFunc={dragOut}
-		dropFunc={dropFunc} authorization={null}>
+		<DragDropLayout
+		dragInFunc={dragIn} dragOutFunc={dragOut}
+		dropFunc={dropFunc} authorization={null}
+		authLink={authLink} links={links}
+		headProps={headProps}>
 
 			<form id="form" encType="multipart/form-data">
 				<div className="">
@@ -118,8 +101,7 @@ const Page: NextPage<RootState> = () => {
 					}
 				</div>
 			</form>
-			<DownloadList data={historyList} filterFunc={filterFunc} />
-		</DefaultLayout>
+		</DragDropLayout>
 	);
 };
 
