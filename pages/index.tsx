@@ -11,14 +11,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { RootAction, ActionGroup, HistoryAction } from '../store/_types';
 import DragDropLayout from '../components/layouts/DragDropLayout';
-import { SyntheticEvent } from 'react';
-import { dragIn, dragOut, drop, upload } from '../scripts/DragDropUpload';
 
 import { parseCookies } from 'nookies'
 import { FaSignOutAlt, FaArrowAltCircleUp,
 	FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
 
-/** Page */
+import config from '../config.json';
+
 const Page: NextPage<RootState> = () => {
 
 	const rootState
@@ -51,23 +50,22 @@ const Page: NextPage<RootState> = () => {
 	}];
 
 	const headProps = {
-		title: "string",
-		description: "string",
-		url: "string",
-		ogTitle: "string",
-		ogDescription: "string",
-		ogUrl: "string",
+		title: config.title,
+		description: config.description,
+		url: config.url,
+		ogTitle: config.title,
+		ogDescription: config.description,
+		ogUrl: config.url,
 		// ogImages?: OpenGraphImages[];
-		ogSiteName: "string",
-		twHandle: "string",
-		twSite: "string",
+		ogSiteName: config.og.site,
+		twSite: config.tw.site,
 	}
 
 	const dragInFunc = (e) => {
 
 	};
 
-	const dragOut = (e) => {
+	const dragOutFunc = (e) => {
 
 	};
 
@@ -81,7 +79,7 @@ const Page: NextPage<RootState> = () => {
 
 	return (
 		<DragDropLayout
-		dragInFunc={dragIn} dragOutFunc={dragOut}
+		dragInFunc={dragInFunc} dragOutFunc={dragOutFunc}
 		dropFunc={dropFunc} authorization={null}
 		authLink={authLink} links={links}
 		headProps={headProps}>

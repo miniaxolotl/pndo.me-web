@@ -1,7 +1,6 @@
 import { NextSeo } from 'next-seo';
 import Head from 'next/head';
 import { OpenGraphImages, Twitter } from 'next-seo/lib/types';
-import config from '../../config.json';
 
 interface Props {
 	title?: string;
@@ -12,7 +11,6 @@ interface Props {
 	ogUrl?: string;
 	ogImages?: OpenGraphImages[];
 	ogSiteName?: string;
-	twHandle?: string;
 	twSite?: string;
 };
 
@@ -30,7 +28,8 @@ const Header: React.FunctionComponent<Props> = (props) => {
 	return(
 		<div>
 			<Head>
-				<link rel="stylesheet" href="https://unpkg.com/ashleycss" />
+				<link rel="stylesheet"
+					href="https://cdn.jsdelivr.net/npm/ashleycss/dist/themes/ashleycss-dark.min.css" />
 				<link rel="manifest" href="/manifest.json" />
 				<link rel="apple-touch-icon" href="/img/icon.png" />
 			</Head>

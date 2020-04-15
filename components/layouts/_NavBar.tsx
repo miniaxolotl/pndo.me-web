@@ -22,7 +22,6 @@ const NavBar: React.FunctionComponent<Props> = (props) => (
 					let linkList = [];
 
 					props.links.forEach((value, index) => {
-
 						linkList.push(
 							<ActiveLink href={`${value.href}`}>
 								<span className="nav-link">

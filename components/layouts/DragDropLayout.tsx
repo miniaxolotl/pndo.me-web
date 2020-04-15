@@ -1,18 +1,11 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
-import { ActionGroup, AuthorizationAction } from '../../store/_types';
-import { motion, MotionProps } from 'framer-motion';
-import { IconType } from 'react-icons/lib/cjs';
+import { motion } from 'framer-motion';
 
 import Head from './_Head';
 import NavBar from './_NavBar';
 import ActiveLink from './_ActiveLink';
-
-import { FaSignOutAlt, FaArrowAltCircleUp, 
-	FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
+import { OpenGraphImages } from 'next-seo/lib/types';
 	
 import config from '../../config.json';
-import { OpenGraphImages } from 'next-seo/lib/types';
 
 interface Props {
 	authorization?: AuthorizationState;
@@ -53,7 +46,8 @@ const DragDropLayout: React.FunctionComponent<Props> = (props) => {
 	/********* component *********/
 	  
 	return (
-		<div id="body" className="text-center" onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc}>
+		<div id="body" className="text-center"
+		onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc}>
 			
 			<Head {...props.headProps} />
 
@@ -64,7 +58,7 @@ const DragDropLayout: React.FunctionComponent<Props> = (props) => {
 			<div id="navbar" className="">
 				<h1 className="nav-link upload">
 					<ActiveLink href="/">
-						config.
+						{config.title}
 					</ActiveLink>
 				</h1>
 				<NavBar

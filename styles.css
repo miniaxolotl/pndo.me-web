@@ -6,10 +6,6 @@
 	overflow-y: scroll;
 }
 
-div {
-	width: 100%;
-}
-
 #body {
 	height: 100%;
 	margin: 0rem 0rem 0rem 0rem;
@@ -44,24 +40,22 @@ div {
 /* width */
 ::-webkit-scrollbar {
 	width: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-	background: #282828;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-	background: #888;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-	background: #555;
-  }
+}
 
-/******************* animations *******************/
+/* Track */
+::-webkit-scrollbar-track {
+	background: #282828;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
 
 /******************* file-display *******************/
 
