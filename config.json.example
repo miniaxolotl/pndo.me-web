@@ -1,6 +1,6 @@
 {
 	"title": "a site title",
-	"description": "a site port",
+	"description": "a site description",
 	"url": "http://localhost:1111",
 	"server": "http://backend-url:port",
 	"og": {
