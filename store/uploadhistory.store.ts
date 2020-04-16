@@ -18,7 +18,7 @@ export const UploadHistoryReducer =
 				= state.uploadList.filter((e) =>
 				e.timeInitiated != (action as any).data.timeInitiated);
 
-			(action as any).data.timeInitiated = -1;
+			// (action as any).data.timeInitiated = -1;
 
 			state.uploadList
 				= [...state.uploadList, (action as any).data];
@@ -30,6 +30,8 @@ export const UploadHistoryReducer =
 
 		/* DELETE */
 		case UploadHistoryAction.DELETE:
+			console.log((action as any).file_id);
+			
 			state.uploadList = state.uploadList
 			.filter((e) => e.file_id != (action as any).file_id);
 			
@@ -41,7 +43,10 @@ export const UploadHistoryReducer =
 		/* CLEANUP */
 		case UploadHistoryAction.CLEANUP:
 			state.uploadList
-				= state.uploadList.filter((e) => e.timeInitiated > 0);
+				= state.uploadList
+				.filter((e) =>
+				(e.maxUpload == e.curUpload) && e.file_id && (item.bytes != 0));
+				
 
 			setCookie(null, 'uploadHistory',
 				JSON.stringify(state.uploadList), null);

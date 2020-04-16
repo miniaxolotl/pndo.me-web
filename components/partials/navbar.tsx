@@ -36,7 +36,7 @@ const NavBar: React.FunctionComponent<Props> = (props) => (
 					return linkList;
 				})()
 			}
-
+			
 			{
 				props.authorization.loggedIn ? 
 					<a onClick={props.logoutFunc}>

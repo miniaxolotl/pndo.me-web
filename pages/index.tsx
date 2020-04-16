@@ -15,6 +15,7 @@ import config from '../config.json';
 import styles from './index.module.scss';
 import { SyntheticEvent } from 'react';
 import { dragIn, dragOut, drop, upload } from '../scripts/dragdrop.script';
+import UploadList from '../components/uploadlist';
 
 const Page: NextPage<RootState> = (props) => {
 
@@ -22,9 +23,18 @@ const Page: NextPage<RootState> = (props) => {
 	
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
+	
+	const loggedIn
+		= useSelector((state: RootState) => state.authorization.loggedIn);
 
 	const uploadOption
 		= useSelector((state: RootState) => state.uploadOption);
+
+	const uploadHistory
+		= useSelector((state: RootState) => state.uploadHistory);
+		
+	const uploadHistoryList
+		= useSelector((state: RootState) => state.uploadHistory.uploadList);
 
 	const authLink: {
 		href: string,
@@ -160,6 +170,19 @@ const Page: NextPage<RootState> = (props) => {
 		});
 	}
 
+	const filterFunc = (file_id, event) => {
+
+		const action: RootAction = {
+			group: ActionGroup.UPLOAD_HISTORY,
+			action: UploadHistoryAction.DELETE,
+		};
+
+		dispatch({
+			type: action,
+			file_id,
+		});
+	}
+
 	return (
 		<DragDropLayout
 		dragInFunc={dragInFunc} dragOutFunc={dragOutFunc}
@@ -224,6 +247,11 @@ const Page: NextPage<RootState> = (props) => {
 					</div>
 				</div>
 			</form>
+			{
+				<UploadList
+				uploadList={uploadHistoryList}
+				filterFunc={filterFunc} />
+			}
 		</DragDropLayout>
 	);
 };

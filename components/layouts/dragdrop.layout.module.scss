@@ -1,17 +1,22 @@
 .body {
 
 	width: 100%;
+	height: 100%;
 	
-	.navbar {
+	>div {
+		flex-basis: 1;
 		width: 100%;
 	}
 
-	.motion {
-		width: 100%;
-	}
+}
 
-	.masthead {
-	}
+.navbar {
+	flex-basis: 1;
+	margin-top: auto;
+}
+
+.motionDiv {
+	width: 100%;
 }
 
 .title {

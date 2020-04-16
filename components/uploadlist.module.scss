@@ -1,0 +1,47 @@
+$media-s: 480px;
+$media-m: 768px;
+$media-l: 1024px;
+
+$border: 0.2rem;
+$border-soft: 0.4rem;
+$border-round: 0.8rem;
+$border-sharp: 0.0rem;
+
+.dlContainer {
+	width: 100%;
+	list-style: none;
+	font-size: 0.8rem !important;
+}
+
+.dlItem {
+	// margin: 0rem 1rem;
+}
+
+.delLink {
+	cursor: pointer;
+}
+
+.dlText {
+
+	text-align: left;
+
+	>a {
+		margin: 0rem 0.4rem 0rem 0rem;
+	}
+
+	code {
+		margin: 0rem 0.4rem;
+	}
+}
+
+.image {
+	border-width: .5rem;
+	border-radius: $border-soft !important;
+
+	margin: 0rem 0rem !important;
+
+	object-fit: cover;
+	display: block;
+	width: 100%;
+	max-height: 10rem;
+}

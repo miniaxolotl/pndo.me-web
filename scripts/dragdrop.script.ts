@@ -99,8 +99,8 @@ export const sendFile
 
 		data.message.filename = res.data.filename;
 		data.message.file_id = res.data.file_id;
-		console.log(res.data);
 		
+		if(!data.message.bytes) { throw(null); }
 	}).catch((err) => {
 		(data as any) = {
 			status: 500,

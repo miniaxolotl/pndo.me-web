@@ -8,7 +8,7 @@ import { rootState, reducer } from '../store/root.store';
 import '../styles.scss'
 import { AnimatePresence } from 'framer-motion';
 import { parseCookies } from 'nookies';
-import { RootAction, ActionGroup } from '../store/_store.types';
+import { RootAction, ActionGroup, UploadHistoryAction } from '../store/_store.types';
 
 /**
  * @param initialState The store's initial state (on the client side, the state of the server-side store is passed here)
@@ -31,15 +31,16 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 			const rootState: RootState = ctx.store.getState();
 			const initialProps: RootState = rootState;
 
-			const cookies = parseCookies(ctx);
 			
 			if (ctx.isServer) {
-				// const cleanupAction: RootAction = {
-				// 	group: ActionGroup.HISTORY,
-				// 	action:HistoryAction.CLEANUP
-				// };
-				// ctx.store.dispatch({ type: cleanupAction });
-				
+				const cookies = parseCookies(ctx);
+
+				const cleanupAction: RootAction = {
+					group: ActionGroup.UPLOAD_HISTORY,
+					action: UploadHistoryAction.CLEANUP
+				};
+				ctx.store.dispatch({ type: cleanupAction });
+
 				const uploadHistory = cookies.uploadHistory;
 				if(uploadHistory) {
 					let filteredHistory = JSON.parse(uploadHistory);
@@ -53,11 +54,12 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 				}
 
 				const authorization = cookies.authorization;
-				if(uploadOption) {
+				if(authorization) {
 					initialProps.authorization = JSON.parse(authorization);
 				}
-
 			} else {
+				const cookies = parseCookies(ctx);
+
 				{ /* set cookies */
 					initialProps.authorization
 						= JSON.parse(cookies.authorization);
@@ -70,6 +72,7 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 		} catch(err) {
 			// do nothing lol
 		}
+
 		
 		return { pageProps };
 	}

@@ -47,35 +47,38 @@ const DragDropLayout: React.FunctionComponent<Props> = (props) => {
 	}
 	
 	return (
-		<div id="body" className="text-center display-flex center"
-		onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc}>
+		<div id="body"
+		className={`${styles.body} text-center display-flex center`}
+		onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc} >
 			
+			<div id="screen" className="full screen display-hidden"
+				onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc}
+				onDragLeave={props.dragOutFunc} onDrop={props.dropFunc}/>
 			<Head {...props.headProps} />
 
-			<div id="screen" className="full screen display-hidden"
-			onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc}
-			onDragLeave={props.dragOutFunc} onDrop={props.dropFunc}/>
-
-			<div id="navbar">
-				<h1 className={styles.title}>
-					<ActiveLink href="/">
-						{ config.title }
-					</ActiveLink>
-				</h1>
-				<NavBar
-				authorization={props.authorization}
-				logoutFunc={props.logoutFunc}
-				links={props.links}
-				authLink={props.authLink} />
-			</div>
-			
-			<motion.div initial="initial" animate="enter" exit="exit" 
-			variants={navigationVariants}>
-				<div  id="masthead" className="container" >
-					{ props.children }
+			<div className="">
+				<div id="navbar" className={styles.navbar}>
+					<h1 className={styles.title}>
+						<ActiveLink href="/">
+							{ config.title }
+						</ActiveLink>
+					</h1>
+					<NavBar
+					authorization={props.authorization}
+					logoutFunc={props.logoutFunc}
+					links={props.links}
+					authLink={props.authLink} />
 				</div>
-			</motion.div>
+				
+				<motion.div initial="initial" animate="enter" exit="exit" 
+				variants={navigationVariants}
+				className={styles.motionDiv}>
+					<div  id="masthead" className="container" >
+						{ props.children }
+					</div>
+				</motion.div>
 
+			</div>
 		</div>
 	);
 };
