@@ -1,23 +1,24 @@
 import { motion } from 'framer-motion';
 
-import Head from './_Head';
-import NavBar from './_NavBar';
-import ActiveLink from './_ActiveLink';
+import Head from '../partials/head';
+import NavBar from '../partials/navbar';
+import ActiveLink from '../activelink';
 import { OpenGraphImages } from 'next-seo/lib/types';
-
-import { FaSignOutAlt, FaArrowAltCircleUp, 
-	FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
 	
 import config from '../../config.json';
 
 interface Props {
 	authorization?: AuthorizationState;
 	logoutFunc?: (e: any) => any;
+	dragInFunc?: (e: any) => any;
+	dragOutFunc?: (e: any) => any;
+	dropFunc?: (e: any) => any;
 	authLink: {
 		href: string,
 		icon: JSX.Element,
 	},
 	links: {
+		key: number,
 		href: string,
 		icon: JSX.Element,
 	}[];
@@ -35,7 +36,7 @@ interface Props {
 	}
 };
 
-const DefaultLayout: React.FunctionComponent<Props> = (props) => {
+const DragDropLayout: React.FunctionComponent<Props> = (props) => {
 
 	const navigationVariants = {
 		initial: { opacity: 0, y: '100vw' },
@@ -43,19 +44,20 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 		exit: { opacity: 0, y: '100vw', transition: { duration: 0.6 } },
 	}
 	
-	/********* component *********/
-	  
 	return (
-		<div id="body" className="text-center">
+		<div id="body" className="text-center display-flex center"
+		onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc}>
 			
 			<Head {...props.headProps} />
-			
-			<div id="screen" className="full screen display-hidden"/>
 
-			<div id="navbar" className="">
-				<h1 className="nav-link upload">
+			<div id="screen" className="full screen display-hidden"
+			onDragEnter={props.dragInFunc} onDragOver={props.dragInFunc}
+			onDragLeave={props.dragOutFunc} onDrop={props.dropFunc}/>
+
+			<div id="navbar">
+				<h1>
 					<ActiveLink href="/">
-						{config.title}
+						{ config.title }
 					</ActiveLink>
 				</h1>
 				<NavBar
@@ -64,7 +66,7 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 				links={props.links}
 				authLink={props.authLink} />
 			</div>
-
+			
 			<motion.div initial="initial" animate="enter" exit="exit" 
 			variants={navigationVariants}>
 				<div  id="masthead" className="container" >
@@ -76,4 +78,4 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 	);
 };
 
-export default DefaultLayout;
+export default DragDropLayout;

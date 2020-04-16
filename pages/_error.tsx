@@ -1,46 +1,43 @@
-/**
- * index.ts
- * - Application homepage.
- * Notes:
- * - N/A
- * @author Elias Mawa <elias@emawa.io>
- * Created 20-04-10
- */
-
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
-import DefaultLayout from '../components/layouts/DefaultLayout';
-import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
+import DefaultLayout from '../components/layouts/default.layout';
 
+import { parseCookies } from 'nookies';
+import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
+	FaUserCircle } from 'react-icons/fa';
+
+import { RootAction, ActionGroup,
+	UploadHistoryAction } from '../store/_store.types';
 import config from '../config.json';
 
 const Page: NextPage<RootState> = () => {
 
-	const rootState = useSelector((state: RootState) => state);
-	const dispatch = useDispatch();
-
-	const authorization = rootState.authorization;
-	const history = rootState.history;
+	const authorization
+		= useSelector((state: RootState) => state.authorization);
 
 	const authLink: {
 		href: string,
 		icon: JSX.Element,
 	} = {
-		href: "123",
+		href: "",
 		icon: <FaSignOutAlt />,
 	};
 	
 	const links: {
+		key: number,
 		href: string,
 		icon: JSX.Element,
 	}[] = [{
-		href: "TODO",
+		key: 0,
+		href: "/",
 		icon: <FaArrowAltCircleUp />,
 	},{
-		href: "TODO",
+		key: 1,
+		href: "/faq",
 		icon: <FaQuestionCircle />,
 	},{
-		href: "TODO",
+		key: 2,
+		href: "/dashboard",
 		icon: <FaUserCircle />,
 	}];
 	
@@ -51,7 +48,6 @@ const Page: NextPage<RootState> = () => {
 		ogTitle: config.title,
 		ogDescription: config.description,
 		ogUrl: config.url,
-		// ogImages?: OpenGraphImages[];
 		ogSiteName: config.og.site,
 		twSite: config.tw.site,
 	}
@@ -59,7 +55,7 @@ const Page: NextPage<RootState> = () => {
 	return (
 		<DefaultLayout
 		authLink={authLink} links={links}
-		headProps={headProps}>
+		authorization={authorization} headProps={headProps}>
 
 			<h1> OOF: Page not found! </h1>
 		</DefaultLayout>
@@ -67,20 +63,30 @@ const Page: NextPage<RootState> = () => {
 };
 
 /** Initial props */
-Page.getInitialProps = ({ store, isServer }) => {
-	if (isServer) {
-		/* Do some staff */
+Page.getInitialProps = (ctx) => {
+
+	const action: RootAction = { group: ActionGroup.ROOT };
+	ctx.store.dispatch({ type: action });
+
+	let rootState: RootState = ctx.store.getState();
+	let initialProps: RootState = rootState;
+
+	if (ctx.isServer) {
+		const cleanupAction: RootAction = {
+			group: ActionGroup.UPLOAD_HISTORY,
+			action: UploadHistoryAction.CLEANUP,
+		};
+		ctx.store.dispatch({ type: cleanupAction });
+		
+		const history = parseCookies(ctx).history;
+		if(history) {
+			let filteredHistory = JSON.parse(history);
+			filteredHistory = filteredHistory.filter((e) => !e.delta);
+			initialProps.uploadHistory.list = filteredHistory;
+		}
 	}
 
-	// const action: RootAction = { group: ActionGroup.ROOT };
-	
-	// store.dispatch({ type: action });
-
-	// const rootState: RootState = store.getState();
-	// const initialProps: Props = rootState;
-
-	// return initialProps;
-	return null;
+	return initialProps;
 };
 
 export default Page;

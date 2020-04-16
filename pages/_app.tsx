@@ -3,9 +3,9 @@ import withRedux, { MakeStore, ReduxWrapperAppProps } from 'next-redux-wrapper';
 import App, { AppContext } from 'next/app';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { rootState, reducer } from '../store/RootStore';
+import { rootState, reducer } from '../store/root.store';
 
-import '../styles.css'
+import '../styles.scss'
 import { AnimatePresence } from 'framer-motion';
 
 /**

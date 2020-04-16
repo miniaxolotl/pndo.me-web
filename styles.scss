@@ -1,0 +1,147 @@
+$media-s: 480px;
+$media-m: 768px;
+$media-l: 1024px;
+
+$border: 0.2rem;
+$border-soft: 0.4rem;
+$border-round: 0.8rem;
+$border-sharp: 0.0rem;
+
+/******************* root *******************/
+
+#__next {
+	height: 100vh;
+	margin: 0rem 0rem 0rem 0rem;
+}
+
+#body {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 100vh;
+	margin: 0rem 0rem 0rem 0rem;
+}
+
+#masthead {
+	height: 100%;
+	padding: 1rem 0rem 1rem 0rem;
+}
+
+/******************* custom scrollbar *******************/
+
+::-webkit-scrollbar {
+	width: 0.6rem;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: $border-round;
+	background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/******************* tooltip *******************/
+
+.tooltip .tooltip-text {
+	@media only screen and (max-width: $media-l) {}
+
+	@media only screen and (max-width: $media-m) {
+		width: 400%;
+		left: -175%;
+		top: 100%;
+	}
+
+	@media only screen and (max-width: $media-s) {}
+}
+
+/******************* screen *******************/
+
+.screen {
+	z-index: 100;
+	display: flex;
+	position: fixed;
+
+	top: 0rem;
+	left: 0rem;
+
+	width: 100vw;
+	height: 100vh;
+
+	opacity: 60%;
+	background-color: #000;
+}
+
+/******************* public masthead *******************/
+
+// .public-item {
+// 	width: 100%;
+// 	margin: 0.75rem 0rem !important;
+// 	position: relative;
+
+// 	p {
+// 		line-height: 100%;
+// 	}
+
+// 	svg {
+// 		font-size: 1.4rem;
+// 	}
+
+// 	.linkFollow {
+// 		position: absolute;
+// 		top: 0.2rem;
+// 		right: 2rem;
+
+// 		fill: #ffb7c5;
+
+// 		&:hover {
+// 			fill: #ff1f48;
+// 		}
+// 	}
+
+// 	.fileClose {
+// 		position: absolute;
+// 		top: 0.2rem;
+// 		right: 0rem;
+
+// 		fill: #ff5a51;
+
+// 		&:hover {
+// 			fill: #720600;
+// 		}
+// 	}
+
+// 	p code {
+// 		font-size: 1rem;
+// 		margin: 0rem 0.5rem 0rem 0rem;
+// 	}
+
+// 	h6 {
+// 		margin: 0rem 3.4rem 0rem 0rem;
+// 	}
+
+// 	h6, p {
+// 		text-align: left;
+// 	}
+
+// 	progress {
+// 		width: 100%;
+// 		flex-grow: inherit;
+// 	}
+
+// 	img {
+// 		border-width: .5rem;
+// 		border-radius: $border-soft !important;
+
+// 		margin: 0.5rem 0rem !important;
+
+// 		object-fit: cover;
+// 		display: block;
+// 		width: 100%;
+// 		max-height: 10rem;
+// 	}
+	
+// 	input {
+// 		margin: 0rem;
+// 	}
+// }

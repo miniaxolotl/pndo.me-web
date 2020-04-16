@@ -1,0 +1,15 @@
+.navLink {
+	margin: 0rem 0.6rem;
+	
+	svg {
+		opacity: 70%;
+
+		color: #ffb7c5;
+		fill: #ffb7c5;
+
+		&:hover {
+			color: #007ba7 !important;
+			fill: #007ba7 !important;
+		}
+	}
+}

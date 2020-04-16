@@ -14,10 +14,6 @@ interface Props {
 	twSite?: string;
 };
 
-/**
- * SEO component
- * @param param0
- */
 const Header: React.FunctionComponent<Props> = (props) => {
 
 	const twitter: Twitter = {
@@ -28,8 +24,10 @@ const Header: React.FunctionComponent<Props> = (props) => {
 	return(
 		<div>
 			<Head>
-				<link rel="stylesheet"
-					href="https://cdn.jsdelivr.net/npm/ashleycss/dist/themes/ashleycss-dark.min.css" />
+				{/* <link rel="stylesheet"
+					href="https://cdn.jsdelivr.net/npm/ashleycss@5.2.3/dist/themes/ashleycss-dark.min.css" /> */}
+					<link rel="stylesheet"
+						href="/ashleycss-dark.min.css" />
 				<link rel="apple-touch-icon" href="/img/icon.png" />
 			</Head>
 			<NextSeo

@@ -9,20 +9,18 @@
  */
 
 import { Action } from 'redux'
+import { RootAction, ActionGroup } from './_store.types';
+import { AuthorizationReducer } from './authorization.store';
+import { HistoryReducer } from './history.store';
 
-import { AuthorizationReducer } from './AuthorizationStore';
-import { HistoryReducer } from './HistoryStore';
-import { ActionGroup, RootAction } from './_types';
-import { getFile } from '../scripts/Display';
 
 const initialState: RootState = {
 	authorization: null,
-	history: null,
-	display: null,
+	uploadHistory: null,
 };
 
 type StateAction = Action<RootAction> & RootState
-	& HistoryState & AuthorizationState;
+	& UploadHistoryState & AuthorizationState;
 
 export const reducer =
 	(state: RootState = initialState, action: StateAction) => {
@@ -35,23 +33,17 @@ export const reducer =
 			return state;
 
 		/* HISTORY */
-		case ActionGroup.HISTORY:
-			state.history = 
-				HistoryReducer(state.history, action);
-			return state;
-
-		/* HISTORY */
-		case ActionGroup.DISPLAY:
-			getFile(action.id);
-			
+		case ActionGroup.UPLOAD_HISTORY:
+			state.uploadHistory = 
+				HistoryReducer(state.uploadHistory, action);
 			return state;
 
 		/* DEFAULT */
 		default:
 			state.authorization
 				= AuthorizationReducer(state.authorization, action);
-			state.history = 
-				HistoryReducer(state.history, action);
+			state.uploadHistory = 
+				HistoryReducer(state.uploadHistory, action);
 			
 			return state;
 	}

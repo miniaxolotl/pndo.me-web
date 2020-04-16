@@ -1,20 +1,10 @@
-/**
- * AuthenticationStore.ts
- * - Handles state of user authentication.
- * Notes:
- * - N/A
- * @author Elias Mawa <elias@emawa.io>
- * Created 20-04-10
- */
-
 import { Action } from 'redux'
-import { AuthorizationAction, RootAction } from './_types';
+import { AuthorizationAction, RootAction } from './_store.types';
 
 const initialState: AuthorizationState = {
 	loggedIn: false,
-	admin: false,
 	token: null,
-	user: null,
+	username: null,
 };
 
 type StateAction = Action<RootAction> & AuthorizationState;

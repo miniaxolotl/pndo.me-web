@@ -1,43 +1,38 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
 
-type UploadResponce = {
-	id: string | FileUID | number;
-	name: string;
-	url?: string;
-	type?: string;
-	downlods?: number;
+type FileMetadata = {
+	file_id: string;
+	sha256: string,
+	md5: string,
+	filename: string;
+	type: string;
+	owner: string | null,
+	protected: boolean;
+	hidden: boolean;
+	downloads?: number;
 	views?: number;
-	bytes?: number;
 	uploaded?: string;
 	expires?: string;
-	loaded?: number;
-	total?: number;
-	delta?: number;
+	bytes: number;
+
+	curUpload?: number;
+	maxUpload?: number;
+	
+	timeInitiated: number;
 };
 
 type RootState = {
 	authorization: null | AuthorizationState,
-	history: null | HistoryState,
-	display: any,
+	uploadHistory: null | HistoryState,
 };
 
 type AuthorizationState = {
 	loggedIn: boolean;
-	admin: boolean;
 	token: string | null;
-	user: string | null;
+	username: string | null;
 };
 
-type HistoryState = {
-	list: UploadResponce[];
-	item?: UploadResponce;
-	uid?: FileUID;
-	id?: string;
-	progress?: ProgressEvent;
+type UploadHistoryState = {
+	uploadList: FileMetadata[];
 };
-
-type FileUID = {
-	file: File,
-	delta: number
-}

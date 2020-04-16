@@ -1,5 +1,6 @@
 import { SyntheticEvent, InputHTMLAttributes, FormHTMLAttributes } from "react";
 import axios from 'axios';
+import config from "../config.json";
 
 /**
  * Enable screeen on drag in
@@ -37,7 +38,7 @@ export const drop = (event: SyntheticEvent<HTMLDivElement>, progressFunc) => {
 	screen.classList.add("display-hidden");
 
 	var form = document.getElementById('form') as HTMLFormElement;
-	var fileInput = document.getElementById('file') as HTMLInputElement;
+	var fileInput = document.getElementById('upload_file') as HTMLInputElement;
 
 	fileInput.files = (event as unknown as DragEvent).dataTransfer.files;
 	var formData = new FormData(form);
@@ -71,24 +72,23 @@ export const sendFile = async (formData: FormData, progressFunc) => {
 		data: null
 	};
 		
-	const file = formData.get('file');
+	const file = formData.get('upload_file');
 	const delta = new Date().getMilliseconds();
 
 	await axios.request({
 		method: 'post',
-		url: 'http://'+window.location.hostname+":4040/api/file/upload",
+		url: `${config.server}/api/file/upload`,
 		data: formData,
 		onUploadProgress: (e) => progressFunc(e, { file, delta }),
 	}).then(async (res: any) => {
 		responce.status = res.status;
 		responce.data = res.data;
-		responce.data.delta = delta;
-		responce.data.loaded = 1;
-		responce.data.total = 1;
+		responce.data.timeInitiated = delta;
+		responce.data.nUploaded = 1;
+		responce.data.totalUploaded = 1;
 
-		responce.data.name = res.data.filename;
+		responce.data.filename = res.data.filename;
 		responce.data.id = res.data.uuid;
-		responce.data.name = res.data.filename;
 	}).catch((err) => {
 		responce.status = 500;
 	});

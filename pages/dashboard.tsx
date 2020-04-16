@@ -111,6 +111,21 @@ Page.getInitialProps = (ctx) => {
 	let rootState: RootState = ctx.store.getState();
 	let initialProps: RootState = rootState;
 
+	if (ctx.isServer) {
+		const cleanupAction: RootAction = {
+			group: ActionGroup.UPLOAD_HISTORY,
+			action: UploadHistoryAction.CLEANUP
+		};
+		ctx.store.dispatch({ type: cleanupAction });
+		
+		const history = parseCookies(ctx).history;
+		if(history) {
+			let filteredHistory = JSON.parse(history);
+			filteredHistory = filteredHistory.filter((e) => !e.delta);
+			initialProps.uploadHistory.list = filteredHistory;
+		}
+	}
+
 	return initialProps;
 };
 
