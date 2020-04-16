@@ -13,3 +13,19 @@
 		}
 	}
 }
+
+.logout {
+	svg {
+		opacity: 70%;
+
+		color: #ff5a51;
+		fill: #ff5a51;
+
+		&:hover {
+			cursor: pointer;
+			
+			color: #720600 !important;
+			fill: #720600 !important;
+		}
+	}
+}

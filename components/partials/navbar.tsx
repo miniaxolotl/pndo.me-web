@@ -4,7 +4,7 @@ import styles from "./navbar.module.scss"
 
 interface Props {
 	authorization: AuthorizationState;
-	logoutFunc: (e: React.MouseEvent<HTMLInputElement>) => void;
+	logoutFunc: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 	authLink: {
 		href: string,
 		icon: JSX.Element,
@@ -38,22 +38,12 @@ const NavBar: React.FunctionComponent<Props> = (props) => (
 			}
 
 			{
-				(() => {
-					if(props.authorization.loggedIn) {
-						return (
-							<ActiveLink 
-							clickFunc={props.logoutFunc} 
-							href={`${props.authLink.href}`}>		
-
-								<span className={styles.navLink}>
-									{props.authLink.icon}
-								</span>
-							</ActiveLink>
-						);
-					} else {
-						return null;
-					}
-				})()
+				props.authorization.loggedIn ? 
+					<a onClick={props.logoutFunc}>
+						<span className={`${styles.navLink} ${styles.logout}`}>
+							{props.authLink.icon}
+						</span>
+					</a> : null
 			}
 		</div>
 	);

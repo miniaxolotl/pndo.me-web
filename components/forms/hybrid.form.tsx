@@ -4,8 +4,8 @@ import { useState } from 'react';
 import styles from "./hybrid.form.module.scss"
 
 interface Props {
-	loginFunc?: (e: React.MouseEvent<HTMLInputElement>) => boolean;
-	registerFunc?: (e: React.MouseEvent<HTMLInputElement>) => boolean;
+	loginFunc?: (username: string, password: string) => Promise<boolean>;
+	registerFunc?: (username: string, password: string) => Promise<boolean>;
 }
 
 const HybridForm: React.FunctionComponent<Props> = (props) => {
@@ -20,13 +20,27 @@ const HybridForm: React.FunctionComponent<Props> = (props) => {
 		event.stopPropagation();
 	};
 
-	const login = (e: React.MouseEvent<HTMLInputElement>) => {
-		const status = props.loginFunc ? props.loginFunc(e) : false;
+	const login = async (e: React.MouseEvent<HTMLInputElement>) => {
+		let username =
+			(document.getElementById('username') as HTMLInputElement).value;
+		let password = 
+			(document.getElementById('password') as HTMLInputElement).value;
+
+		const status = props.loginFunc
+			? await props.loginFunc(username, password) : false;
+			
 		status ? null : setData(loginErrMessage);
 	}
 
-	const register = (e: React.MouseEvent<HTMLInputElement>) => {
-		const status = props.registerFunc ? props.registerFunc(e) : false;
+	const register = async (e: React.MouseEvent<HTMLInputElement>) => {
+		let username =
+			(document.getElementById('username') as HTMLInputElement).value;
+		let password = 
+			(document.getElementById('password') as HTMLInputElement).value;
+
+		const status = props.registerFunc
+			? await props.registerFunc(username, password) : false;
+
 		status ? null : setData(registerErrMessage);
 	}
 	
@@ -35,10 +49,10 @@ const HybridForm: React.FunctionComponent<Props> = (props) => {
 		className={`${styles.form} section text-center`}>
 
 			<input type="text" id="username" name="username"
-			className={`text-center`} placeholder="username" required/>
+			className={`text-center`} placeholder="username" />
 
 			<input type="password" id="password" name="password"
-			className={`text-center`}  placeholder="password" required/>
+			className={`text-center`}  placeholder="password" />
 
 			<span className={`${styles.errorMessage}`}> { statusMessage } </span>
 

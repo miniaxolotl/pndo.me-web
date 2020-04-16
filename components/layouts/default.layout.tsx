@@ -8,10 +8,12 @@ import { OpenGraphImages } from 'next-seo/lib/types';
 import config from '../../config.json';
 
 import styles from "./default.layout.module.scss"
+import { SyntheticEvent } from 'react';
+import { useDispatch } from 'react-redux';
+import { ActionGroup, AuthorizationAction, RootAction } from '../../store/_store.types';
 
 interface Props {
 	authorization?: AuthorizationState;
-	logoutFunc?: (e: any) => any;
 	authLink: {
 		href: string,
 		icon: JSX.Element,
@@ -37,12 +39,26 @@ interface Props {
 
 const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 
+	const dispatch = useDispatch();
+	
+	const logout = (event: SyntheticEvent<HTMLAnchorElement, MouseEvent>) => {
+		
+		const action: RootAction = {
+			group: ActionGroup.AUTHORIZATION,
+			action: AuthorizationAction.LOGOUT,
+		};
+
+		dispatch({
+			type: action,
+		});
+	};
+
 	const navigationVariants = {
 		initial: { opacity: 0, y: '100vw' },
 		enter: { opacity: 1, y: '0vw', transition: { duration: 0.4 } },
 		exit: { opacity: 0, y: '100vw', transition: { duration: 0.6 } },
 	}
-	  
+	
 	return (
 		<div id="body" className={`${styles.body} text-center display-flex center`}>
 			
@@ -56,7 +72,7 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 				</h1>
 				<NavBar
 				authorization={props.authorization}
-				logoutFunc={props.logoutFunc}
+				logoutFunc={logout}
 				links={props.links}
 				authLink={props.authLink} />
 			</div>

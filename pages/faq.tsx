@@ -12,7 +12,7 @@ import config from '../config.json';
 
 import styles from './index.module.scss';
 
-const Page: NextPage<RootState> = () => {
+const Page: NextPage<RootState> = (props) => {
 
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
@@ -21,7 +21,7 @@ const Page: NextPage<RootState> = () => {
 		href: string,
 		icon: JSX.Element,
 	} = {
-		href: "",
+		href: "/",
 		icon: <FaSignOutAlt />,
 	};
 	
@@ -105,28 +105,11 @@ const Page: NextPage<RootState> = () => {
 /** Initial props */
 Page.getInitialProps = (ctx) => {
 
-	const action: RootAction = { group: ActionGroup.ROOT };
-	ctx.store.dispatch({ type: action });
-
-	let rootState: RootState = ctx.store.getState();
-	let initialProps: RootState = rootState;
-
-	if (ctx.isServer) {
-		const cleanupAction: RootAction = {
-			group: ActionGroup.UPLOAD_HISTORY,
-			action: UploadHistoryAction.CLEANUP
-		};
-		ctx.store.dispatch({ type: cleanupAction });
-		
-		const history = parseCookies(ctx).history;
-		if(history) {
-			let filteredHistory = JSON.parse(history);
-			filteredHistory = filteredHistory.filter((e) => !e.delta);
-			initialProps.uploadHistory.list = filteredHistory;
-		}
-	}
+	const rootState: RootState = ctx.store.getState();
+	const initialProps: RootState = rootState;
 
 	return initialProps;
 };
+
 
 export default Page;

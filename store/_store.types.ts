@@ -1,8 +1,7 @@
 export enum AuthorizationAction {
 	LOAD,
-	LOGIN,
+	AUTHORIZE,
 	LOGOUT,
-	REGISTER,
 };
 
 export enum UploadHistoryAction {

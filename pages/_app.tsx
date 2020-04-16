@@ -7,6 +7,7 @@ import { rootState, reducer } from '../store/root.store';
 
 import '../styles.scss'
 import { AnimatePresence } from 'framer-motion';
+import { parseCookies } from 'nookies';
 
 /**
  * @param initialState The store's initial state (on the client side, the state of the server-side store is passed here)
@@ -17,8 +18,24 @@ const makeStore: MakeStore = (initialState: rootState) => {
 
 class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 	static async getInitialProps({ Component, ctx }: AppContext) {
-		const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
+		const pageProps = Component.getInitialProps
+			? await Component.getInitialProps(ctx) : {};
+
+		try {
+
+			const cookies = parseCookies(ctx);
+			
+			const rootState: RootState = ctx.store.getState();
+			const initialProps: RootState = rootState;
+			
+			{ /* set cookies */
+				initialProps.authorization = JSON.parse(cookies.authorization);
+			}
+		} catch(err) {
+			// do nothing lol
+		}
+		
 		return { pageProps };
 	}
 

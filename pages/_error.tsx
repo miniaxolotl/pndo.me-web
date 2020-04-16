@@ -19,7 +19,7 @@ const Page: NextPage<RootState> = () => {
 		href: string,
 		icon: JSX.Element,
 	} = {
-		href: "",
+		href: "/",
 		icon: <FaSignOutAlt />,
 	};
 	

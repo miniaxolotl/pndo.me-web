@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import DefaultLayout from '../components/layouts/default.layout';
 
@@ -7,14 +7,18 @@ import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
 	FaUserCircle, FaLock, FaEyeSlash } from 'react-icons/fa';
 
 import { RootAction, ActionGroup,
-	UploadHistoryAction } from '../store/_store.types';
+	UploadHistoryAction, 
+	AuthorizationAction} from '../store/_store.types';
 import config from '../config.json';
 
 import styles from './index.module.scss';
 import HybridForm from '../components/forms/hybrid.form';
+import { attemptLogin, attemptRegister } from '../scripts/authentication.script';
 
-const Page: NextPage<RootState> = () => {
+const Page: NextPage<RootState> = (props) => {
 
+	const dispatch = useDispatch();
+	
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
 
@@ -22,7 +26,7 @@ const Page: NextPage<RootState> = () => {
 		href: string,
 		icon: JSX.Element,
 	} = {
-		href: "",
+		href: "/",
 		icon: <FaSignOutAlt />,
 	};
 	
@@ -55,21 +59,80 @@ const Page: NextPage<RootState> = () => {
 		twSite: config.tw.site,
 	}
 
-	const dragInFunc = () => {};
+	const loginFunc = async (username: string, password: string) => {
+		const data = await attemptLogin(username, password);
 
-	const dragOutFunc = () => {};
+		if(data.status == 200) {
+			const authorization = data.message as unknown as Authorization;
+			
+			const action: RootAction = {
+				group: ActionGroup.AUTHORIZATION,
+				action: AuthorizationAction.AUTHORIZE,
+			};
 
-	const dropFunc = () => {};
+			const item: AuthorizationState = {
+				loggedIn: true,
+				authorization: authorization.authorization,
+				username: authorization.user.username,
+				profile: authorization.user.profile,
+			}
 
-	const uploadFunc = () => {};
+			dispatch({
+				type: action,
+				...item,
+			});
+		}
+
+		return data.status == 200;
+	};
+
+	const registerFunc = async (username: string, password: string) => {
+		const data = await attemptRegister(username, password);
+
+		if(data.status == 200) {
+			const authorization = data.message as unknown as Authorization;
+			
+			const action: RootAction = {
+				group: ActionGroup.AUTHORIZATION,
+				action: AuthorizationAction.AUTHORIZE,
+			};
+
+			const item: AuthorizationState = {
+				loggedIn: true,
+				authorization: authorization.authorization,
+				username: authorization.user.username,
+				profile: authorization.user.profile,
+			}
+
+			dispatch({
+				type: action,
+				...item,
+			});
+		}
+
+		return data.status == 200;
+	};
 
 	return (
 		<DefaultLayout
 		authorization={authorization}
 		authLink={authLink} links={links}
 		headProps={headProps}>
-
-			<HybridForm />
+			{
+				(() => {
+					if(authorization.loggedIn) {
+						return (
+							null
+						);
+					} else {
+						return (
+							<HybridForm
+							loginFunc={loginFunc}
+							registerFunc={registerFunc} />
+						)
+					}
+				})()
+			}
 		</DefaultLayout>
 	);
 };
@@ -77,26 +140,8 @@ const Page: NextPage<RootState> = () => {
 /** Initial props */
 Page.getInitialProps = (ctx) => {
 
-	const action: RootAction = { group: ActionGroup.ROOT };
-	ctx.store.dispatch({ type: action });
-
-	let rootState: RootState = ctx.store.getState();
-	let initialProps: RootState = rootState;
-
-	if (ctx.isServer) {
-		const cleanupAction: RootAction = {
-			group: ActionGroup.UPLOAD_HISTORY,
-			action: UploadHistoryAction.CLEANUP
-		};
-		ctx.store.dispatch({ type: cleanupAction });
-		
-		const history = parseCookies(ctx).history;
-		if(history) {
-			let filteredHistory = JSON.parse(history);
-			filteredHistory = filteredHistory.filter((e) => !e.delta);
-			initialProps.uploadHistory.list = filteredHistory;
-		}
-	}
+	const rootState: RootState = ctx.store.getState();
+	const initialProps: RootState = rootState;
 
 	return initialProps;
 };

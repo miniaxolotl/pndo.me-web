@@ -29,10 +29,26 @@ type RootState = {
 
 type AuthorizationState = {
 	loggedIn: boolean;
-	token: string | null;
+	authorization: string | null;
 	username: string | null;
+	profile: string | null;
 };
 
 type UploadHistoryState = {
 	uploadList: FileMetadata[];
+};
+
+interface User {
+	profile: string;
+	username: string;
+};
+
+interface Authorization {
+	user: User;
+	authorization: string;
+};
+
+interface ErrorMessage {
+	status: number;
+	message: string;
 };
