@@ -7,6 +7,8 @@ import { OpenGraphImages } from 'next-seo/lib/types';
 
 import config from '../../config.json';
 
+import styles from "./default.layout.module.scss"
+
 interface Props {
 	authorization?: AuthorizationState;
 	logoutFunc?: (e: any) => any;
@@ -42,12 +44,12 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 	}
 	  
 	return (
-		<div id="body" className="text-center display-flex center">
+		<div id="body" className={`${styles.body} text-center display-flex center`}>
 			
 			<Head {...props.headProps} />
 
-			<div id="navbar">
-				<h1>
+			<div id="navbar" className={`${styles.navbar}`}>
+				<h1 className={styles.title}>
 					<ActiveLink href="/">
 						{config.title}
 					</ActiveLink>
@@ -60,8 +62,8 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 			</div>
 
 			<motion.div initial="initial" animate="enter" exit="exit" 
-			variants={navigationVariants}>
-				<div  id="masthead" className="container" >
+			variants={navigationVariants} className={`${styles.motion}`}>
+				<div  id="masthead" className={`${styles.masthead} container`} >
 					{ props.children }
 				</div>
 			</motion.div>

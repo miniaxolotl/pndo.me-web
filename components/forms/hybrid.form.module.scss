@@ -1,0 +1,24 @@
+.form {
+	width: 100%;
+
+	input {
+		&::placeholder {
+			opacity: 60%;
+		}
+	}
+}
+
+.errorMessage {
+	color: #ff5a51;
+}
+
+.submitButtons {
+	
+	input {
+		border: none;
+		
+		&:hover {
+			color: #fff1d0 !important;
+		}
+	}
+}

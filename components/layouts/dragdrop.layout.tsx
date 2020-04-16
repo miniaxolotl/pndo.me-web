@@ -7,6 +7,8 @@ import { OpenGraphImages } from 'next-seo/lib/types';
 	
 import config from '../../config.json';
 
+import styles from "./dragdrop.layout.module.scss"
+
 interface Props {
 	authorization?: AuthorizationState;
 	logoutFunc?: (e: any) => any;
@@ -55,7 +57,7 @@ const DragDropLayout: React.FunctionComponent<Props> = (props) => {
 			onDragLeave={props.dragOutFunc} onDrop={props.dropFunc}/>
 
 			<div id="navbar">
-				<h1>
+				<h1 className={styles.title}>
 					<ActiveLink href="/">
 						{ config.title }
 					</ActiveLink>

@@ -1,15 +1,28 @@
-.navLink {
-	margin: 0rem 0.6rem;
-	
-	svg {
-		opacity: 70%;
+.body {
 
+	width: 100%;
+	
+	.navbar {
+		width: 100%;
+	}
+
+	.motion {
+		width: 100%;
+	}
+
+	.masthead {
+	}
+}
+
+.title {
+
+	a {
 		color: #ffb7c5;
 		fill: #ffb7c5;
-
+		
 		&:hover {
-			color: #007ba7 !important;
-			fill: #007ba7 !important;
+			color: #007ba7;
+			fill: #007ba7;
 		}
 	}
 }

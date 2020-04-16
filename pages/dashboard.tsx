@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { NextPage } from 'next';
-import DragDropLayout from '../components/layouts/dragdrop.layout';
+import DefaultLayout from '../components/layouts/default.layout';
 
 import { parseCookies } from 'nookies'
 import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
@@ -11,6 +11,7 @@ import { RootAction, ActionGroup,
 import config from '../config.json';
 
 import styles from './index.module.scss';
+import HybridForm from '../components/forms/hybrid.form';
 
 const Page: NextPage<RootState> = () => {
 
@@ -63,42 +64,13 @@ const Page: NextPage<RootState> = () => {
 	const uploadFunc = () => {};
 
 	return (
-		<DragDropLayout
-		dragInFunc={dragInFunc} dragOutFunc={dragOutFunc}
-		dropFunc={dropFunc} authorization={authorization}
+		<DefaultLayout
+		authorization={authorization}
 		authLink={authLink} links={links}
 		headProps={headProps}>
 
-			<form id="form" encType="multipart/form-data">
-				<div className="">
-					<label id="file-input-label"
-					className={`${styles.uploadLabel} file-input outline`}>
-						select or drop files
-						<input type="file" id="upload_file" name="upload_file"
-						onChange={uploadFunc}
-						className={styles.button} />
-					</label>
-					<div>
-						<span className={`${styles.tooltipPrivate} tooltip`}>
-							<FaLock />
-							{/* <FaLockOpen /> */}
-							<span
-							className={`${styles.tooltipText} tooltip-text`}>
-								should you be the only one able to access the file?
-							</span>
-						</span>
-						<span className={`${styles.tooltipHidden} tooltip`}>
-							{/* <FaEye /> */}
-							<FaEyeSlash />
-							<span
-							className={`${styles.tooltipText} tooltip-text`}>
-								should the file be publicly searchable?
-							</span>
-						</span>
-					</div>
-				</div>
-			</form>
-		</DragDropLayout>
+			<HybridForm />
+		</DefaultLayout>
 	);
 };
 
