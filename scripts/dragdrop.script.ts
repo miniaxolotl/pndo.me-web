@@ -30,7 +30,10 @@ export const dragOut = (event: SyntheticEvent<HTMLDivElement>) => {
  * Start upload on drop event
  * @param event Triggered aevent
  */
-export const drop = (event: SyntheticEvent<HTMLDivElement>, progressFunc) => {
+export const drop
+	= (event: SyntheticEvent<HTMLDivElement>,
+	progressFunc, authorization, uploadOption) => {
+
 	event.preventDefault();
 	event.stopPropagation();
 
@@ -43,55 +46,67 @@ export const drop = (event: SyntheticEvent<HTMLDivElement>, progressFunc) => {
 	fileInput.files = (event as unknown as DragEvent).dataTransfer.files;
 	var formData = new FormData(form);
 
-	return sendFile(formData, progressFunc);
+	return sendFile(formData, progressFunc, authorization, uploadOption);
 };
 
 /**
  * Start upload on click event
  * @param event Triggered event
  */
-export const upload = async (event: any, progressFunc) => {
+export const upload
+	= async (event: any, progressFunc, authorization, uploadOption) => {
 	event.preventDefault();
 	event.stopPropagation();
 	
 	var form = document.getElementById('form') as HTMLFormElement;
 	var formData = new FormData(form);
 	
-	return sendFile(formData, progressFunc);
+	return sendFile(formData, progressFunc, authorization, uploadOption);
 };
 
 /**
  * Send a file to specified server
  * @param formData File to send
  */
-export const sendFile = async (formData: FormData, progressFunc) => {
+export const sendFile
+	= async (formData: FormData, progressFunc, authorization, uploadOption) => {
 
 	formData.set('protected', '0');
-	let responce: { status: number, data: UploadResponce } = {
+	let data: { status: number, message: FileMetadata & string } = {
 		status: null,
-		data: null
+		message: null
 	};
 		
-	const file = formData.get('upload_file');
-	const delta = new Date().getMilliseconds();
+	const file = formData.get('upload_file') as File;
+	formData.set('protected', uploadOption.protected);
+	formData.set('hidden', uploadOption.hidden);
+	const delta = new Date().getTime();
 
 	await axios.request({
 		method: 'post',
-		url: `${config.server}/api/file/upload`,
+		url: `${config.api}/api/file/upload`,
 		data: formData,
-		onUploadProgress: (e) => progressFunc(e, { file, delta }),
+		headers: {
+			Authorization: `Bearer ${authorization}`
+		},
+		onUploadProgress: (e) => progressFunc(e, { filename: file.name, delta} ),
 	}).then(async (res: any) => {
-		responce.status = res.status;
-		responce.data = res.data;
-		responce.data.timeInitiated = delta;
-		responce.data.nUploaded = 1;
-		responce.data.totalUploaded = 1;
+		data.status = res.status;
+		data.message = res.data;
+		data.message.timeInitiated = delta;
+		data.message.curUpload = 1;
+		data.message.maxUpload = 1;
 
-		responce.data.filename = res.data.filename;
-		responce.data.id = res.data.uuid;
+		data.message.filename = res.data.filename;
+		data.message.file_id = res.data.file_id;
+		console.log(res.data);
+		
 	}).catch((err) => {
-		responce.status = 500;
+		(data as any) = {
+			status: 500,
+			message: "a bruh moment occured...",
+		};
 	});
 
-	return responce;
+	return data;
 };

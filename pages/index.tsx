@@ -8,10 +8,13 @@ import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
 
 import { RootAction, ActionGroup,
 	UploadHistoryAction, 
-	UploadOptionAction} from '../store/_store.types';
+	UploadOptionAction,
+	AuthorizationAction} from '../store/_store.types';
 import config from '../config.json';
 
 import styles from './index.module.scss';
+import { SyntheticEvent } from 'react';
+import { dragIn, dragOut, drop, upload } from '../scripts/dragdrop.script';
 
 const Page: NextPage<RootState> = (props) => {
 
@@ -20,8 +23,8 @@ const Page: NextPage<RootState> = (props) => {
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
 
-		const uploadOption
-			= useSelector((state: RootState) => state.uploadOption);
+	const uploadOption
+		= useSelector((state: RootState) => state.uploadOption);
 
 	const authLink: {
 		href: string,
@@ -60,13 +63,68 @@ const Page: NextPage<RootState> = (props) => {
 		twSite: config.tw.site,
 	}
 
-	const dragInFunc = () => {};
+	const logout = (event: SyntheticEvent<HTMLAnchorElement, MouseEvent>) => {
+		
+		const action: RootAction = {
+			group: ActionGroup.AUTHORIZATION,
+			action: AuthorizationAction.LOGOUT,
+		};
 
-	const dragOutFunc = () => {};
+		dispatch({
+			type: action,
+		});
+	};
+	
+	const dragInFunc = (event) => {
+		dragIn(event);
+	};
 
-	const dropFunc = () => {};
+	const dragOutFunc = (event) => {
+		dragOut(event);
+	};
 
-	const uploadFunc = () => {};
+	const dropFunc = async (event) => {
+		const data
+			= await drop(event, progressFunc,
+			authorization.authorization, uploadOption);
+
+		if(data.status == 200) {
+			const responce = data.message as FileMetadata;
+
+			const action: RootAction = {
+				group: ActionGroup.UPLOAD_HISTORY,
+				action: UploadHistoryAction.ADD,
+			};
+
+			dispatch({
+				type: action,
+				data: responce,
+			});
+		}
+	};
+
+	const uploadFunc = async (event) => {
+		const data 
+			= upload(event, progressFunc,
+			authorization, uploadOption);
+	};
+
+	const progressFunc = (progress: ProgressEvent, file_data) => {
+		const action: RootAction = {
+			group: ActionGroup.UPLOAD_HISTORY,
+			action: UploadHistoryAction.PROGRESS,
+		};
+
+		const item: any = {
+			progress,
+			...file_data,
+		};
+
+		dispatch({
+			type: action,
+			item,
+		});
+	};
 
 	const toggleProtectedFunc = () => {
 		const action: RootAction = {
@@ -106,7 +164,7 @@ const Page: NextPage<RootState> = (props) => {
 		<DragDropLayout
 		dragInFunc={dragInFunc} dragOutFunc={dragOutFunc}
 		dropFunc={dropFunc} authorization={authorization}
-		authLink={authLink} links={links}
+		authLink={authLink} links={links} logoutFunc={logout}
 		headProps={headProps}>
 
 			<form id="form" encType="multipart/form-data">
@@ -130,7 +188,8 @@ const Page: NextPage<RootState> = (props) => {
 									)
 								} else {
 									return (
-										<FaLockOpen />
+										<FaLockOpen
+										className={`${styles.colorGreen}`} />
 									)
 								}
 							})()
@@ -151,7 +210,8 @@ const Page: NextPage<RootState> = (props) => {
 										)
 									} else {
 										return (
-											<FaEye />
+											<FaEye 
+											className={`${styles.colorBlue}`} />
 										)
 									}
 								})()
@@ -176,5 +236,6 @@ Page.getInitialProps = (ctx) => {
 
 	return initialProps;
 };
+
 
 export default Page;

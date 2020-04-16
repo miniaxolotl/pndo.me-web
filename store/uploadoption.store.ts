@@ -10,7 +10,7 @@ const initialState: UploadOptionState = {
 type StateAction = Action<RootAction> & UploadOptionState;
 
 export const UploadOptionReducer =
-	(state: UploadOptionState = initialState, action: StateAction) => {
+	(state: UploadOptionState = initialState, action: StateAction) => {		
 		
 	switch (action.type.action) {
 		/* TOGGLE_HIDDEN */

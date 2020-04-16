@@ -54,7 +54,7 @@ export const reducer =
 			state.uploadHistory
 				= UploadHistoryReducer(state.uploadHistory, action);
 			state.uploadOption = 
-			UploadOptionReducer(state.uploadOption, action);
+				UploadOptionReducer(state.uploadOption, action);
 			
 			return state;
 	}

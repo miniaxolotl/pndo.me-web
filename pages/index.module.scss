@@ -37,6 +37,16 @@ $border-sharp: 0.0rem;
 	cursor: pointer;
 }
 
+.colorBlue {
+	color: #8dcaff;
+	fill: #8dcaff;
+}
+
+.colorGreen {
+	color: #9cff8d;
+	fill: #9cff8d;
+}
+
 .tooltipText {
 
 	&::selection {

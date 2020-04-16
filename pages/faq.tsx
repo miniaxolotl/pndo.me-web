@@ -11,6 +11,7 @@ import { RootAction, ActionGroup,
 import config from '../config.json';
 
 import styles from './index.module.scss';
+import DefaultLayout from '../components/layouts/default.layout';
 
 const Page: NextPage<RootState> = (props) => {
 
@@ -63,9 +64,8 @@ const Page: NextPage<RootState> = (props) => {
 	const uploadFunc = () => {};
 
 	return (
-		<DragDropLayout
-		dragInFunc={dragInFunc} dragOutFunc={dragOutFunc}
-		dropFunc={dropFunc} authorization={authorization}
+		<DefaultLayout
+		authorization={authorization}
 		authLink={authLink} links={links}
 		headProps={headProps}>
 
@@ -98,7 +98,7 @@ const Page: NextPage<RootState> = (props) => {
 					</div>
 				</div>
 			</form>
-		</DragDropLayout>
+		</DefaultLayout>
 	);
 };
 

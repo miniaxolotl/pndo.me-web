@@ -2,24 +2,24 @@
 /// <reference types="next/types/global" />
 
 type FileMetadata = {
-	file_id: string;
-	sha256: string,
-	md5: string,
+	file_id?: string;
+	sha256?: string,
+	md5?: string,
 	filename: string;
-	type: string;
-	owner: string | null,
-	protected: boolean;
-	hidden: boolean;
+	type?: string;
+	owner?: string | null,
+	protected?: boolean;
+	hidden?: boolean;
 	downloads?: number;
 	views?: number;
 	uploaded?: string;
 	expires?: string;
-	bytes: number;
+	bytes?: number;
 
 	curUpload?: number;
 	maxUpload?: number;
 	
-	timeInitiated: number;
+	timeInitiated?: number;
 };
 
 type RootState = {

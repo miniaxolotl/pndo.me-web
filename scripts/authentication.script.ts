@@ -79,8 +79,6 @@ export const attemptRegister = async (username: string, password: string) => {
 				throw(null);
 			}
 		} catch(err) {
-			console.log(err);
-			
 			data = {
 				status: 500,
 				message: "a bruh moment occured...",

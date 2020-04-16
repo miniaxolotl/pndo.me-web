@@ -11,7 +11,7 @@ import styles from "./dragdrop.layout.module.scss"
 
 interface Props {
 	authorization?: AuthorizationState;
-	logoutFunc?: (e: any) => any;
+	logoutFunc: (e: any) => any;
 	dragInFunc?: (e: any) => any;
 	dragOutFunc?: (e: any) => any;
 	dropFunc?: (e: any) => any;
