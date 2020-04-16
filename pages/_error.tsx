@@ -82,7 +82,7 @@ Page.getInitialProps = (ctx) => {
 		if(history) {
 			let filteredHistory = JSON.parse(history);
 			filteredHistory = filteredHistory.filter((e) => !e.delta);
-			initialProps.uploadHistory.list = filteredHistory;
+			initialProps.uploadHistory.uploadList = filteredHistory;
 		}
 	}
 

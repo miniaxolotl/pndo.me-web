@@ -1,21 +1,27 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import DragDropLayout from '../components/layouts/dragdrop.layout';
 
 import { parseCookies } from 'nookies'
 import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
-	FaUserCircle, FaLock, FaEyeSlash } from 'react-icons/fa';
+	FaUserCircle, FaLock, FaEyeSlash, FaEye, FaLockOpen } from 'react-icons/fa';
 
 import { RootAction, ActionGroup,
-	UploadHistoryAction } from '../store/_store.types';
+	UploadHistoryAction, 
+	UploadOptionAction} from '../store/_store.types';
 import config from '../config.json';
 
 import styles from './index.module.scss';
 
 const Page: NextPage<RootState> = (props) => {
 
+	const dispatch = useDispatch();
+	
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
+
+		const uploadOption
+			= useSelector((state: RootState) => state.uploadOption);
 
 	const authLink: {
 		href: string,
@@ -62,6 +68,40 @@ const Page: NextPage<RootState> = (props) => {
 
 	const uploadFunc = () => {};
 
+	const toggleProtectedFunc = () => {
+		const action: RootAction = {
+			group: ActionGroup.UPLOAD_OPTION,
+			action: UploadOptionAction.TOGGLE_PROTECTED,
+		};
+
+		const item: UploadOptionState = {
+			protected: !uploadOption.protected,
+			hidden: uploadOption.hidden,
+		}
+
+		dispatch({
+			type: action,
+			...item,
+		});
+	}
+
+	const toggleHiddenFunc = () => {
+		const action: RootAction = {
+			group: ActionGroup.UPLOAD_OPTION,
+			action: UploadOptionAction.TOGGLE_HIDDEN,
+		};
+
+		const item: UploadOptionState = {
+			protected: uploadOption.protected,
+			hidden: !uploadOption.hidden,
+		}
+
+		dispatch({
+			type: action,
+			...item,
+		});
+	}
+
 	return (
 		<DragDropLayout
 		dragInFunc={dragInFunc} dragOutFunc={dragOutFunc}
@@ -79,17 +119,43 @@ const Page: NextPage<RootState> = (props) => {
 						className={styles.button} />
 					</label>
 					<div>
-						<span className={`${styles.tooltipPrivate} tooltip`}>
-							<FaLock />
-							{/* <FaLockOpen /> */}
+						<span 
+						onClick={toggleProtectedFunc}
+						className={`${styles.tooltipPrivate} tooltip`}>
+						{
+							(() => {
+								if(uploadOption.protected) {
+									return (
+										<FaLock />
+									)
+								} else {
+									return (
+										<FaLockOpen />
+									)
+								}
+							})()
+						}
 							<span
 							className={`${styles.tooltipText} tooltip-text`}>
 								should you be the only one able to access the file?
 							</span>
 						</span>
-						<span className={`${styles.tooltipHidden} tooltip`}>
-							{/* <FaEye /> */}
-							<FaEyeSlash />
+						<span
+						onClick={toggleHiddenFunc}
+						className={`${styles.tooltipHidden} tooltip`}>
+							{
+								(() => {
+									if(uploadOption.hidden) {
+										return (
+											<FaEyeSlash />
+										)
+									} else {
+										return (
+											<FaEye />
+										)
+									}
+								})()
+							}
 							<span
 							className={`${styles.tooltipText} tooltip-text`}>
 								should the file be publicly searchable?

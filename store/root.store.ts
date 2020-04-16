@@ -9,18 +9,21 @@
  */
 
 import { Action } from 'redux'
-import { RootAction, ActionGroup } from './_store.types';
+import { RootAction, ActionGroup, UploadOptionAction } from './_store.types';
 import { AuthorizationReducer } from './authorization.store';
-import { HistoryReducer } from './history.store';
+import { UploadHistoryReducer } from './uploadhistory.store';
+import { UploadOptionReducer } from './uploadoption.store';
 
 
 const initialState: RootState = {
 	authorization: null,
 	uploadHistory: null,
+	uploadOption: null,
 };
 
 type StateAction = Action<RootAction> & RootState
-	& UploadHistoryState & AuthorizationState;
+	& UploadHistoryState & AuthorizationState
+	& UploadOptionState;
 
 export const reducer =
 	(state: RootState = initialState, action: StateAction) => {
@@ -35,15 +38,23 @@ export const reducer =
 		/* HISTORY */
 		case ActionGroup.UPLOAD_HISTORY:
 			state.uploadHistory = 
-				HistoryReducer(state.uploadHistory, action);
+				UploadHistoryReducer(state.uploadHistory, action);
+			return state;
+			/* HISTORY */
+
+		case ActionGroup.UPLOAD_OPTION:
+			state.uploadOption = 
+				UploadOptionReducer(state.uploadOption, action);
 			return state;
 
 		/* DEFAULT */
 		default:
 			state.authorization
 				= AuthorizationReducer(state.authorization, action);
-			state.uploadHistory = 
-				HistoryReducer(state.uploadHistory, action);
+			state.uploadHistory
+				= UploadHistoryReducer(state.uploadHistory, action);
+			state.uploadOption = 
+			UploadOptionReducer(state.uploadOption, action);
 			
 			return state;
 	}

@@ -7,7 +7,7 @@ const initialState: UploadHistoryState = {
 
 type StateAction = Action<RootAction> & UploadHistoryState;
 
-export const HistoryReducer =
+export const UploadHistoryReducer =
 	(state: UploadHistoryState = initialState, action: StateAction) => {
 		
 	switch (action.type.action) {
@@ -33,4 +33,4 @@ export const HistoryReducer =
 	}
 };
 
-export type historyState = ReturnType<typeof HistoryReducer>;
+export type uploadHistoryState = ReturnType<typeof UploadHistoryReducer>;

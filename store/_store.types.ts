@@ -12,13 +12,19 @@ export enum UploadHistoryAction {
 	CLEANUP,
 };
 
+export enum UploadOptionAction {
+	TOGGLE_HIDDEN,
+	TOGGLE_PROTECTED,
+};
+
 export enum ActionGroup {
 	AUTHORIZATION,
 	UPLOAD_HISTORY,
+	UPLOAD_OPTION,
 	ROOT,
 };
 
 export type RootAction = {
 	group: ActionGroup,
-	action?: AuthorizationAction | UploadHistoryAction,
+	action?: AuthorizationAction | UploadHistoryAction | UploadOptionAction,
 };

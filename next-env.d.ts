@@ -24,7 +24,8 @@ type FileMetadata = {
 
 type RootState = {
 	authorization: null | AuthorizationState,
-	uploadHistory: null | HistoryState,
+	uploadHistory: null | UploadHistoryState,
+	uploadOption: null | UploadOptionState,
 };
 
 type AuthorizationState = {
@@ -36,6 +37,11 @@ type AuthorizationState = {
 
 type UploadHistoryState = {
 	uploadList: FileMetadata[];
+};
+
+type UploadOptionState = {
+	hidden: boolean;
+	protected: boolean;
 };
 
 interface User {

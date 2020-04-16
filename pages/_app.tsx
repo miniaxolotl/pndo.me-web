@@ -31,6 +31,7 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 			
 			{ /* set cookies */
 				initialProps.authorization = JSON.parse(cookies.authorization);
+				initialProps.uploadOption = JSON.parse(cookies.uploadOption);
 			}
 		} catch(err) {
 			// do nothing lol

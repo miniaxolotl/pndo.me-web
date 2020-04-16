@@ -122,7 +122,7 @@ const Page: NextPage<RootState> = (props) => {
 				(() => {
 					if(authorization.loggedIn) {
 						return (
-							null
+							'coming soon™️'
 						);
 					} else {
 						return (
