@@ -1,19 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux';
+// pages/index.tsx
+import { useSelector } from 'react-redux';
 import { NextPage } from 'next';
-import DefaultLayout from '../components/layouts/default.layout';
 
-import { parseCookies } from 'nookies';
-import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
-	FaUserCircle } from 'react-icons/fa';
+import DefaultLayout from '../../components/layouts/default.layout';
+import FileDisplay from '../../components/filedisplay';
 
-import { RootAction, ActionGroup,
-	UploadHistoryAction } from '../store/_store.types';
-import config from '../config.json';
+import config from '../../config.json';
+import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
 
 const Page: NextPage<RootState> = () => {
 
-	const authorization
-		= useSelector((state: RootState) => state.authorization);
+	// const router = useRouter();
+	const rootState = useSelector((state: RootState) => state);
+	// const display = useSelector((state: RootState) => state.display);
+
+	const authorization = rootState?.authorization;
 
 	const authLink: {
 		href: string,
@@ -40,7 +41,7 @@ const Page: NextPage<RootState> = () => {
 		href: "/dashboard",
 		icon: <FaUserCircle />,
 	}];
-	
+
 	const headProps = {
 		title: config.title,
 		description: config.description,
@@ -54,10 +55,11 @@ const Page: NextPage<RootState> = () => {
 
 	return (
 		<DefaultLayout
+		authorization={authorization}
 		authLink={authLink} links={links}
-		authorization={authorization} headProps={headProps}>
-
-			<h1> OOF: Page not found! </h1>
+		headProps={headProps}>
+			<FileDisplay data={null}>
+			</FileDisplay>
 		</DefaultLayout>
 	);
 };

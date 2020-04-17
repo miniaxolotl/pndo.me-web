@@ -60,8 +60,13 @@ export const upload
 	
 	var form = document.getElementById('form') as HTMLFormElement;
 	var formData = new FormData(form);
+	const file = formData.get('upload_file');
+
+	if(event && (file as File).size > 0) {
+		return sendFile(formData, progressFunc, authorization, uploadOption);
+	} 
 	
-	return sendFile(formData, progressFunc, authorization, uploadOption);
+	return null;
 };
 
 /**
@@ -80,7 +85,7 @@ export const sendFile
 	const file = formData.get('upload_file') as File;
 	formData.set('protected', uploadOption.protected);
 	formData.set('hidden', uploadOption.hidden);
-	const delta = new Date().getTime();
+	const timeInitiated = new Date().getTime();
 
 	await axios.request({
 		method: 'post',
@@ -89,11 +94,13 @@ export const sendFile
 		headers: {
 			Authorization: `Bearer ${authorization}`
 		},
-		onUploadProgress: (e) => progressFunc(e, { filename: file.name, delta} ),
+		onUploadProgress: (e) =>
+			progressFunc(e, { filename: file.name, timeInitiated} ),
 	}).then(async (res: any) => {
 		data.status = res.status;
+
 		data.message = res.data;
-		data.message.timeInitiated = delta;
+		data.message.timeInitiated = timeInitiated;
 		data.message.curUpload = 1;
 		data.message.maxUpload = 1;
 
@@ -102,6 +109,7 @@ export const sendFile
 		
 		if(!data.message.bytes) { throw(null); }
 	}).catch((err) => {
+		console.log(err);
 		(data as any) = {
 			status: 500,
 			message: "a bruh moment occured...",

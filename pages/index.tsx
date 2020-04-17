@@ -36,6 +36,9 @@ const Page: NextPage<RootState> = (props) => {
 	const uploadHistoryList
 		= useSelector((state: RootState) => state.uploadHistory.uploadList);
 
+	console.log(uploadHistory);
+	console.log(uploadHistoryList);
+
 	const authLink: {
 		href: string,
 		icon: JSX.Element,
@@ -98,7 +101,7 @@ const Page: NextPage<RootState> = (props) => {
 			= await drop(event, progressFunc,
 			authorization.authorization, uploadOption);
 
-		if(data.status == 200) {
+		if(data && data.status == 200) {
 			const responce = data.message as FileMetadata;
 
 			const action: RootAction = {
@@ -108,15 +111,29 @@ const Page: NextPage<RootState> = (props) => {
 
 			dispatch({
 				type: action,
-				data: responce,
+				payload: responce,
 			});
 		}
 	};
 
 	const uploadFunc = async (event) => {
 		const data 
-			= upload(event, progressFunc,
+			= await upload(event, progressFunc,
 			authorization, uploadOption);
+
+		if(data && data.status == 200) {
+			const responce = data.message as FileMetadata;
+
+			const action: RootAction = {
+				group: ActionGroup.UPLOAD_HISTORY,
+				action: UploadHistoryAction.ADD,
+			};
+
+			dispatch({
+				type: action,
+				payload: responce,
+			});
+		}
 	};
 
 	const progressFunc = (progress: ProgressEvent, file_data) => {
@@ -125,14 +142,14 @@ const Page: NextPage<RootState> = (props) => {
 			action: UploadHistoryAction.PROGRESS,
 		};
 
-		const item: any = {
+		const payload: any = {
 			progress,
 			...file_data,
 		};
 
 		dispatch({
 			type: action,
-			item,
+			payload,
 		});
 	};
 

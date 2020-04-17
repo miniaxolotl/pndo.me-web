@@ -22,7 +22,7 @@ const UploadList: React.FunctionComponent<Props> = (props) => {
 
 	let listItems;
 	
-	if(props.uploadList.length > 0) {
+	if(props.uploadList && props.uploadList.length > 0) {
 		listItems = props.uploadList?.map((item) => {
 
 			let text = ((item.curUpload < item.maxUpload) || !item.file_id)

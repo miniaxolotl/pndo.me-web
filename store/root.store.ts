@@ -9,7 +9,7 @@
  */
 
 import { Action } from 'redux'
-import { RootAction, ActionGroup, UploadOptionAction } from './_store.types';
+import { RootAction, ActionGroup } from './_store.types';
 import { AuthorizationReducer } from './authorization.store';
 import { UploadHistoryReducer } from './uploadhistory.store';
 import { UploadOptionReducer } from './uploadoption.store';
@@ -35,13 +35,13 @@ export const reducer =
 				AuthorizationReducer(state.authorization, action);
 			return state;
 
-		/* HISTORY */
+		/* UPLOAD_HISTORY */
 		case ActionGroup.UPLOAD_HISTORY:
 			state.uploadHistory = 
 				UploadHistoryReducer(state.uploadHistory, action);
 			return state;
-			/* HISTORY */
 
+		/* UPLOAD_OPTION */
 		case ActionGroup.UPLOAD_OPTION:
 			state.uploadOption = 
 				UploadOptionReducer(state.uploadOption, action);

@@ -18,62 +18,37 @@ const makeStore: MakeStore = (initialState: rootState) => {
 };
 
 class MyApp extends App<ReduxWrapperAppProps<RootState>> {
-	static async getInitialProps({ Component, ctx,  }: AppContext) {
+	static async getInitialProps({ Component, ctx }: AppContext) {
 
 		const pageProps = Component.getInitialProps
-			? await Component.getInitialProps(ctx) : {};
+		? await Component.getInitialProps(ctx) : {};
 
-		try {
+		const cookies = parseCookies(ctx);
 
-			const action: RootAction = { group: ActionGroup.ROOT };
-			ctx.store.dispatch({ type: action });
-		
-			const rootState: RootState = ctx.store.getState();
-			const initialProps: RootState = rootState;
+		const rootState: RootState = ctx.store.getState();
+		const initialProps: RootState = rootState;
 
-			
-			if (ctx.isServer) {
-				const cookies = parseCookies(ctx);
-
-				const cleanupAction: RootAction = {
-					group: ActionGroup.UPLOAD_HISTORY,
-					action: UploadHistoryAction.CLEANUP
-				};
-				ctx.store.dispatch({ type: cleanupAction });
-
-				const uploadHistory = cookies.uploadHistory;
-				if(uploadHistory) {
-					let filteredHistory = JSON.parse(uploadHistory);
-					filteredHistory = filteredHistory.filter((e) => !e.delta);
-					initialProps.uploadHistory.uploadList = filteredHistory;
-				}
-
-				const uploadOption = cookies.uploadOption;
-				if(uploadOption) {
-					initialProps.uploadOption = JSON.parse(uploadOption);
-				}
-
-				const authorization = cookies.authorization;
-				if(authorization) {
-					initialProps.authorization = JSON.parse(authorization);
-				}
-			} else {
-				const cookies = parseCookies(ctx);
-
-				{ /* set cookies */
-					initialProps.authorization
-						= JSON.parse(cookies.authorization);
-					initialProps.uploadOption
-						= JSON.parse(cookies.uploadOption);
-					initialProps.uploadHistory
-						= JSON.parse(cookies.uploadHistory);
-				}
-			}
-		} catch(err) {
-			// do nothing lol
+		const uploadHistory = cookies.uploadHistory;
+		if(uploadHistory) {
+			initialProps.uploadOption = JSON.parse(uploadHistory);
 		}
 
-		
+		const cleanupAction: RootAction = {
+			group: ActionGroup.UPLOAD_HISTORY,
+			action: UploadHistoryAction.CLEANUP
+		};
+		ctx.store.dispatch({ type: cleanupAction });
+
+		const uploadOption = cookies.uploadOption;
+		if(uploadOption) {
+			initialProps.uploadOption = JSON.parse(uploadOption);
+		}
+
+		const authorization = cookies.authorization;
+		if(authorization) {
+			initialProps.authorization = JSON.parse(authorization);
+		}
+
 		return { pageProps };
 	}
 
