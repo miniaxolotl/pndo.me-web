@@ -1,6 +1,6 @@
 import { Action } from 'redux'
 import { RootAction, UploadHistoryAction } from './_store.types';
-import { setCookie } from 'nookies';
+import { setCookie, parseCookies } from 'nookies';
 
 const initialState: UploadHistoryState = {
 	uploadList: [],
@@ -10,7 +10,7 @@ type StateAction = Action<RootAction> & UploadHistoryState;
 
 export const UploadHistoryReducer =
 	(state: UploadHistoryState = initialState, action: StateAction) => {
-		
+
 	switch (action.type.action) {
 		/* ADD */
 		case UploadHistoryAction.ADD:

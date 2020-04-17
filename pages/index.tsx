@@ -23,9 +23,7 @@ const Page: NextPage<RootState> = (props) => {
 	
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
-	
-	const loggedIn
-		= useSelector((state: RootState) => state.authorization.loggedIn);
+
 
 	const uploadOption
 		= useSelector((state: RootState) => state.uploadOption);
@@ -35,9 +33,6 @@ const Page: NextPage<RootState> = (props) => {
 		
 	const uploadHistoryList
 		= useSelector((state: RootState) => state.uploadHistory.uploadList);
-
-	console.log(uploadHistory);
-	console.log(uploadHistoryList);
 
 	const authLink: {
 		href: string,
