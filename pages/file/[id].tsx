@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import DefaultLayout from '../../components/layouts/default.layout';
 import FileDisplay from '../../components/filedisplay';
 
-import config from '../../config.json';
+import config from '../../res/config.json';
 import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
 
 const Page: NextPage<RootState> = () => {

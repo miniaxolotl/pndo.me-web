@@ -8,7 +8,7 @@ import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
 
 import { RootAction, ActionGroup,
 	UploadHistoryAction } from '../store/_store.types';
-import config from '../config.json';
+import config from '../res/config.json';
 
 import styles from './index.module.scss';
 import DefaultLayout from '../components/layouts/default.layout';

@@ -1,6 +1,6 @@
 import { SyntheticEvent, InputHTMLAttributes, FormHTMLAttributes } from "react";
 import axios from 'axios';
-import config from "../config.json";
+import config from "../res/config.json";
 
 /**
  * Enable screeen on drag in

@@ -5,7 +5,7 @@ import NavBar from '../partials/navbar';
 import ActiveLink from '../activelink';
 import { OpenGraphImages } from 'next-seo/lib/types';
 
-import config from '../../config.json';
+import config from '../../res/config.json';
 
 import styles from "./default.layout.module.scss"
 import { SyntheticEvent } from 'react';

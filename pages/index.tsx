@@ -4,13 +4,13 @@ import DragDropLayout from '../components/layouts/dragdrop.layout';
 
 import { parseCookies } from 'nookies'
 import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
-	FaUserCircle, FaLock, FaEyeSlash, FaEye, FaLockOpen } from 'react-icons/fa';
+	FaUserCircle, FaLock, FaEyeSlash, FaEye, FaLockOpen, FaSearch, FaSearchLocation, FaResearchgate, FaSearchengin, FaLongArrowAltUp, FaArrowUp, FaFileUpload, FaCloudUploadAlt, FaQuestion, FaUser, FaUserAlt } from 'react-icons/fa';
 
 import { RootAction, ActionGroup,
 	UploadHistoryAction, 
 	UploadOptionAction,
 	AuthorizationAction} from '../store/_store.types';
-import config from '../config.json';
+import config from '../res/config.json';
 
 import styles from './index.module.scss';
 import { SyntheticEvent } from 'react';
@@ -23,7 +23,6 @@ const Page: NextPage<RootState> = (props) => {
 	
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
-
 
 	const uploadOption
 		= useSelector((state: RootState) => state.uploadOption);
@@ -49,15 +48,19 @@ const Page: NextPage<RootState> = (props) => {
 	}[] = [{
 		key: 0,
 		href: "/",
-		icon: <FaArrowAltCircleUp />,
+		icon: <FaCloudUploadAlt />,
 	},{
 		key: 1,
-		href: "/faq",
-		icon: <FaQuestionCircle />,
+		href: "/search",
+		icon: <FaSearch />,
 	},{
 		key: 2,
+		href: "/faq",
+		icon: <FaQuestion />,
+	},{
+		key: 3,
 		href: "/dashboard",
-		icon: <FaUserCircle />,
+		icon: <FaUserAlt />,
 	}];
 
 	const headProps = {

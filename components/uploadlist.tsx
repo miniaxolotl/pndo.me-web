@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import os from 'os'
 import { FaQuestionCircle, FaTimesCircle, FaWindowClose, FaExternalLinkSquareAlt } from 'react-icons/fa';
 
-import config from "../config.json";
+import config from "../res/config.json";
 
 import styles from "./uploadlist.module.scss"
 

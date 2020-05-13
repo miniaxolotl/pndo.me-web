@@ -9,7 +9,7 @@
 
 import fetch from 'node-fetch';
 import qs from 'qs';
-import config from '../config.json';
+import config from '../res/config.json';
 
 export const attemptLogin = async (username: string, password: string) => {
 
