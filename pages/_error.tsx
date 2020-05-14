@@ -11,11 +11,14 @@ import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
 	FaUserAlt} from 'react-icons/fa';
 
 import { RootAction, ActionGroup,
-	UploadHistoryAction } from '../store/_store.types';
+	UploadHistoryAction, 
+	AuthorizationAction} from '../store/_store.types';
 import config from '../res/config.json';
+import { SyntheticEvent } from 'react';
 
 const Page: NextPage<RootState> = () => {
 
+	const dispatch = useDispatch();
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
 
@@ -53,9 +56,22 @@ const Page: NextPage<RootState> = () => {
 		twSite: config.tw.site,
 	};
 
+	const logout = (event: SyntheticEvent<HTMLAnchorElement, MouseEvent>) => {
+		
+		const action: RootAction = {
+			group: ActionGroup.AUTHORIZATION,
+			action: AuthorizationAction.LOGOUT,
+		};
+
+		dispatch({
+			type: action,
+		});
+	};
+
 	return (
 		<DefaultLayout
 		authLink={authLink} links={links}
+		logoutFunc={logout}
 		authorization={authorization} headProps={headProps}>
 
 			<h1> OOF: A bruh moment occured... </h1>

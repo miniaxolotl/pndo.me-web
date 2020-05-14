@@ -98,6 +98,7 @@ const Page: NextPage<RootState> = () => {
 				username: authorization.payload.username,
 				display_name: authorization.payload.display_name,
 				profile_id: authorization.payload.profile_id,
+				flags: authorization.payload.flags,
 			}
 
 			dispatch({
