@@ -1,5 +1,23 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
+type HeadProp = {
+	title?: string;
+	description?: string;
+	url?: string;
+	ogTitle?: string;
+	ogDescription?: string;
+	ogUrl?: string;
+	ogImages?: OpenGraphImages[];
+	ogSiteName?: string;
+	twHandle?: string;
+	twSite?: string;
+};
+
+type NavLink = {
+	key?: number,
+	href: string;
+	icon: JSX.Element;
+};
 
 type FileMetadata = {
 	file_id?: string;
@@ -20,6 +38,8 @@ type FileMetadata = {
 	maxUpload?: number;
 	
 	timeInitiated?: number;
+
+	complete?: boolean;
 };
 
 type RootState = {
@@ -32,7 +52,13 @@ type AuthorizationState = {
 	loggedIn: boolean;
 	authorization: string | null;
 	username: string | null;
-	profile: string | null;
+	display_name: string | null;
+	profile_id: string | null;
+	flags: {
+		admin: boolean,
+		moderator: boolean,
+		banned: boolean,
+	},
 };
 
 type UploadHistoryState = {

@@ -9,14 +9,20 @@
 
 import { FaFile, FaFileAlt, FaRegFile, FaFileImage } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { loadEnvConfig } from "next/dist/lib/load-env-config";
+
+import config from '../res/config.json';
+import { downloadFile } from "../scripts/display.script";
 
 interface Props {
 	data: any;
 }
 
-const FileDisplay: React.FunctionComponent<Props> =
-	({ data }) => { 
+const FileDisplay: React.FunctionComponent<any> =
+	(props) => { 
 
+	const data = props.data;
+	
 	const router = useRouter();
 
 	const humanFileSize = (bytes, si)  => {
@@ -40,46 +46,78 @@ const FileDisplay: React.FunctionComponent<Props> =
 		image = true;
 	}
 
+	const copyFunc = (e: any) => {
+		e.target.select();
+		document.execCommand("copy");
+	}
+
+	const dlFunc = (event) => {
+		downloadFile(event, data, props.authorization);
+	}
+
+	console.log(data);
+	
+
 	return (
 		<div className="container">
 			<div>
 				<div>
 						{
 							image ? <FaFileImage /> : <FaRegFile />
-						} {data.name} 
+						} {data.filename} 
 				</div>
 				<div className="file-display">
 					<div>
 						<div className='img-container'>
 							{
-								image ? 
-								<img src={'http://home.emawa.io:5656/download/'+data.id} /> : null
+								image && !data.protected ? 
+								<img src={config.api+'/api/file/download/'+data.file_id} /> : null
 							}
 						</div>
 						
-						<div>
-							<div>
-								size
-								<code> 
-									{humanFileSize(data.bytes, true)}
-								</code>
-							</div>
-							<div>
-								upload date
-								<code> 
-									{data.uploaded}
-								</code>
-							</div>
-							<div>
-								uploaded by
-								<code>
-									{data.owner_id ? data.owner_id : <span className="color-orange"> anonymous user </span>}
-								</code>
-							</div>
-						</div>
+						<table>
+							<tbody>
+								<tr>
+									<th>
+										size
+									</th>
+									<td>
+										<code> 
+											{humanFileSize(data.bytes, true)}
+										</code>
+									</td>
+								</tr>
+								<tr>
+									<th>
+										upload date
+									</th>
+									<td>
+										<code> 
+											{new Date(data.uploaded).toDateString()}
+										</code>
+									</td>
+								</tr>
+								<tr>
+									<th>
+										uploaded by
+									</th>
+									<td>
+										<code>
+											{data.owner ? data.owner : <span className="color-orange"> anonymous user </span>}
+										</code>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<label>
+							direct link
+						<input type="text" className="full-width text-center" value={config.api_file+'/download/'+data.file_id} onClick={copyFunc} readOnly />
+						</label>
+
 					</div>
 					<div>
-						<a href={'http://home.emawa.io:5656/download/'+data.id}>
+						<a onClick={dlFunc}>
 							<button className="outline" >
 								download
 							</button>

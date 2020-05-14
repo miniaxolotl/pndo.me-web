@@ -29,8 +29,7 @@ html, #__next, #body {
 }
 
 #masthead {
-	// height: 100vh;
-	padding: 1rem 0rem 1rem 0rem;
+	padding: 2rem 0rem 2rem 0rem;
 }
 
 /******************* custom scrollbar *******************/
@@ -79,76 +78,8 @@ html, #__next, #body {
 	background-color: #000;
 }
 
-/******************* public masthead *******************/
-
-// .public-item {
-// 	width: 100%;
-// 	margin: 0.75rem 0rem !important;
-// 	position: relative;
-
-// 	p {
-// 		line-height: 100%;
-// 	}
-
-// 	svg {
-// 		font-size: 1.4rem;
-// 	}
-
-// 	.linkFollow {
-// 		position: absolute;
-// 		top: 0.2rem;
-// 		right: 2rem;
-
-// 		fill: #ffb7c5;
-
-// 		&:hover {
-// 			fill: #ff1f48;
-// 		}
-// 	}
-
-// 	.fileClose {
-// 		position: absolute;
-// 		top: 0.2rem;
-// 		right: 0rem;
-
-// 		fill: #ff5a51;
-
-// 		&:hover {
-// 			fill: #720600;
-// 		}
-// 	}
-
-// 	p code {
-// 		font-size: 1rem;
-// 		margin: 0rem 0.5rem 0rem 0rem;
-// 	}
-
-// 	h6 {
-// 		margin: 0rem 3.4rem 0rem 0rem;
-// 	}
-
-// 	h6, p {
-// 		text-align: left;
-// 	}
-
-// 	progress {
-// 		width: 100%;
-// 		flex-grow: inherit;
-// 	}
-
-// 	img {
-// 		border-width: .5rem;
-// 		border-radius: $border-soft !important;
-
-// 		margin: 0.5rem 0rem !important;
-
-// 		object-fit: cover;
-// 		display: block;
-// 		width: 100%;
-// 		max-height: 10rem;
-// 	}
-	
-// 	input {
-// 		margin: 0rem;
-// 	}
-// }
+.img-container img {
+	max-height: 50%;
+	max-width: 80%;
+	border-radius: $border-round;
+}

@@ -14,27 +14,13 @@ import { ActionGroup, AuthorizationAction, RootAction } from '../../store/_store
 
 interface Props {
 	authorization?: AuthorizationState;
-	authLink: {
+	logoutFunc: (e: any) => any;
+	authLink?: {
 		href: string,
 		icon: JSX.Element,
 	},
-	links: {
-		key: number,
-		href: string,
-		icon: JSX.Element,
-	}[];
-	headProps: {
-		title?: string;
-		description?: string;
-		url?: string;
-		ogTitle?: string;
-		ogDescription?: string;
-		ogUrl?: string;
-		ogImages?: OpenGraphImages[];
-		ogSiteName?: string;
-		twHandle?: string;
-		twSite?: string;
-	}
+	links: NavLink[],
+	headProps: HeadProp,
 };
 
 const DefaultLayout: React.FunctionComponent<Props> = (props) => {
@@ -72,7 +58,7 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 				</h1>
 				<NavBar
 				authorization={props.authorization}
-				logoutFunc={logout}
+				logoutFunc={props.logoutFunc}
 				links={props.links}
 				authLink={props.authLink} />
 			</div>
@@ -84,6 +70,10 @@ const DefaultLayout: React.FunctionComponent<Props> = (props) => {
 				</div>
 			</motion.div>
 
+			<footer>
+			{/* <small>With&nbsp;<i className="fas fa-sm fa-heart color-red"></i>&nbsp;from Elias Mawa</small> */}
+			{/* <small><a href="javascript:void(0)" id="theme">lights off!</a></small> */}
+			</footer>
 		</div>
 	);
 };

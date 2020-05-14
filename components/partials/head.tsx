@@ -17,6 +17,7 @@ interface Props {
 const Header: React.FunctionComponent<Props> = (props) => {
 
 	const twitter: Twitter = {
+		handle: props.twSite,
 		site: `@${props.twSite}`,
 		cardType: 'summary_large_image',
 	};

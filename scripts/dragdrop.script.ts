@@ -92,7 +92,7 @@ export const sendFile
 		url: `${config.api}/api/file/upload`,
 		data: formData,
 		headers: {
-			Authorization: `Bearer ${authorization}`
+			Authorization: `Bearer ${authorization.authorization}`
 		},
 		onUploadProgress: (e) =>
 			progressFunc(e, { filename: file.name, timeInitiated} ),
@@ -106,10 +106,10 @@ export const sendFile
 
 		data.message.filename = res.data.filename;
 		data.message.file_id = res.data.file_id;
-		
+		data.message.complete = true;
+
 		if(!data.message.bytes) { throw(null); }
 	}).catch((err) => {
-		console.log(err);
 		(data as any) = {
 			status: 500,
 			message: "a bruh moment occured...",

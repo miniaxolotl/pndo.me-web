@@ -2,53 +2,46 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import DefaultLayout from '../components/layouts/default.layout';
 
-import { parseCookies } from 'nookies'
-import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
-	FaUserCircle, FaLock, FaEyeSlash } from 'react-icons/fa';
+import { FaSignOutAlt, FaCloudUploadAlt, FaSearch, FaQuestion, FaUserAlt } from 'react-icons/fa';
 
 import { RootAction, ActionGroup,
-	UploadHistoryAction, 
 	AuthorizationAction} from '../store/_store.types';
 import config from '../res/config.json';
 
-import styles from './index.module.scss';
 import HybridForm from '../components/forms/hybrid.form';
-import { attemptLogin, attemptRegister } from '../scripts/authentication.script';
+import { registerRequest, loginRequest } from '../scripts/authentication.script';
+import { SyntheticEvent } from 'react';
 
-const Page: NextPage<RootState> = (props) => {
-
+const Page: NextPage<RootState> = () => {
 	const dispatch = useDispatch();
 	
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
 
-	const authLink: {
-		href: string,
-		icon: JSX.Element,
-	} = {
+	const authLink: NavLink = {
 		href: "/",
 		icon: <FaSignOutAlt />,
 	};
 	
-	const links: {
-		key: number,
-		href: string,
-		icon: JSX.Element,
-	}[] = [{
+	const links: NavLink[] = [{
 		key: 0,
 		href: "/",
-		icon: <FaArrowAltCircleUp />,
+		icon: <FaCloudUploadAlt />,
 	},{
 		key: 1,
-		href: "/faq",
-		icon: <FaQuestionCircle />,
+		href: "/search",
+		icon: <FaSearch />,
 	},{
 		key: 2,
+		href: "/faq",
+		icon: <FaQuestion />,
+	},{
+		key: 3,
 		href: "/dashboard",
-		icon: <FaUserCircle />,
+		icon: <FaUserAlt />,
 	}];
 
-	const headProps = {
+	const headProps: HeadProp = {
 		title: config.title,
 		description: config.description,
 		url: config.url,
@@ -60,10 +53,10 @@ const Page: NextPage<RootState> = (props) => {
 	}
 
 	const loginFunc = async (username: string, password: string) => {
-		const data = await attemptLogin(username, password);
+		const data = await loginRequest(username, password);
 
 		if(data.status == 200) {
-			const authorization = data.message as unknown as Authorization;
+			const authorization = data.message as any;
 			
 			const action: RootAction = {
 				group: ActionGroup.AUTHORIZATION,
@@ -73,8 +66,10 @@ const Page: NextPage<RootState> = (props) => {
 			const item: AuthorizationState = {
 				loggedIn: true,
 				authorization: authorization.authorization,
-				username: authorization.user.username,
-				profile: authorization.user.profile,
+				username: authorization.payload.username,
+				display_name: authorization.display_name,
+				profile_id: authorization.payload.profile_id,
+				flags: authorization.payload.flags,
 			}
 
 			dispatch({
@@ -87,10 +82,10 @@ const Page: NextPage<RootState> = (props) => {
 	};
 
 	const registerFunc = async (username: string, password: string) => {
-		const data = await attemptRegister(username, password);
+		const data = await registerRequest(username, password);
 
 		if(data.status == 200) {
-			const authorization = data.message as unknown as Authorization;
+			const authorization = data.message as any;
 			
 			const action: RootAction = {
 				group: ActionGroup.AUTHORIZATION,
@@ -100,8 +95,9 @@ const Page: NextPage<RootState> = (props) => {
 			const item: AuthorizationState = {
 				loggedIn: true,
 				authorization: authorization.authorization,
-				username: authorization.user.username,
-				profile: authorization.user.profile,
+				username: authorization.payload.username,
+				display_name: authorization.payload.display_name,
+				profile_id: authorization.payload.profile_id,
 			}
 
 			dispatch({
@@ -113,10 +109,23 @@ const Page: NextPage<RootState> = (props) => {
 		return data.status == 200;
 	};
 
+	const logout = (event: SyntheticEvent<HTMLAnchorElement, MouseEvent>) => {
+		
+		const action: RootAction = {
+			group: ActionGroup.AUTHORIZATION,
+			action: AuthorizationAction.LOGOUT,
+		};
+
+		dispatch({
+			type: action,
+		});
+	};
+
 	return (
 		<DefaultLayout
 		authorization={authorization}
 		authLink={authLink} links={links}
+		logoutFunc={logout}
 		headProps={headProps}>
 			{
 				(() => {
@@ -139,7 +148,6 @@ const Page: NextPage<RootState> = (props) => {
 
 /** Initial props */
 Page.getInitialProps = (ctx) => {
-
 	const rootState: RootState = ctx.store.getState();
 	const initialProps: RootState = rootState;
 

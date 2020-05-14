@@ -16,6 +16,7 @@ import styles from './index.module.scss';
 import { SyntheticEvent } from 'react';
 import { dragIn, dragOut, drop, upload } from '../scripts/dragdrop.script';
 import UploadList from '../components/uploadlist';
+import { LOADIPHLPAPI } from 'dns';
 
 const Page: NextPage<RootState> = (props) => {
 
@@ -33,19 +34,12 @@ const Page: NextPage<RootState> = (props) => {
 	const uploadHistoryList
 		= useSelector((state: RootState) => state.uploadHistory.uploadList);
 
-	const authLink: {
-		href: string,
-		icon: JSX.Element,
-	} = {
+	const authLink: NavLink = {
 		href: "/",
 		icon: <FaSignOutAlt />,
 	};
 	
-	const links: {
-		key: number,
-		href: string,
-		icon: JSX.Element,
-	}[] = [{
+	const links: NavLink[] = [{
 		key: 0,
 		href: "/",
 		icon: <FaCloudUploadAlt />,
@@ -63,7 +57,7 @@ const Page: NextPage<RootState> = (props) => {
 		icon: <FaUserAlt />,
 	}];
 
-	const headProps = {
+	const headProps: HeadProp = {
 		title: config.title,
 		description: config.description,
 		url: config.url,
@@ -72,7 +66,7 @@ const Page: NextPage<RootState> = (props) => {
 		ogUrl: config.url,
 		ogSiteName: config.og.site,
 		twSite: config.tw.site,
-	}
+	};
 
 	const logout = (event: SyntheticEvent<HTMLAnchorElement, MouseEvent>) => {
 		
@@ -118,6 +112,8 @@ const Page: NextPage<RootState> = (props) => {
 		const data 
 			= await upload(event, progressFunc,
 			authorization, uploadOption);
+			console.log(authorization);
+			
 
 		if(data && data.status == 200) {
 			const responce = data.message as FileMetadata;
@@ -275,8 +271,9 @@ const Page: NextPage<RootState> = (props) => {
 Page.getInitialProps = (ctx) => {
 
 	const rootState: RootState = ctx.store.getState();
+	
 	const initialProps: RootState = rootState;
-
+	
 	return initialProps;
 };
 

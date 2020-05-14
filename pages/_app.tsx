@@ -20,8 +20,6 @@ const makeStore: MakeStore = (initialState: rootState) => {
 class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 	static async getInitialProps({ Component, ctx }: AppContext) {
 
-		const pageProps = Component.getInitialProps
-		? await Component.getInitialProps(ctx) : {};
 
 		const cookies = parseCookies(ctx);
 
@@ -30,7 +28,7 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 
 		const uploadHistory = cookies.uploadHistory;
 		if(uploadHistory) {
-			initialProps.uploadOption = JSON.parse(uploadHistory);
+			initialProps.uploadHistory = JSON.parse(uploadHistory);
 		}
 
 		const cleanupAction: RootAction = {
@@ -49,6 +47,9 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
 			initialProps.authorization = JSON.parse(authorization);
 		}
 
+		const pageProps = Component.getInitialProps
+		? await Component.getInitialProps(ctx) : {};
+		
 		return { pageProps };
 	}
 

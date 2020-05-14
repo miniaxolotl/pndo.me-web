@@ -41,8 +41,7 @@ export const UploadHistoryReducer =
 		/* CLEANUP */
 		case UploadHistoryAction.CLEANUP:
 			state.uploadList =
-				state.uploadList.filter((i) =>
-				(i.curUpload == i.maxUpload) && i.filename && i.bytes);
+				state.uploadList.filter((i) => i.complete);
 
 			setCookie(null, 'uploadHistory',
 				JSON.stringify(state), null);
@@ -59,6 +58,7 @@ export const UploadHistoryReducer =
 				timeInitiated: (action as any).payload.timeInitiated,
 				curUpload: (action as any).payload.progress.loaded,
 				maxUpload: (action as any).payload.progress.total,
+				complete: false,
 			};
 
 			state.uploadList = [...state.uploadList, upload];

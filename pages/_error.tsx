@@ -4,7 +4,11 @@ import DefaultLayout from '../components/layouts/default.layout';
 
 import { parseCookies } from 'nookies';
 import { FaSignOutAlt, FaArrowAltCircleUp, FaQuestionCircle,
-	FaUserCircle } from 'react-icons/fa';
+	FaUserCircle,
+	FaCloudUploadAlt,
+	FaSearch,
+	FaQuestion,
+	FaUserAlt} from 'react-icons/fa';
 
 import { RootAction, ActionGroup,
 	UploadHistoryAction } from '../store/_store.types';
@@ -15,33 +19,30 @@ const Page: NextPage<RootState> = () => {
 	const authorization
 		= useSelector((state: RootState) => state.authorization);
 
-	const authLink: {
-		href: string,
-		icon: JSX.Element,
-	} = {
+	const authLink: NavLink = {
 		href: "/",
 		icon: <FaSignOutAlt />,
 	};
 	
-	const links: {
-		key: number,
-		href: string,
-		icon: JSX.Element,
-	}[] = [{
+	const links: NavLink[] = [{
 		key: 0,
 		href: "/",
-		icon: <FaArrowAltCircleUp />,
+		icon: <FaCloudUploadAlt />,
 	},{
 		key: 1,
-		href: "/faq",
-		icon: <FaQuestionCircle />,
+		href: "/search",
+		icon: <FaSearch />,
 	},{
 		key: 2,
+		href: "/faq",
+		icon: <FaQuestion />,
+	},{
+		key: 3,
 		href: "/dashboard",
-		icon: <FaUserCircle />,
+		icon: <FaUserAlt />,
 	}];
-	
-	const headProps = {
+
+	const headProps: HeadProp = {
 		title: config.title,
 		description: config.description,
 		url: config.url,
@@ -50,14 +51,14 @@ const Page: NextPage<RootState> = () => {
 		ogUrl: config.url,
 		ogSiteName: config.og.site,
 		twSite: config.tw.site,
-	}
+	};
 
 	return (
 		<DefaultLayout
 		authLink={authLink} links={links}
 		authorization={authorization} headProps={headProps}>
 
-			<h1> OOF: Page not found! </h1>
+			<h1> OOF: A bruh moment occured... </h1>
 		</DefaultLayout>
 	);
 };

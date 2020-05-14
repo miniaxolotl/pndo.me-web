@@ -9,9 +9,10 @@ interface Props {
 }
 
 const HybridForm: React.FunctionComponent<Props> = (props) => {
-
 	const dispatch = useDispatch();
-	const [statusMessage, setData] = useState("");
+
+	const [statusMessage, setMessage] = useState("");
+
 	const registerErrMessage = "invalid or duplicate username";
 	const loginErrMessage = "invalid login credentials";
 	
@@ -29,7 +30,7 @@ const HybridForm: React.FunctionComponent<Props> = (props) => {
 		const status = props.loginFunc
 			? await props.loginFunc(username, password) : false;
 			
-		status ? null : setData(loginErrMessage);
+		status ? null : setMessage(loginErrMessage);
 	}
 
 	const register = async (e: React.MouseEvent<HTMLInputElement>) => {
@@ -41,7 +42,7 @@ const HybridForm: React.FunctionComponent<Props> = (props) => {
 		const status = props.registerFunc
 			? await props.registerFunc(username, password) : false;
 
-		status ? null : setData(registerErrMessage);
+		status ? null : setMessage(registerErrMessage);
 	}
 	
 	return (

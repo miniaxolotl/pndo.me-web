@@ -20,22 +20,31 @@ const UploadList: React.FunctionComponent<Props> = (props) => {
 		document.execCommand("copy");
 	}
 
-	let listItems;
+	let listItems: {};
 	
 	if(props.uploadList && props.uploadList.length > 0) {
 		listItems = props.uploadList?.map((item) => {
 
-			let text = ((item.curUpload < item.maxUpload) || !item.file_id)
-			? 'uploading...'
-			: config.url+'/file/'+item.file_id;
+			let text = 'uploading...';
+			if(item.complete) {
+				text = config.url+'/file/'+item.file_id
+			} else if(!item.complete && (item.curUpload == item.maxUpload)) {
+				text = "processing..."
+			}
 
-			let style = ((item.curUpload < item.maxUpload) || !item.file_id)
-			? 'progress-info' : 'progress-success';
+			let style = '';
+			
+			if(item.complete) {
+				style = 'progress-success';
+			} else if (!item.complete) {
+				style = 'progress-info';
+			}
 			
 			if((item.maxUpload == item.curUpload) && !item.filename) {
 				text = 'error during upload...'
 				style = 'progress-error';
 			}
+			
 			const owner = item.owner ? item.owner : 'anonymous user';
 
 			let isImage = false;
@@ -55,19 +64,26 @@ const UploadList: React.FunctionComponent<Props> = (props) => {
 							</a>
 							<span>
 								{item.filename}
-								<code>{owner}</code>
+								{/* <code>{owner}</code> */}
 							</span>
 						</div>
 						<div>
-							<progress
-							className={style}
-							value={item.curUpload} max={item.maxUpload} />
+							{
+								(()=>{
+									return (
+										<progress
+										className={style}
+										value={item.curUpload} max={item.maxUpload} />
+									)
+								})()
+							}
+							
 							<input type="text" className="full-width text-center" value={text} onClick={copyFunc} readOnly />
 							{			
 								(() => {
 									if(isImage) {
 									return (
-										<img src={`${config.api}/api/file/download/${item.file_id}`} className={styles.image} />
+										<img src={`${config.api_file}/download/${item.file_id}`} className={styles.image} />
 									)
 								}
 							})()

@@ -8,6 +8,7 @@ import { OpenGraphImages } from 'next-seo/lib/types';
 import config from '../../res/config.json';
 
 import styles from "./dragdrop.layout.module.scss"
+import { FaHeart } from 'react-icons/fa';
 
 interface Props {
 	authorization?: AuthorizationState;
@@ -19,23 +20,8 @@ interface Props {
 		href: string,
 		icon: JSX.Element,
 	},
-	links: {
-		key: number,
-		href: string,
-		icon: JSX.Element,
-	}[];
-	headProps: {
-		title?: string;
-		description?: string;
-		url?: string;
-		ogTitle?: string;
-		ogDescription?: string;
-		ogUrl?: string;
-		ogImages?: OpenGraphImages[];
-		ogSiteName?: string;
-		twHandle?: string;
-		twSite?: string;
-	}
+	links: NavLink[];
+	headProps: HeadProp,
 };
 
 const DragDropLayout: React.FunctionComponent<Props> = (props) => {
@@ -79,6 +65,11 @@ const DragDropLayout: React.FunctionComponent<Props> = (props) => {
 				</motion.div>
 
 			</div>
+			
+			<footer>
+			{/* <small>With&nbsp;<FaHeart />&nbsp;from Elias Mawa</small> */}
+			{/* <small><a href="javascript:void(0)" id="theme">lights off!</a></small> */}
+			</footer>
 		</div>
 	);
 };

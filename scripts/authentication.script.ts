@@ -11,7 +11,7 @@ import fetch from 'node-fetch';
 import qs from 'qs';
 import config from '../res/config.json';
 
-export const attemptLogin = async (username: string, password: string) => {
+export const loginRequest = async (username: string, password: string) => {
 
 	let requstBody = {
 		username,
@@ -51,8 +51,7 @@ export const attemptLogin = async (username: string, password: string) => {
 	return data;
 };
 
-export const attemptRegister = async (username: string, password: string) => {
-
+export const registerRequest = async (username: string, password: string) => {
 	let requstBody = {
 		username,
 		password

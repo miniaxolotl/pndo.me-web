@@ -6,7 +6,13 @@ const initialState: AuthorizationState = {
 	loggedIn: false,
 	authorization: null,
 	username: null,
-	profile: null,
+	display_name: null,
+	profile_id: null,
+	flags: {
+		admin: false,
+		moderator: false,
+		banned: false,
+	},
 };
 
 type StateAction = Action<RootAction> & AuthorizationState;
