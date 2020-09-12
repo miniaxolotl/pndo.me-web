@@ -19,7 +19,7 @@
 		"next": "^9.3.4",
 		"next-redux-wrapper": "^5.0.0",
 		"next-seo": "^4.4.0",
-		"node-fetch": "^2.6.0",
+		"node-fetch": "^2.6.1",
 		"nookies": "^2.2.2",
 		"qs": "^6.9.3",
 		"react": "^16.13.1",
