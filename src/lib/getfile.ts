@@ -63,7 +63,7 @@ export const getFile = async (file_id: string, key: string | null) => {
 export const downloadFile = async (file: FileData, key: string | null) => {
 	const data = new Promise<HTMLAnchorElement | null>(async (resolve) => {
 		await fetch(`${config.server}/file/${file.file_id}`, {
-			method: 'post',
+			method: 'get',
 			headers: {
 				Authorization: `Bearer ${key}`
 			},
