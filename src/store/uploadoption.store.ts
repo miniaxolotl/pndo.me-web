@@ -26,7 +26,7 @@ const reducer = (state: UploadOptionState & State,
 			return action;
 
 		default:
-			return action;
+			return state;
 	}
 };
 

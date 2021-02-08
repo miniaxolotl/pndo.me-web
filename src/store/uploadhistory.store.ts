@@ -28,7 +28,7 @@ const reducer = (state: UploadHistoryState & State,
 			return clearList(state, action);
 
 		default:
-			return action;
+			return state;
 	}
 };
 

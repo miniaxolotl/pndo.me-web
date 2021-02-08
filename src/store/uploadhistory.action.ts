@@ -25,7 +25,7 @@ export const deleteItem = (state: UploadHistoryState & State,
 
 export const progressItem = (state: UploadHistoryState & State,
 	action: { type: UploadHistoryAction} & UploadHistoryState) => {
-
+	
 	state.history = state.history
 	.filter(item => {
 		return ((item.initiated != action.file!.initiated))

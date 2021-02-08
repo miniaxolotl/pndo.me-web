@@ -15,7 +15,7 @@ const defaultState: AuthenticationState & State = {
 	loggedIn: false,
 };
 
-const reducer = (_state: AuthenticationState & State,
+const reducer = (state: AuthenticationState & State,
 	action: { type: AuthenticationAction} & AuthenticationState): any => {
 
 	switch (action.type) {
@@ -28,7 +28,7 @@ const reducer = (_state: AuthenticationState & State,
 			};
 
 		default:
-			return action;
+			return state;
 	}
 };
 
