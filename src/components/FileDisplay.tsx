@@ -1,9 +1,11 @@
 import { Badge, Button, Fade, Flex, Heading, Input, Spacer, Tag, TagLabel } from "@chakra-ui/react"
 import filesize from "file-size"
 import { useState } from "react";
+import { downloadFile } from "../lib/getfile";
 
 interface Props {
 	file: FileData;
+	bearer: string | null;
 };
 
 export const FileDisplay: React.FunctionComponent<Props> = (props) => {
@@ -31,6 +33,11 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 			useOpacity(1);
 			e.target.value = tmp;
 		}, 500);
+	};
+
+	const dlFile = async () => {
+		const anchor = await downloadFile(props.file, props.bearer);
+		anchor?.click();
 	};
 
 	return (
@@ -82,7 +89,7 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 				</Tag>
 			</Flex>
 
-			<Button marginY="1rem">
+			<Button marginY="1rem" onClick={dlFile}>
 				Download
 			</Button>
 		</Flex>

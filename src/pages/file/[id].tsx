@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { uploadHistoryStore } from '../../store/uploadhistory.store'
 import { uploadOptionStore } from '../../store/uploadoption.store'
 
-import { Text } from "@chakra-ui/react"
+import { Heading } from "@chakra-ui/react"
 
 import nookies from 'nookies';
 import { State } from 'zustand'
@@ -50,12 +50,13 @@ const Index: NextPage<Props> = (props) => {
 		}
 	};
 
+	const bearer
+		= props.authentication ? props.authentication.key : null;
+
 	useEffect(() => {
 		if(first) {
 			(async () => {
-				const key
-				= props.authentication ? props.authentication.key : null;
-				useFile(await getFile(props.file_id, key));
+				useFile(await getFile(props.file_id, bearer));
 			})()
 		}
 	}, [props.authentication]);
@@ -69,9 +70,13 @@ const Index: NextPage<Props> = (props) => {
 			{
 				(() => {
 					if(file) {
-						return(<FileDisplay file={file} />);
+						return(<FileDisplay file={file} bearer={bearer} />);
 					} else {
-						return(<Text> Yikes Error! </Text>)
+						return(
+							<Heading fontSize="2xl" color="grey">
+								{props.file.filename}
+							</Heading>
+						);
 					}
 				})()
 			}

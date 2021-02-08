@@ -8,10 +8,12 @@ interface props {
 }
 
 export const FileList: React.FunctionComponent<props> = (props) => {
-
+	
 	let files: JSX.Element[] | null = null;
-	if(props.uploadHistory?.history && props.uploadHistory.history.length > 0) {
+	if(props.uploadHistory && props.uploadHistory.history.length > 0
+		&& props.uploadHistory.history[0]) {
 		files = props.uploadHistory?.history.map(e => {
+			console.log(props.uploadHistory?.history.length);
 			return (
 				<FileListItem key={e.file_id} filedata={e}
 					hostname={props.hostname}/> 
