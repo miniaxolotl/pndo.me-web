@@ -5,14 +5,17 @@ import theme from '../themes/theme'
 
 import { AppProps } from 'next/app'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = (props: AppProps) => {
+
+	const { Component, pageProps } = props;
+	
 	return (
 		<AnimatePresence exitBeforeEnter>
 			<ChakraProvider resetCSS theme={theme}>
-				<Component {...pageProps} />
+					<Component {...pageProps} />
 			</ChakraProvider>
 		</AnimatePresence>
 	)
-}
+};
 
-export default MyApp
+export default MyApp;

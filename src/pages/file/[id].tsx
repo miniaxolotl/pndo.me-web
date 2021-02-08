@@ -1,35 +1,41 @@
 import { NextPage } from 'next'
 
-import { Container } from '../components/Container'
-import { Hero } from '../components/Hero'
-import { UploadTool } from '../components/UploadTool'
-import { Main } from '../components/Main'
-import { FileList } from '../components/FileList'
-import { Layout } from '../components/Layout'
+import { Container } from '../../components/Container'
+import { Layout } from '../../components/Layout'
 
-import { uploadOptionStore } from '../store/uploadoption.store';
-import { authenticationStore } from '../store/authentication.store';
-import { uploadHistoryStore } from '../store/uploadhistory.store';
+import { authenticationStore } from '../../store/authentication.store'
+import { useEffect, useState } from 'react'
+import { uploadHistoryStore } from '../../store/uploadhistory.store'
+import { uploadOptionStore } from '../../store/uploadoption.store'
+
+import { Text } from "@chakra-ui/react"
 
 import nookies from 'nookies';
-import { useState } from 'react'
 import { State } from 'zustand'
+import { getFile, prefetchFile } from '../../lib/getfile'
+import { FileDisplay } from '../../components/FileDisplay'
+import { Hero } from '../../components/Hero'
 
 interface Props {
 	authentication: AuthenticationState & State;
 	uploadOption: UploadOptionState & State;
 	uploadHistory: UploadHistoryState & State;
 	hostname: string;
+	file_id: string;
+	authorized: boolean;
+	file: FileData;
 };
 
 const Index: NextPage<Props> = (props) => {
 
-	const [first, useFirst] = useState(false);
-	if(!first) {
+	const [first, useFirst] = useState(true);
+	const [file, useFile] = useState<FileData | null>(props.file);
+
+	if(first) {
+		useFirst(false);
 		authenticationStore.setState(props.authentication);
 		uploadHistoryStore.setState(props.uploadHistory);
 		uploadOptionStore.setState(props.uploadOption);
-		!first ? useFirst(true) : void(null);
 	}
 	
 	const state = {
@@ -44,26 +50,36 @@ const Index: NextPage<Props> = (props) => {
 		}
 	};
 
+	useEffect(() => {
+		if(first) {
+			(async () => {
+				const key
+				= props.authentication ? props.authentication.key : null;
+				useFile(await getFile(props.file_id, key));
+			})()
+		}
+	}, [props.authentication]);
+		
 	return(
-		<Layout authentication={state.authentication}>
+		<Layout authentication={state.authentication} >
 			<Container direction="column" width="90vw" minHeight="40vh"
 				justifyContent="flex-end" alignItems="center">
-				<Hero title="pandome" hostname={props.hostname} />
-				<UploadTool uploadOption={state.uploadOption}
-					authentication={state.authentication}/>
 			</Container>
-
-			<Main direction="column" width="90vw"
-				justifyContent="center" alignItems="center">
-
-				<FileList uploadHistory={state.uploadHistory}
-					hostname={props.hostname} />
-			</Main>
+			<Hero title="pandome" hostname={props.hostname} />
+			{
+				(() => {
+					if(file) {
+						return(<FileDisplay file={file} />);
+					} else {
+						return(<Text> Yikes Error! </Text>)
+					}
+				})()
+			}
 		</Layout>
 	)
 };
 
-Index.getInitialProps = (ctx) => {
+Index.getInitialProps = async (ctx) => {
 
 	const cookies = nookies.get(ctx);
 	const props: any = {};
@@ -81,6 +97,11 @@ Index.getInitialProps = (ctx) => {
 		props.uploadHistory = JSON.parse(uploadHistory);
 	if(uploadOption)
 		props.uploadOption = JSON.parse(uploadOption);
+
+	const key = props.authentication ? props.authentication.key : null;
+
+	props.file_id = ctx.query.id
+	props.file = await prefetchFile(props.file_id, key);
 
 	return props;
 };

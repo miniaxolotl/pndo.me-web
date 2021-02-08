@@ -10,7 +10,7 @@ const breakpoints = createBreakpoints({
 	xl: '80em',
 });
 
-const config = {
+const config: any = {
 	initialColorMode: "dark",
 	useSystemColorMode: false,
 	colors: {
