@@ -3,25 +3,26 @@ import { Flex, Spacer, Menu, MenuButton, MenuList, MenuGroup,
 	Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody,
 	MenuDivider, MenuItem, useDisclosure, Link} from '@chakra-ui/react'
 import { FiMenu } from 'react-icons/fi'
-import { authenticationStore } from '../store/authentication.store'
-import { LoginForm } from '../components/form/LoginForm'
+
+import { authStore } from '../store/auth'
+
+import { LoginForm } from './form/LoginForm'
 import React, { SyntheticEvent } from 'react';
 import { RegisterForm } from './form/RegisterForm';
-import { AuthenticationAction, UploadOptionAction } from '../../enums';
+import { UserDisplay } from './user/UserDisplay';
+import { AuthAction } from '../types';
 import { logInRequest, registerRequest } from '../lib/authentication';
-import { AccountInfo } from './info/AccountInfo';
-import { uploadOptionStore } from '../store/uploadoption.store';
 
 interface Props {
-	authentication?: AuthenticationState;
+	auth: AuthState;
 };
 
-export const MainMenu: React.FunctionComponent<Props> = (props) => {
+export const MenuDialog: React.FunctionComponent<Props> = (props) => {
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [modalMode, setModalMode] = React.useState("Login");
-	const authDispatch = authenticationStore(state => state.dispatch);
-	const optionsDispatch = uploadOptionStore(state => state.dispatch);
+
+	const dispatchAuth = authStore(state => state.dispatch);
 	
 	const openRegister = () => {
 		setModalMode("Register");
@@ -33,9 +34,18 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 		onOpen()
 	};
 
-	const openAccount = () => {
-		setModalMode("Account");
+	const openUser = () => {
+		setModalMode("User");
 		onOpen()
+	};
+
+	const logout = async (event: SyntheticEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
+
+		dispatchAuth({
+			type: AuthAction.LOGOUT
+		});
 	};
 
 	const login = async (event: SyntheticEvent<HTMLFormElement>) => {
@@ -43,33 +53,18 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 		event.stopPropagation();
 
 		const res = await logInRequest(event.target as HTMLFormElement);
-		if(res) {
-			optionsDispatch({
-				...{ protected: true },
-				type: UploadOptionAction.SET
-			});
 
-			authDispatch({
-				...{...res.payload, key: res.authorization},
-				type: AuthenticationAction.LOGIN
+		if(!res.status) {
+			const data = res.data;
+			dispatchAuth({
+				...{user: data.payload, key: data.authorization},
+				type: AuthAction.LOGIN,
 			});
 			
 			onClose();
+		} else {
+			return res;
 		}
-	};
-
-	const logout = async (event: SyntheticEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		event.stopPropagation();
-
-		optionsDispatch({
-			...{ protected: false },
-			type: UploadOptionAction.SET
-		});
-
-		authDispatch({
-			type: AuthenticationAction.LOGOUT
-		});
 	};
 
 	const register = async (event: SyntheticEvent<HTMLFormElement>) => {
@@ -77,37 +72,41 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 		event.stopPropagation();
 
 		const res = await registerRequest(event.target as HTMLFormElement);
-		if(res) {
-			optionsDispatch({
-				...{ protected: true },
-				type: UploadOptionAction.SET
+		
+		if(!res.status) {
+			const data = res.data;
+			dispatchAuth({
+				...{user: data.payload, key: data.authorization},
+				type: AuthAction.LOGIN,
 			});
-			authDispatch({
-				...{...res.payload, key: res.authorization},
-				type: AuthenticationAction.LOGOUT
-			});
+
 			onClose();
+		} else {
+			return res;
 		}
 	};
 
 	return (
-		<Flex position="fixed" zIndex={1} top="1rem" left="1rem">
+		<Flex position="fixed" zIndex={1} top="2rem" left="2rem">
+
 			<Menu autoSelect={false}>
-				<MenuButton as={IconButton} colorScheme="pink"
-					aria-label="Options" _focus={{ boxShadow: "none" }}
-					icon={<FiMenu />} />
+				<MenuButton as={IconButton} colorScheme="pink" icon={<FiMenu />}
+					aria-label="Menu hamburgur button"
+					_focus={{ boxShadow: "none" }} />
 
 				<MenuList>
 					<MenuGroup title="Profile">
-						{/* <MenuItem isDisabled> My Account </MenuItem> */}
-						<MenuItem isDisabled> My Files (soon!) </MenuItem>
-						{/* <MenuItem isDisabled> Billing </MenuItem> */}
 						{(() => {
-							if(props.authentication?.loggedIn) {
+							if(props.auth.loggedIn) {
 								return (
-									<MenuItem onClick={logout}>
-										Logout
-									</MenuItem>
+									<>
+										<MenuItem isDisabled>
+											My Files
+										</MenuItem>
+										<MenuItem onClick={logout}>
+											Logout
+										</MenuItem>
+									</>
 								);
 							} else {
 								return (
@@ -120,24 +119,26 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 					</MenuGroup>
 					<MenuDivider />
 					<MenuGroup title="Help">
-						<MenuItem isDisabled> Android App (soon)</MenuItem>
+						<MenuItem isDisabled>
+							Android App (soon)
+						</MenuItem>
 						<MenuItem isDisabled>
 							API Documentation (soon)
 						</MenuItem>
-						<MenuItem isDisabled> FAQ </MenuItem>
 					</MenuGroup>
 				</MenuList>
 			</Menu>
 
-			<Spacer width="1rem" />
+			<Spacer width="2rem" />
 
 			{
 				(()=>{ 
-					if(props.authentication?.loggedIn) {
+					if(props.auth.loggedIn) {
 						return (
-							<Flex alignItems="center" onClick={openAccount}>
-								<Link> { props.authentication.username } </Link>
-								<Spacer width="4" />
+							<Flex alignItems="center" onClick={openUser}>
+								<Link>
+									{ props.auth.user!.username }
+								</Link>
 							</Flex>
 						)
 					} else {
@@ -147,7 +148,7 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 								<Link>Register</Link>
 							</Flex>
 
-							<Spacer width="1rem" />
+							<Spacer />
 
 							<Flex alignItems="center" onClick={openLogin}>
 								<Link>Login</Link>
@@ -157,7 +158,6 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 					} 
 				})()
 			}
-
 
 			<Modal isOpen={isOpen} onClose={onClose} size="md" isCentered>
 				<ModalOverlay />
@@ -172,11 +172,12 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 										<RegisterForm formAction={register} />
 									)
 								} else if (modalMode == "Login") {
-									return ( <LoginForm formAction={login} /> )
-								} else if(modalMode == "Account") {
 									return (
-										<AccountInfo
-											authentication={props.authentication} />
+										<LoginForm formAction={login} />
+										);
+								} else if(modalMode == "User") {
+									return (
+										<UserDisplay auth={props.auth} />
 									)
 								}
 							})()
@@ -187,7 +188,6 @@ export const MainMenu: React.FunctionComponent<Props> = (props) => {
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
-
 		</Flex>
 	)
 };

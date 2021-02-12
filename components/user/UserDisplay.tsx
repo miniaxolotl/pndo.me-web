@@ -3,30 +3,29 @@ import { Stack, InputGroup, InputLeftElement, Input } from '@chakra-ui/react'
 import { FiHexagon, FiUser, FiMail } from 'react-icons/fi'
 
 interface Props {
-	authentication?: AuthenticationState;
+	auth: AuthState;
 };
 
-export const AccountInfo: React.FunctionComponent<Props> = (props) => {
+export const UserDisplay: React.FunctionComponent<Props> = (props) => {
 
 	return (
 		<Stack alignItems="center">
-			{/* <Avatar /> */}
 			<InputGroup>
 				<InputLeftElement pointerEvents="none" 
       				children={<FiHexagon />}/>
-				<Input size="md" value={props.authentication?.user_id!}
+				<Input size="md" value={props.auth.user!.user_id!}
 					variant="flushed" name="email" disabled/>
 			</InputGroup>
 			<InputGroup>
 				<InputLeftElement pointerEvents="none"
       				children={<FiMail />}/>
-				<Input size="md" value={props.authentication?.email!}
+				<Input size="md" value={props.auth.user!.email!}
 					variant="flushed" name="email" disabled/>
 			</InputGroup>
 			<InputGroup>
 				<InputLeftElement pointerEvents="none" 
       				children={<FiUser />}/>
-				<Input size="md" value={props.authentication?.username!}
+				<Input size="md" value={props.auth.user!.username}
 					variant="flushed" name="email" disabled/>
 			</InputGroup>
 		</Stack>

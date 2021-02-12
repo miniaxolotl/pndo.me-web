@@ -1,7 +1,6 @@
-import { Stack, InputRightElement,
-	Button, InputGroup,
-	FormControl, Input } from '@chakra-ui/react'
-import React, { SyntheticEvent } from 'react'
+import { Stack, InputRightElement, Button, InputGroup, FormControl,
+	Input } from '@chakra-ui/react'
+import { useState, SyntheticEvent } from 'react'
 
 interface Props {
 	formAction: (event: SyntheticEvent<HTMLFormElement>) => any
@@ -9,11 +8,20 @@ interface Props {
 
 export const RegisterForm: React.FunctionComponent<Props> = (props) => {
 
-	const [show, setShow] = React.useState(false)
-	const handleClick = () => setShow(!show)
+	const [show, setShow] = useState(false);
+	const [, setError] = useState(null);
+	const handleClick = () => setShow(!show);
+	
+
+	const send = async (event: SyntheticEvent<HTMLFormElement>) => {
+		const res = await props.formAction(event);
+		
+		if(res && res.status)
+			setError(JSON.parse(res.data));
+	};
 
 	return (
-		<form onSubmit={props.formAction}>
+		<form onSubmit={send}>
 			<Stack>
 				<FormControl isRequired>
 					<Input size="md" placeholder="Email" variant="flushed"

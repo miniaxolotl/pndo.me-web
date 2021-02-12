@@ -10,11 +10,21 @@ interface Props {
 
 export const LoginForm: React.FunctionComponent<Props> = (props) => {
 
-	const [show, setShow] = useState(false)
+	const [show, setShow] = useState(false);
+	const [, setError] = useState("")
 	const handleClick = () => setShow(!show)
 
+	const send = async (event: SyntheticEvent<HTMLFormElement>) => {
+		const res = await props.formAction(event);
+		console.log(res);
+		
+		if(res && res.status)
+			setError(JSON.parse(res.data));
+	};
+
+
 	return (
-		<form onSubmit={props.formAction}>
+		<form onSubmit={send}>
 			<Stack>
 				<FormControl isRequired>
 					<Input size="md" placeholder="Email"

@@ -10,7 +10,7 @@ export const registerRequest = async (form: HTMLFormElement) => {
 	};
 
 	const reqData
-		= new Promise<AuthenticationResponce | null>(async (resolve) => {
+		= new Promise<any>(async (resolve) => {
 			
 		await fetch(`${config.server}/auth/register`, {
 			method: 'post',
@@ -21,9 +21,9 @@ export const registerRequest = async (form: HTMLFormElement) => {
 		}).then(async (res) => {
 			const data = await res.text();
 			if(res.status == 200) {
-				resolve(JSON.parse(data));
+				resolve({ status: null, data: JSON.parse(data)});
 			} else {
-				resolve(null);
+				resolve({ status: res.status, data});
 			}
 		});
 	});
@@ -38,7 +38,7 @@ export const logInRequest = async (form: HTMLFormElement) => {
 	};
 	
 	const reqData
-		= new Promise<AuthenticationResponce | null>(async (resolve) => {
+		= new Promise<any>(async (resolve) => {
 
 		await fetch(`${config.server}/auth/login`, {
 			method: 'post',
@@ -49,9 +49,9 @@ export const logInRequest = async (form: HTMLFormElement) => {
 		}).then(async (res) => {
 			const data = await res.text();
 			if(res.status == 200) {
-				resolve(JSON.parse(data));
+				resolve({ status: null, data: JSON.parse(data)});
 			} else {
-				resolve(null);
+				resolve({ status: res.status, data});
 			}
 		});
 	});
