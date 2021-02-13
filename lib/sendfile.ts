@@ -8,9 +8,9 @@ export const sendFile = (file: File, key: string,
 	formData.set("protected", flags.protected.toString());
 
 	const request = new XMLHttpRequest();
-	request.open('post', `${config.server}/api/file`);
+	request.open('post', `${config.server}/f`);
 	request.setRequestHeader('Authorization', `Bearer ${key}`);
-
+	
 	const initiated = new Date().getTime();
 	const reqData = new Promise<any>(async (resolve) => {
 		request.upload.addEventListener('progress', (progress) => {

@@ -2,7 +2,7 @@ import config from '../res/config.json';
 
 export const prefetchFile = async (file_id: string, key: string | null) => {
 	const data = new Promise<FileData | null>(async (resolve) => {
-		await fetch(`${config.server_alt}/info/${file_id}`, {
+		await fetch(`${config.server_alt}/i/${file_id}`, {
 			method: 'get',
 			headers: {
 				Authorization: `Bearer ${key}`
@@ -23,7 +23,7 @@ export const prefetchFile = async (file_id: string, key: string | null) => {
 
 export const getFile = async (file_id: string, key: string | null) => {
 	const data = new Promise<FileData | null>(async (resolve) => {
-		await fetch(`${config.server}/info/${file_id}`, {
+		await fetch(`${config.server}/i/${file_id}`, {
 			method: 'get',
 			headers: {
 				Authorization: `Bearer ${key}`
@@ -44,7 +44,7 @@ export const getFile = async (file_id: string, key: string | null) => {
 export const previewFile = async (file: FileData, key: string | null,
 	dl: boolean) => {
 
-	const url = `${config.server}/stream/${file.file_id}`;
+	const url = `${config.server}/s/${file.file_id}`;
 	const data = new Promise<any>(async (resolve) => {
 		await fetch(url, {
 			method: 'get',
@@ -72,7 +72,7 @@ export const previewFile = async (file: FileData, key: string | null,
 
 export const downloadFile = async (file: FileData, key: string | null) => {
 	const data = new Promise<HTMLAnchorElement | null>(async (resolve) => {
-		await fetch(`${config.server}/file/${file.file_id}`, {
+		await fetch(`${config.server}/f/${file.file_id}`, {
 			method: 'get',
 			headers: {
 				Authorization: `Bearer ${key}`
