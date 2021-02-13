@@ -7,7 +7,7 @@ export const Hero
 	  pb="4vh" >
 
 		<Link href={`/`} textAlign="center">
-			<Heading fontSize="6xl">{ props.title }</Heading>
+			<Heading fontSize="6xl" >{ props.title }</Heading>
 		</Link>
 			<Text fontSize="sm">{ props.subtitle } </Text>
   	</Flex>

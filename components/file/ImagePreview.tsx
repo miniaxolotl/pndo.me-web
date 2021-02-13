@@ -6,6 +6,6 @@ interface Props {
 
 export const ImagePreview: React.FunctionComponent<Props> = (props) => {
 	return (
-		<Image src={props.uri} height="40vh" borderRadius="lg" />
+		<Image src={props.uri} height="30vh" borderRadius="lg" />
 	)
 }

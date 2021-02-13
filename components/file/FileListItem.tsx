@@ -63,7 +63,7 @@ export const FileListItem: React.FunctionComponent<props> = (props) => {
 					</Link>
 				</Flex>
 
-				<Flex gridGap={2} wrap="wrap" width="100%" overflow="hidden">
+				<Flex gridGap={2} wrap="wrap" justifyContent="flex-start" width="100%" overflow="hidden">
 
 					{
 						(() => {
@@ -90,15 +90,19 @@ export const FileListItem: React.FunctionComponent<props> = (props) => {
 								props.hostname+"/file/"+props.filedata.file_id
 							} />
 					</Fade>
-					<Tag> { props.filedata.type } </Tag>
-					<Tag> { filesize(props.filedata.bytes).human("si") } </Tag>
+					<Tag colorScheme="purple"> { props.filedata.type } </Tag>
+					<Tag colorScheme="purple">
+						{ filesize(props.filedata.bytes).human("si") }
+					</Tag>
 					<Tag colorScheme={props.filedata.protected
 						? "green" : "red"}>
 						{ props.filedata.protected ? "private" : "public" } 
 					</Tag>
 
 					{ props.filedata.expire_date ?
-						<Tag> props.filedata.expire_date </Tag> : null  }
+						<Tag colorScheme="purple">
+							{ props.filedata.expire_date }
+						</Tag> : null  }
 						
 					{/* <Tag colorScheme={props.filedata.hidden ? "green" : "red"}>
 						{ props.filedata.hidden ? "unlisted" : "listed" } 

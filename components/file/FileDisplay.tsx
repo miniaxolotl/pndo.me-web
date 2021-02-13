@@ -1,4 +1,4 @@
-import { Badge, Button, Fade, Flex, Heading, Input, Spacer, Spinner, Tag, TagLabel } from "@chakra-ui/react"
+import { Badge, Button, Fade, Flex, Heading, Input, Spinner, Tag, TagLabel } from "@chakra-ui/react"
 import filesize from "file-size"
 import { useState } from "react";
 import { downloadFile } from "../../lib/getfile";
@@ -7,12 +7,14 @@ import { ImagePreview } from "./ImagePreview";
 interface Props {
 	file: FileData;
 	uri: string | null;
+	hostname: string;
 	bearer: string | null;
 };
 
 export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 
-	const [opacity, useOpacity] = useState(1);
+	const [opacitySha, useOpacitySha] = useState(1);
+	const [opacityLink, useOpacityLink] = useState(1);
 
 	const date = new Date(props.file.create_date);
 	const year = date.getUTCFullYear();
@@ -24,16 +26,25 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 		? "0" + date.getUTCDay() : date.getUTCDay();
 	const create_date = `${year}-${month}-${day}`
 
-	const copyFunc = (e: any) => {
+	const copyFuncSha = (e: any) => {
 		e.target.select();
 		document.execCommand("copy");
 
-		const tmp = e.target.value;
-		useOpacity(0);
+		useOpacitySha(0);
 		
 		setTimeout(() => {
-			useOpacity(1);
-			e.target.value = tmp;
+			useOpacitySha(1);
+		}, 500);
+	};
+
+	const copyFuncLink = (e: any) => {
+		e.target.select();
+		document.execCommand("copy");
+
+		useOpacityLink(0);
+		
+		setTimeout(() => {
+			useOpacityLink(1);
 		}, 500);
 	};
 
@@ -45,11 +56,14 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 	const media = props.file.type.includes("image");
 	// const video = props.file.type.includes("video") && !props.file.protected;
 
+	const direct_link = `files.${props.hostname}/file/${props.file.file_id}` 
+
 	return (
 		<Flex justifyContent="center" alignItems="center" direction="column"
 			pb="2.5vh" pt="1vh">
 
-			<Heading fontSize="2xl" color="grey" mb="2rem">
+			<Heading fontSize="2xl" color="grey" mb="2rem" textAlign="center"
+				width="80%">
 				{props.file.filename}
 			</Heading>
 			
@@ -74,29 +88,26 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 				})()
 			}
 
-			<Flex marginY="0.25rem" mt="2rem" wrap="wrap">
+			<Flex marginY="0.25rem" mt="2rem" gridGap={2} wrap="wrap"
+				justifyContent="center">
+					
 				<Tag colorScheme="cyan" borderRadius="full" >
 					{ props.file.type }
 				</Tag>
-				<Spacer width="1rem" />
 				<Tag  colorScheme="cyan" borderRadius="full">
 					{ filesize(props.file.bytes).human("si") }
 				</Tag>
-				<Spacer width="1rem" />
 				<Tag colorScheme="cyan" borderRadius="full">
 					{ create_date }
 				</Tag>
-				<Spacer width="1rem" />
 				<Tag borderRadius="full">
 					<Badge colorScheme="cyan" borderRadius="full"> { props.file.downloads } </Badge>
 					<TagLabel> downloads </TagLabel>
 				</Tag>
-				<Spacer width="1rem" />
 				<Tag borderRadius="full">
 					<Badge colorScheme="cyan" borderRadius="full"> { props.file.views } </Badge>
 					<TagLabel> views </TagLabel>
 				</Tag>
-				<Spacer width="1rem" />
 				<Tag colorScheme={props.file.protected
 					? "green" : "red"} borderRadius="full">
 					{ props.file.protected ? "private" : "public" } 
@@ -104,14 +115,26 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 			</Flex>
 			<Flex marginY="0.25rem">
 				<Tag borderRadius="full" paddingLeft="0" >
-					<Fade animate={{ opacity }}
+					<Fade animate={{ opacity: opacitySha }}
 						transition={{ duration: 0.5, ease: "easeIn" }} >
 
 						<Input borderRadius="full" type="text" size="xs"
 							value={props.file.sha256} variant="filled"
-							onClick={copyFunc} readOnly />
+							onClick={copyFuncSha} readOnly />
 					</Fade>
 					sha256
+				</Tag>
+			</Flex>
+			<Flex marginY="0.25rem">
+				<Tag borderRadius="full" paddingLeft="0" >
+					<Fade animate={{ opacity: opacityLink }}
+						transition={{ duration: 0.5, ease: "easeIn" }} >
+
+						<Input borderRadius="full" type="text" size="xs"
+							value={direct_link} variant="filled"
+							onClick={copyFuncLink} readOnly />
+					</Fade>
+					direct link
 				</Tag>
 			</Flex>
 

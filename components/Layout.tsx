@@ -15,7 +15,7 @@ interface Props {
 export const Layout: NextPage<Props> = (props) => {
 
 	return(
-		<Container minHeight="100vh" height="100%" direction="column"
+		<Container minHeight="100vh" height="100%" direction="column" overflowX="hidden"
 			paddingBottom="4rem">
 			
 			<MenuDialog auth={props.auth} />
