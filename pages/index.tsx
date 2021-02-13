@@ -6,7 +6,6 @@ import { State } from 'zustand';
 
 import { Hero } from '../components/Hero';
 import { Container } from '../components/Container'
-import { Layout } from '../components/Layout'
 import { Main } from '../components/Main';
 import { UploadTool } from '../components/upload/UploadTool';
 import { FileList } from '../components/file/FileList';
@@ -15,6 +14,7 @@ import { authStore } from '../store/auth';
 import { historyStore } from '../store/history';
 import { optionStore } from '../store/option';
 import { HistoryAction } from '../types';
+import { DragDropLayout } from '../components/DragDropLayout';
 
 interface Props {
 	auth: AuthState & State;
@@ -50,8 +50,8 @@ const IndexPage: NextPage<Props> = (props) => {
 	};
 	
 	return (
-		<Layout {...state}>
-			<Container direction="column" width="90vw" minHeight="40vh"
+		<DragDropLayout {...state} >
+			<Container direction="column" width="90vw" minHeight="30vh"
 				justifyContent="flex-end" alignItems="center">
 
 				<Hero title="p(a)ndo.me" subtitle="max 1GB upload"
@@ -67,7 +67,7 @@ const IndexPage: NextPage<Props> = (props) => {
 									hostname={props.hostname} />
 
 			</Main>
-		</Layout>
+		</DragDropLayout>
 	);
 };
 

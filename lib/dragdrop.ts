@@ -32,8 +32,6 @@ export const drop = (event: SyntheticEvent<HTMLDivElement>) => {
 	event.preventDefault();
 	event.stopPropagation();
 
-	console.log("hello world!");
-
 	// const screen = document.getElementById("screen") as HTMLDivElement;
 	// screen.classList.add("display-hidden");
 };
