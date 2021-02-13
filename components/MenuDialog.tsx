@@ -45,6 +45,10 @@ export const MenuDialog: React.FunctionComponent<Props> = (props) => {
 		event.preventDefault();
 		event.stopPropagation();
 
+		dispatchOptions({
+			...{ protected: false },
+			type: OptionAction.SET
+		});
 		dispatchAuth({
 			type: AuthAction.LOGOUT
 		});

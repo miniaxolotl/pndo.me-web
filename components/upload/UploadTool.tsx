@@ -140,7 +140,7 @@ export const UploadTool: React.FunctionComponent<Props> = (props) => {
 						onClick={toggleProtected}
 						borderRadius="100%"
 						colorScheme={
-							props.options.protected ? "gray" : "red"
+							props.options.protected && props.auth.loggedIn ? "gray" : "red"
 						}
 						aria-label="Toggle file protecton"
 						_focus={{
