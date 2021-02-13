@@ -22,8 +22,8 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 		= (date.getUTCMonth() + 1) < 10 
 		? "0" + (date.getUTCMonth() + 1) : (date.getUTCMonth() + 1);
 	const day
-		= (date.getUTCDate() + 1) < 10 
-		? "0" + (date.getUTCDate() + 1) : (date.getUTCDate() + 1);
+		= date.getUTCDate() < 10 
+		? "0" + date.getUTCDate() : date.getUTCDate();
 	const create_date = `${year}-${month}-${day}`
 
 	const copyFuncSha = (e: any) => {
