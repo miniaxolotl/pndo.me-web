@@ -10,8 +10,9 @@ import { LoginForm } from './form/LoginForm'
 import React, { SyntheticEvent } from 'react';
 import { RegisterForm } from './form/RegisterForm';
 import { UserDisplay } from './user/UserDisplay';
-import { AuthAction } from '../types';
+import { AuthAction, OptionAction } from '../types';
 import { logInRequest, registerRequest } from '../lib/authentication';
+import { optionStore } from '../store/option';
 
 interface Props {
 	auth: AuthState;
@@ -23,6 +24,7 @@ export const MenuDialog: React.FunctionComponent<Props> = (props) => {
 	const [modalMode, setModalMode] = React.useState("Login");
 
 	const dispatchAuth = authStore(state => state.dispatch);
+	const dispatchOptions = optionStore(state => state.dispatch);
 	
 	const openRegister = () => {
 		setModalMode("Register");
@@ -55,6 +57,11 @@ export const MenuDialog: React.FunctionComponent<Props> = (props) => {
 		const res = await logInRequest(event.target as HTMLFormElement);
 
 		if(!res.status) {
+			dispatchOptions({
+				...{ protected: true },
+				type: OptionAction.SET
+			});
+
 			const data = res.data;
 			dispatchAuth({
 				...{user: data.payload, key: data.authorization},

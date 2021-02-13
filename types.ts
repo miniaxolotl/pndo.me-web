@@ -3,6 +3,16 @@ export enum AuthAction {
 	LOGOUT,
 };
 
-export enum RootAction {
-	AUTH,
+export enum OptionAction {
+	TOGGLE_PROTECTED,
+	TOGGLE_HIDDEN,
+	SET,
 };
+
+export enum HistoryAction {
+	ADD,
+	DELETE,
+	PROGRESS,
+	CLEAR,
+	CLEAN
+}
