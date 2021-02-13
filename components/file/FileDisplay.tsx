@@ -56,7 +56,8 @@ export const FileDisplay: React.FunctionComponent<Props> = (props) => {
 	const media = props.file.type.includes("image");
 	// const video = props.file.type.includes("video") && !props.file.protected;
 
-	const direct_link = `files.${props.hostname}/f/${props.file.file_id}` 
+	const direct_link
+		= `https://files.${props.hostname}/f/${props.file.file_id}` 
 
 	return (
 		<Flex justifyContent="center" alignItems="center" direction="column"

@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
+import { NextSeoProps } from 'next-seo';
 
 import nookies from 'nookies';
 import { State } from 'zustand';
@@ -49,8 +50,13 @@ const IndexPage: NextPage<Props> = (props) => {
 		},
 	};
 	
+	const seo: NextSeoProps = {
+		title: "pandome",
+		description: "free and private file hosting."
+	};
+
 	return (
-		<DragDropLayout {...state} >
+		<DragDropLayout seo={seo} {...state} >
 			<Container direction="column" width="90vw" minHeight="30vh"
 				justifyContent="flex-end" alignItems="center">
 

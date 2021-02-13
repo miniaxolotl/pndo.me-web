@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import { NextSeoProps } from 'next-seo';
 
 import { Container } from '../../components/Container'
 import { Layout } from '../../components/Layout'
@@ -25,6 +26,7 @@ interface Props {
 	file_id: string;
 	authorized: boolean;
 	file: FileData;
+	seo: NextSeoProps;
 };
 
 const Index: NextPage<Props> = (props) => {
@@ -79,9 +81,8 @@ const Index: NextPage<Props> = (props) => {
 		}, [props.auth]);
 	}
 
-
 	return(
-		<Layout auth={state.auth} >
+		<Layout seo={props.seo} auth={state.auth} >
 			<Container direction="column" width="90vw" minHeight="30vh"
 				justifyContent="flex-end" >
 
@@ -134,7 +135,26 @@ Index.getInitialProps = async (ctx) => {
 
 	const key = props.auth ? props.auth.key : null;
 
-	props.file = await prefetchFile(props.file_id, key);
+	const file = await prefetchFile(props.file_id, key);
+	props.file = file; 
+
+	const link
+		= `http://${props.hostname}/f/${ctx.query.id}`;
+	const direct_link
+		= `http://files.${props.hostname}/f/${ctx.query.id}`;
+
+	const seo: NextSeoProps = {
+		title: props.file ? `pndo.me - ${file!.filename}` : 'pndo.me - file does not exist or you are unauthorized to view it',
+		description: `Free and private file hosting.`,
+		openGraph: {
+			url: link,
+			images: [{
+				url: direct_link,
+			}],
+		},
+	};
+
+	props.seo = seo;
 
 	return props;
 };

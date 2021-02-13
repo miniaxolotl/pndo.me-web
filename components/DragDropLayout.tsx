@@ -1,4 +1,5 @@
-import { NextPage } from 'next'
+import { NextPage } from 'next';
+import { NextSeo, NextSeoProps } from 'next-seo';
 
 import { Box, Icon, Modal, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
 
@@ -12,6 +13,7 @@ import React from 'react';
 
 interface Props {
 	auth: AuthState;
+	seo: NextSeoProps;
 };
 
 export const DragDropLayout: NextPage<Props> = (props) => {
@@ -38,9 +40,17 @@ export const DragDropLayout: NextPage<Props> = (props) => {
 		
 	};
 
+	const seo = props.seo;
+
 	return(
 		<Container minHeight="100vh" height="100%" direction="column" overflowX="hidden" onDragEnter={dragInF} onDragOver={dragInF}
 			paddingBottom="4rem">
+
+			<NextSeo
+				title={seo.title}
+				description={seo.description}
+				openGraph={seo.openGraph}
+				twitter={seo.twitter} />
 
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay onDragEnter={dragInF} onDragOver={dragInF}

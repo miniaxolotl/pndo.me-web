@@ -87,7 +87,7 @@ export const FileListItem: React.FunctionComponent<props> = (props) => {
 						<Input borderRadius="full" type="text" size="xs" 
 							readOnly onClick={copyFunc} variant="filled"
 							value={
-								props.hostname+"/file/"+props.filedata.file_id
+								"https://"+props.hostname+"/file/"+props.filedata.file_id
 							} />
 					</Fade>
 					<Tag colorScheme="purple"> { props.filedata.type } </Tag>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import nookies from 'nookies';
 import { State } from 'zustand';
+import { NextSeoProps } from 'next-seo';
 
 import { Hero } from '../components/Hero';
 import { Container } from '../components/Container'
@@ -53,9 +54,14 @@ const Error404: NextPage<Props> = (props) => {
 			...historyStore((state: HistoryState) => (state)),
 		},
 	};
+
+	const seo: NextSeoProps = {
+		title: "pandome - page not found",
+		description: "free and private file hosting."
+	};
 	
 	return (
-		<Layout {...state}>
+		<Layout seo={seo} {...state}>
 			<Container direction="column" width="90vw" minHeight="30vh"
 				justifyContent="flex-end" alignItems="center">
 
