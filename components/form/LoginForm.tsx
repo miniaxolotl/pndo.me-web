@@ -1,6 +1,6 @@
 import { Stack, InputRightElement,
 	Button, InputGroup,
-	FormControl, Input } from '@chakra-ui/react'
+	FormControl, Input, Text } from '@chakra-ui/react'
 import { SyntheticEvent } from 'react'
 import { useState } from 'react'
 
@@ -11,15 +11,17 @@ interface Props {
 export const LoginForm: React.FunctionComponent<Props> = (props) => {
 
 	const [show, setShow] = useState(false);
-	const [, setError] = useState("")
+	const [error, setError] = useState("")
 	const handleClick = () => setShow(!show)
 
 	const send = async (event: SyntheticEvent<HTMLFormElement>) => {
 		const res = await props.formAction(event);
 		console.log(res);
 		
-		if(res && res.status)
-			setError(JSON.parse(res.data));
+		if(res && res.status == 400) {
+			// setError(JSON.parse(res.data));
+			setError(res.data);
+		}
 	};
 
 
@@ -41,6 +43,9 @@ export const LoginForm: React.FunctionComponent<Props> = (props) => {
 							</Button>
 						</InputRightElement>
 					</InputGroup>
+					<Text color="red.400">
+						{ error ? "invalid email or password" : null}
+					</Text>
 				</FormControl>
 				<Button type="submit" value="submit" >
 					Login

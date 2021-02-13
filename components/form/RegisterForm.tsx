@@ -1,5 +1,6 @@
 import { Stack, InputRightElement, Button, InputGroup, FormControl,
-	Input } from '@chakra-ui/react'
+	Input, 
+	Text} from '@chakra-ui/react'
 import { useState, SyntheticEvent } from 'react'
 
 interface Props {
@@ -9,15 +10,18 @@ interface Props {
 export const RegisterForm: React.FunctionComponent<Props> = (props) => {
 
 	const [show, setShow] = useState(false);
-	const [, setError] = useState(null);
+	const [error, setError] = useState(null);
 	const handleClick = () => setShow(!show);
 	
 
 	const send = async (event: SyntheticEvent<HTMLFormElement>) => {
 		const res = await props.formAction(event);
+		console.log(res);
 		
-		if(res && res.status)
-			setError(JSON.parse(res.data));
+		if(res && res.status == 400){
+			// setError(JSON.parse(res.data));
+			setError(res.data);
+		}
 	};
 
 	return (
@@ -44,6 +48,9 @@ export const RegisterForm: React.FunctionComponent<Props> = (props) => {
 							</Button>
 						</InputRightElement>
 					</InputGroup>
+					<Text color="red.400">
+						{ error ? error : null}
+					</Text>
 				</FormControl>
 				<Button type="submit" value="submit">
 					Register

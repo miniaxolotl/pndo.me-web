@@ -14,7 +14,17 @@ export const sendFile = (file: File, key: string,
 	const initiated = new Date().getTime();
 	const reqData = new Promise<any>(async (resolve) => {
 		request.upload.addEventListener('progress', (progress) => {
-			progressFunc({progress, file, initiated});
+			if(file) {
+				progressFunc({progress, file, initiated});
+			} else {
+				resolve({
+					filename: "file read error",
+					file_id: initiated,
+					inProgress: false,
+					progress: -1,
+					initiated,
+				});
+			}
 		});
 		
 		request.addEventListener('load', async (_event) => {
@@ -37,13 +47,23 @@ export const sendFile = (file: File, key: string,
 		});		
 		
 		request.addEventListener('error', async () => {
-			resolve({
-				filename: file.name,
-				file_id: initiated,
-				inProgress: false,
-				progress: -1,
-				initiated,
-			});
+			if(file) {
+				resolve({
+					filename: file.name,
+					file_id: initiated,
+					inProgress: false,
+					progress: -1,
+					initiated,
+				});
+			} else {
+				resolve({
+					filename: "file read error",
+					file_id: initiated,
+					inProgress: false,
+					progress: -1,
+					initiated,
+				});
+			}
 		});
 	});
 

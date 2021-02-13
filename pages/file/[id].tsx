@@ -59,47 +59,54 @@ const Index: NextPage<Props> = (props) => {
 	const bearer
 		= props.auth ? props.auth.key : null;
 
-	const media = props.file.type.includes("image");
-	const video = props.file.type.includes("video") && !props.file.protected;
+	if(file) {
+		const media = props.file.type.includes("image");
+		const video = props.file.type.includes("video") && !props.file.protected;
 
-	useEffect(() => {
-		if(first) {
-			(async () => {
-				useFile(await getFile(props.file_id, bearer));
-				if(media) {
-					useURI((await previewFile(props.file, bearer,
-						media || video)).uri);
-				} else if (video) {
-					useURI((await previewFile(props.file, bearer,
-						!(media || video))).url);
-				}
-			})()
-		}
-	}, [props.auth]);
+		useEffect(() => {
+			if(first) {
+				(async () => {
+					useFile(await getFile(props.file_id, bearer));
+					if(media) {
+						useURI((await previewFile(props.file, bearer,
+							media || video)).uri);
+					} else if (video) {
+						useURI((await previewFile(props.file, bearer,
+							!(media || video))).url);
+					}
+				})()
+			}
+		}, [props.auth]);
+	}
 
 
 	return(
 		<Layout auth={state.auth} >
-			<Container direction="column" width="90vw" minHeight="20vh"
-				justifyContent="flex-end" alignItems="center">
+			<Container direction="column" width="90vw" minHeight="30vh"
+				justifyContent="flex-end" >
+
+				<Hero title="p(a)ndo.me" hostname={props.hostname} />
 			</Container>
-			<Hero title="pandome" hostname={props.hostname} />
+
 			{
 				(() => {
 					if(file) {
 						return(
-							<FileDisplay file={file} bearer={bearer}
+							<FileDisplay file={file} bearer={bearer} hostname={props.hostname}
 							uri={uri} />
 						);
 					} else {
 						return(
 							<Heading fontSize="2xl" color="grey">
-								{props.file.filename}
+								<Container>
+									<Heading> this file does not exist or you do not have access to it! </Heading>
+								</Container>
 							</Heading>
 						);
 					}
 				})()
 			}
+			
 		</Layout>
 	)
 };
