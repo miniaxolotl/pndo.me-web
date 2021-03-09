@@ -1,9 +1,9 @@
 .background {
-	background-color: #16161D;
+	background-color: #16161D !important;
 }
 
 .backgroundLight {
-	background-color: white;
+	background-color: white !important;
 }
 
 .label {

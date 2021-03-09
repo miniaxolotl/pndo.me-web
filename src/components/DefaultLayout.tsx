@@ -23,7 +23,7 @@ export const DefaultLayout: React.FunctionComponent<Props> = (_props: Props) => 
 		<Flex minHeight="100vh" height="100%">
 			<Flex position='fixed' minHeight="100vh" minWidth="100vw" width="100%" height="100%"
 				className={colorMode === 'dark' ? style.background : style.backgroundLight} />
-			<Container minHeight="100vh" height="100%" direction="column" justify='center'>
+			<Container minHeight="100vh" height="100%" direction="column" justify='center' className={style.container}>
 				<Box {..._props} />
 				<SeoHead seo={_props.seo} />
 				<DarkModeButton />
