@@ -24,8 +24,14 @@
 	"type": "image\/png"
 	},
 	{
-	"src": "\/img\/maskable_icon_x384.png",
-	"sizes": "384x384",
+	"src": "\/img\/maskable_icon_x512.png",
+	"sizes": "512x512",
+	"type": "image\/png",
+	"purpose": "maskable"
+	},
+	{
+	"src": "\/img\/maskable_icon_x800.png",
+	"sizes": "800x800",
 	"type": "image\/png",
 	"purpose": "maskable"
 	}
@@ -34,14 +40,5 @@
 "background_color": "#16161D",
 "display": "standalone",
 "scope": "/",
-"theme_color": "#16161D",
-"shortcuts": [
-	{
-		"name": "Home page",
-		"short_name": "Home",
-		"description": "View home page",
-		"url": "/",
-		"icons": [{ "src": "/images/today.png", "sizes": "192x192" }]
-	}
-]
+"theme_color": "#16161D"
 }
