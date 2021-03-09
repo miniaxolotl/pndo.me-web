@@ -20,6 +20,7 @@
 		"@emotion/react": "^11.1.5",
 		"@emotion/styled": "^11.1.5",
 		"framer-motion": "3.6.7",
+		"joi": "^17.4.0",
 		"next": "latest",
 		"next-pwa": "^5.0.6",
 		"next-seo": "^4.20.0",
