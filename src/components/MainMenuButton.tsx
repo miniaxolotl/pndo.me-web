@@ -1,5 +1,5 @@
-import { FiMenu } from 'react-icons/fi';
-import { Flex, IconButton, Link, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer, useColorMode } from '@chakra-ui/react';
+import { FiLogIn, FiLogOut, FiMenu, FiUserPlus } from 'react-icons/fi';
+import { Flex, Icon, IconButton, Link, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer, useColorMode } from '@chakra-ui/react';
 
 import style from './MainMenuButton.module.css';
 
@@ -32,30 +32,31 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 				</MenuList>
 			</Menu>
 			
-			<Spacer width="1rem" />
+			<Spacer width="0.5rem" />
 			
 			<Flex alignItems="center">
 				{(() => {
 					if(_props.auth.loggedIn) {
 						return (
 							<Flex>
-								<Link> { _props.auth.username } </Link>
-								<Spacer width="4" />
+								<Link> { _props.auth.username } <Icon mx="1px" as={FiUserPlus} /> </Link>
+								<Spacer width="0.5rem" />
+								<Link> Logout <Icon mx="1px" as={FiLogOut} /> </Link>
 							</Flex>
 						);
 					} else {
 						return (
 							<Flex>
-								<Link> Register </Link>
-								<Spacer width="4" />
-								<Link> Login </Link>
+								<Link> Register <Icon mx="1px" as={FiUserPlus} /> </Link>
+								<Spacer width="0.5rem" />
+								<Link> Login <Icon mx="1px" as={FiLogIn} /> </Link>
 							</Flex>
 						);
 					}
 				})()}
 			</Flex>
 
-			<Spacer width="1rem" />
+			<Spacer width="0.5rem" />
 		</Flex>
 	);
 };

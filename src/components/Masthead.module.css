@@ -1,0 +1,11 @@
+.masthead {
+	padding-top: 20vh;
+}
+
+.heading {
+	text-shadow: 0.125rem 0.125rem 0.5rem #16161D;
+}
+
+.image {
+	filter: drop-shadow(0.125rem 0.125rem 0.5rem #16161D);
+}

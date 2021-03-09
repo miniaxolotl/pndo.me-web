@@ -1,6 +1,8 @@
+import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
 
 import { DefaultLayout } from '../components/DefaultLayout';
+import { Masthead } from '../components/Masthead';
 import { createAllStore, useAuth } from '../lib/store/store';
 
 interface Props { }
@@ -9,7 +11,10 @@ const Index: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
 
 	return(
-		<DefaultLayout auth={auth}>
+		<DefaultLayout auth={auth} >
+			<Box align='center' >
+				<Masthead />
+			</Box>
 		</DefaultLayout>
 	);
 };
@@ -19,7 +24,7 @@ export const getServerSideProps = async (_context: any) => {
 	return {
 		props: { 
 			state: {
-				count: JSON.stringify(store.upload_option.getState()),
+				upload_option: JSON.stringify(store.upload_option.getState()),
 				auth: JSON.stringify(store.auth.getState())
 			}
 		}
