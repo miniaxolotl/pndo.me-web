@@ -11,7 +11,7 @@ export const Masthead: NextPage<Props> = (_props: Props) => {
 		<Box className={style.masthead}>
 			<Heading as="h1" size='4xl' alignContent='center' justifyContent='center' className={style.heading}>
 				pndo.me
-				<Img src="/logo.svg" height='6rem' className={style.image} />
+				<Img src="/logo.svg" height='6rem' className={style.image} alt="pndo.me logo" />
 			</Heading>
 		</Box>
 	);

@@ -26,8 +26,8 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					<MenuDivider />
 					<MenuGroup title="Help"
 						className={colorMode === 'dark' ? style.label : style.labelLight}>
-						<MenuItem isDisabled> Android App (soon) </MenuItem>
-						<MenuItem isDisabled> API Documentation (soon) </MenuItem>
+						<MenuItem about='Open android app' isDisabled> Android App (soon) </MenuItem>
+						<MenuItem about='View documentation' isDisabled> API Documentation (soon) </MenuItem>
 					</MenuGroup>
 				</MenuList>
 			</Menu>
@@ -47,9 +47,9 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					} else {
 						return (
 							<Flex>
-								<Link> Register <Icon mx="1px" as={FiUserPlus} /> </Link>
+								<Link href='/'> Register <Icon mx="1px" as={FiUserPlus} /> </Link>
 								<Spacer width="0.5rem" />
-								<Link> Login <Icon mx="1px" as={FiLogIn} /> </Link>
+								<Link href='/'> Login <Icon mx="1px" as={FiLogIn} /> </Link>
 							</Flex>
 						);
 					}
