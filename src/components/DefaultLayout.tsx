@@ -9,12 +9,12 @@ interface Props {
 	seo?: NextSeoProps;
 }
 
-export const DefaultLayout: NextPage<Props> = (props: Props) => {
+export const DefaultLayout: NextPage<Props> = (_props: Props) => {
 	return(
 		<Container minHeight="100vh" height="100%" direction="column">
 			<SeoHead />
 			<DarkModeButton />
-			<Box {...props} />
+			<Box {..._props} />
 		</Container>
 	);
 };

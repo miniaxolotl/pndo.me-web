@@ -5,7 +5,7 @@ interface Props {
 	seo?: NextSeoProps;
 }
 
-export const SeoHead: NextPage<Props> = (props: Props) => {
+export const SeoHead: NextPage<Props> = (_props: Props) => {
 	const seo = {
 		title: 'pndo.me',
 		description: 'private file hosting service',
@@ -15,7 +15,7 @@ export const SeoHead: NextPage<Props> = (props: Props) => {
 		twitter: {
 
 		},
-		...props.seo
+		..._props.seo
 	};
 
 	return(
