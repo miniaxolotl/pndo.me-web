@@ -7,8 +7,13 @@ import { cookieStorage } from '../../data/cookie.storage';
 
 const defaultState: AuthState & State = {
 	dispatch: (_args) => _args,
+	authorization: null,
 	loggedIn: false,
-	user: null
+	user_id: '',
+	email: '',
+	username: '',
+	admin: false,
+	banned: false
 };
 
 const reducer = (state = defaultState, { type }): any => {

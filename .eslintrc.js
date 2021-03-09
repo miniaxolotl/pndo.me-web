@@ -20,6 +20,7 @@ module.exports = {
 	},
 	'rules': {
 		'react/react-in-jsx-scope': 'off',
+		'react/jsx-filename-extension': [ 'error', { 'extensions': [ '.ts', '.tsx' ] } ],
 		'react/display-name': 'error',
 		'react/prop-types': 'error',
 		'indent': [ 'error', 'tab' ],

@@ -1,21 +1,24 @@
 import { MoonIcon } from '@chakra-ui/icons';
 import { IconButton, useColorMode } from '@chakra-ui/react';
 
+import style from './MainMenuButton.module.css';
+
 export const DarkModeButton = (): JSX.Element => {
-	const { toggleColorMode } = useColorMode();
+	const { colorMode, toggleColorMode } = useColorMode();
 
 	return (
 		<IconButton
+			icon={<MoonIcon />}
+			onClick={toggleColorMode}
+			className={colorMode === 'dark' ? style.background : style.backgroundLight}
+			shadow='dark-lg'
 			aria-label="Search database"
 			position="fixed"
-			top="1rem"
-			right="1rem"
-			variant="ghost"
+			top="2rem"
+			right="2rem"
 			_focus={{
 				boxShadow: 'none'
 			}}
-			icon={<MoonIcon />}
-			onClick={toggleColorMode}
 		/>
 	);
 };

@@ -1,6 +1,15 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
 
+interface UserData {
+	user_id: string;
+	email: string;
+	username: string;
+	password?: string;
+	admin: boolean;
+	banned: boolean;
+}
+
 interface BaseState {
 	dispatch: (action: { type: any }) => any;
 }
@@ -10,7 +19,7 @@ interface UploadOptionState extends BaseState {
 	hidden: boolean;
 }
 
-interface AuthState extends BaseState {
-	user: Record<string, unknown>;
-	loggedIn: boolean | null;
+interface AuthState extends UserData, BaseState {
+	authorization: string | null;
+	loggedIn: boolean;
 }

@@ -1,13 +1,15 @@
 import { NextPage } from 'next';
 
 import { DefaultLayout } from '../components/DefaultLayout';
-import { createAllStore } from '../lib/store/store';
+import { createAllStore, useAuth } from '../lib/store/store';
 
 interface Props { }
 
 const Index: NextPage<Props> = (_props) => {
+	const auth = useAuth((_state) => _state);
+
 	return(
-		<DefaultLayout>
+		<DefaultLayout auth={auth}>
 		</DefaultLayout>
 	);
 };
