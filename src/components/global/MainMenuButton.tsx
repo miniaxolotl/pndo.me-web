@@ -4,8 +4,8 @@ import { Link as CLink, Flex, Icon, IconButton, Menu, MenuButton, MenuDivider,
 import { FiLogIn, FiLogOut, FiMenu, FiUser, FiUserPlus } from 'react-icons/fi';
 import React, { SyntheticEvent } from 'react';
 
-import { AuthAction } from '../lib/store/store.enum';
-import { useAuth } from '../lib/store/store';
+import { AuthAction } from '../../lib/store/store.enum';
+import { useAuth } from '../../lib/store/store';
 
 import style from './MainMenuButton.module.css';
 
@@ -79,6 +79,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					<MenuDivider />
 					<MenuGroup title="Help"
 						className={colorMode === 'dark' ? style.label : style.labelLight}>
+						<MenuItem about='Open android app' isDisabled> FAQ (soon) </MenuItem>
 						<MenuItem about='Open android app' isDisabled> Android App (soon) </MenuItem>
 						<MenuItem about='View documentation' isDisabled> API Documentation (soon) </MenuItem>
 					</MenuGroup>
@@ -92,7 +93,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					if(_props.auth.loggedIn) {
 						return (
 							<Flex>
-								<CLink as={Link} href='/dashboard' >
+								<CLink as={Link} href='/account' >
 									<a>
 										<Text> { _props.auth.username } <Icon mx="1px" as={FiUser} /> </Text>
 									</a>

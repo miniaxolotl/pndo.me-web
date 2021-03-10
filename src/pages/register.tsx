@@ -3,7 +3,7 @@ import { Box, useToast } from '@chakra-ui/react';
 
 import { AuthAction } from '../lib/store/store.enum';
 import { DefaultLayout } from '../components/DefaultLayout';
-import { Masthead } from '../components/Masthead';
+import { Masthead } from '../components/display/Masthead';
 import { RegisterForm } from '../components/form/RegisterForm';
 import { cookieStorage } from '../lib/data/cookie.storage';
 import { postRegister } from '../lib/net/authenticate';
@@ -50,7 +50,7 @@ const Index: NextPage<Props> = (_props) => {
 	return(
 		<DefaultLayout auth={auth} >
 			<Box align='center' >
-				<Masthead site_name={config.site_name} />
+				<Masthead heading={config.site_name} />
 				<RegisterForm formAction={register} />
 			</Box>
 		</DefaultLayout>

@@ -1,7 +1,7 @@
 import { MoonIcon } from '@chakra-ui/icons';
 import { IconButton, useColorMode } from '@chakra-ui/react';
 
-import style from './MainMenuButton.module.css';
+import style from './DarkModeButton.module.css';
 
 export const DarkModeButton = (): JSX.Element => {
 	const { colorMode, toggleColorMode } = useColorMode();

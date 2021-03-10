@@ -1,12 +1,12 @@
 import { NextSeoProps } from 'next-seo/lib/types';
 
-import { DarkModeButton } from './DarkModeButton';
-import { SeoHead } from './SeoHead';
+import { DarkModeButton } from './global/DarkModeButton';
+import { SeoHead } from './global/SeoHead';
 import { Box, Container, Flex, Icon, Link, Text, useColorMode } from '@chakra-ui/react';
 import { FiExternalLink, FiHeart } from 'react-icons/fi';
 
-import { Footer } from './Footer';
-import { MainMenuButton } from './MainMenuButton';
+import { Footer } from './global/Footer';
+import { MainMenuButton } from './global/MainMenuButton';
 
 import style from './DefaultLayout.module.css';
 

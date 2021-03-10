@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
 
 import { DefaultLayout } from '../components/DefaultLayout';
-import { Masthead } from '../components/Masthead';
+import { Masthead } from '../components/display/Masthead';
 import { cookieStorage } from '../lib/data/cookie.storage';
 import { useAuth } from '../lib/store/store';
 
@@ -16,7 +16,7 @@ const Index: NextPage<Props> = (_props) => {
 	return(
 		<DefaultLayout auth={auth} >
 			<Box align='center' >
-				<Masthead site_name={config.site_name} />
+				<Masthead heading={config.site_name} />
 			</Box>
 		</DefaultLayout>
 	);

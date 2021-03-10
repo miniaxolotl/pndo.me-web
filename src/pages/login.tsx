@@ -4,7 +4,7 @@ import { Box, useToast } from '@chakra-ui/react';
 import { AuthAction } from '../lib/store/store.enum';
 import { DefaultLayout } from '../components/DefaultLayout';
 import { LoginForm } from '../components/form/LoginForm';
-import { Masthead } from '../components/Masthead';
+import { Masthead } from '../components/display/Masthead';
 import { cookieStorage } from '../lib/data/cookie.storage';
 import { postLogin } from '../lib/net/authenticate';
 import { useAuth } from '../lib/store/store';
@@ -50,7 +50,7 @@ const Login: NextPage<Props> = (_props) => {
 	return(
 		<DefaultLayout auth={auth} >
 			<Box align='center' >
-				<Masthead site_name={config.site_name} />
+				<Masthead heading={config.site_name} />
 				<LoginForm formAction={login} />
 			</Box>
 		</DefaultLayout>

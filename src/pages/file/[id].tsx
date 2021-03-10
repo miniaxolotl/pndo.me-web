@@ -3,7 +3,8 @@ import { NextPage } from 'next';
 import { NextSeoProps } from 'next-seo';
 
 import { DefaultLayout } from '../../components/DefaultLayout';
-import { Masthead } from '../../components/Masthead';
+import { Masthead } from '../../components/display/Masthead';
+import { Title } from '../../components/display/Title';
 import { cookieStorage } from '../../lib/data/cookie.storage';
 import { useAuth } from '../../lib/store/store';
 
@@ -21,7 +22,8 @@ const Login: NextPage<Props> = (_props) => {
 	return(
 		<DefaultLayout auth={auth} seo={seo} >
 			<Box align='center' >
-				<Masthead site_name={config.site_name} />
+				<Masthead heading={config.site_name} />
+				<Title heading='file' />
 			</Box>
 		</DefaultLayout>
 	);
