@@ -12,7 +12,7 @@ import theme from '../styles/default';
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	const state = pageProps.state ? pageProps.state : createAllStore();
 	const store = hydrateAllStore(state);
-	
+
 	return (
 		<ChakraProvider resetCSS theme={theme}>
 			<StoreProvider store={store}>

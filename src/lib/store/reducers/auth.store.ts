@@ -16,26 +16,28 @@ const defaultState: AuthState & State = {
 	banned: false
 };
 
-const reducer = (state = defaultState, { type }): any => {
-	switch (type) {
+const reducer = (state = defaultState, _state): any => {
+	switch (_state.type) {
 	case AuthAction.LOGIN:
-		return { loggedIn: true };
+		return { ...state, ..._state, loggedIn: true };
 	case AuthAction.LOGOUT:
-		return { loggedIn: false };
-	default:
-		return state;
+		return { ...state, loggedIn: false };
 	}
 };
 
 const initStore = (_loadedState = defaultState) => {
-	return create<AuthState & State>(persist((_set, _get) => ({
-		...defaultState,
-		..._loadedState,
-		dispatch: (_args) => _set((_state: any) => reducer(_state, _args))
-	}), {
-		name: 'authentication',
-		getStorage: () => cookieStorage
-	}));
+	return create<AuthState & State>(
+		persist((_set, _get, _api) => {
+			return {
+				...defaultState,
+				..._loadedState,
+				dispatch: (_args) => _set((_state: any) => reducer(_state, _args))
+			};
+		}, {
+			name: 'auth-store',
+			getStorage: () => cookieStorage
+		})
+	);
 };
 
 export const createStore = (_loadedState?) => {

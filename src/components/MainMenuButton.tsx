@@ -16,7 +16,7 @@ interface Props {
 export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) => {
 	const { colorMode } = useColorMode();
 	const auth = useAuth((_state) => _state.dispatch);
-
+	
 	const logout = async (event: SyntheticEvent<HTMLElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -40,10 +40,22 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 							if(_props.auth.loggedIn) {
 								return (
 									<>
-										<MenuItem> My Account </MenuItem>
-										<MenuItem> My Files </MenuItem>
 										<MenuItem>
-											<CLink as={Link} href='/' >
+											<CLink as={Link} href={'/account'} >
+												<a>
+													<Text> My Account </Text>
+												</a>
+											</CLink>
+										</MenuItem>
+										<MenuItem>
+											<CLink passHref as={Link} href={'/files'} >
+												<a>
+													<Text> My Files </Text>
+												</a>
+											</CLink>
+										</MenuItem>
+										<MenuItem>
+											<CLink passHref as={Link} href='/' >
 												<a onClick={logout}>
 													<Text> Logout </Text>
 												</a>
@@ -54,7 +66,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 							} else {
 								return (
 									<MenuItem>
-										<CLink as={Link} href='/' >
+										<CLink as={Link} href='/login' >
 											<a>
 												<Text> Login </Text>
 											</a>
@@ -80,7 +92,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					if(_props.auth.loggedIn) {
 						return (
 							<Flex>
-								<CLink as={Link} href='/' >
+								<CLink as={Link} href='/dashboard' >
 									<a>
 										<Text> { _props.auth.username } <Icon mx="1px" as={FiUser} /> </Text>
 									</a>

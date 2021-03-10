@@ -1,20 +1,25 @@
 import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
+import { NextSeoProps } from 'next-seo';
 
-import { DefaultLayout } from '../components/DefaultLayout';
-import { Masthead } from '../components/Masthead';
-import { cookieStorage } from '../lib/data/cookie.storage';
-import { useAuth } from '../lib/store/store';
+import { DefaultLayout } from '../../components/DefaultLayout';
+import { Masthead } from '../../components/Masthead';
+import { cookieStorage } from '../../lib/data/cookie.storage';
+import { useAuth } from '../../lib/store/store';
 
-import { config } from '../res/config';
+import { config } from '../../res/config';
 
 interface Props { }
 
-const Index: NextPage<Props> = (_props) => {
+const Login: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
 
+	const seo: NextSeoProps = {
+		title: `${config.site_name}: view user`
+	};
+
 	return(
-		<DefaultLayout auth={auth} >
+		<DefaultLayout auth={auth} seo={seo} >
 			<Box align='center' >
 				<Masthead site_name={config.site_name} />
 			</Box>
@@ -36,4 +41,4 @@ export const getServerSideProps = async (_context: any) => {
 	};
 };
 
-export default Index;
+export default Login;

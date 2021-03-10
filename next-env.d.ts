@@ -11,7 +11,7 @@ interface UserData {
 }
 
 interface BaseState {
-	dispatch: (action: { type: any }) => any;
+	dispatch: (action: any) => any;
 }
 
 interface UploadOptionState extends BaseState {

@@ -30,14 +30,32 @@ export const LoginForm: React.FunctionComponent<Props> = (_props) => {
 		userError({ ...error, password: validatePassword(value) });
 	};
 
+	const _submit = (_event) => {
+		_event.preventDefault();
+		_event.stopPropagation();
+
+		const email = _event.target.email.value;
+		const password = _event.target.password.value;
+
+		if(validateEmail(_event.target.email.value || _event.target.password.value)) {
+			userError({
+				...error,
+				email: validateEmail(email),
+				password: validatePassword(password)
+			});
+		} else {
+			_props.formAction(_event);
+		}
+	};
+	
 	return (
-		<form onSubmit={_props.formAction}>
+		<form onSubmit={_submit}>
 			<Stack spacing={4} shadow='dark-lg' borderRadius='xl'
 				className={colorMode === 'dark' ? style.background : style.backgroundLight}>
 
 				<FormControl id="email" isInvalid={error.email}>
 					<FormLabel>Email address</FormLabel>
-					<Input type="email" placeholder='email' name='email' onChange={_validateEmail} />
+					<Input type="email" placeholder='email' name='email' onChange={_validateEmail} required />
 					<FormErrorMessage>
 						{error.email}
 					</FormErrorMessage>
@@ -47,16 +65,16 @@ export const LoginForm: React.FunctionComponent<Props> = (_props) => {
 					<FormLabel> Password </FormLabel>
 					<InputGroup size="md">
 						<Input type={show ? 'text' : 'password'} placeholder='password' name='password'
-							onChange={_validatePassword} />
+							onChange={_validatePassword} required/>
 						<InputRightElement width="4.5rem">
 							<Button h="60%" size="sm" onClick={handleClick}>
 								{show ? 'Hide' : 'Show'}
 							</Button>
 						</InputRightElement>
-						<FormErrorMessage>
-							{error.password}
-						</FormErrorMessage>
 					</InputGroup>
+					<FormErrorMessage>
+						{error.password}
+					</FormErrorMessage>
 				</FormControl>
 
 				<Button mt={4} width='100%' type="submit">

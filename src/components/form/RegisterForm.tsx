@@ -34,8 +34,28 @@ export const RegisterForm: React.FunctionComponent<Props> = (_props) => {
 		userError({ ...error, password: validatePassword(value) });
 	};
 
+	const _submit = (_event) => {
+		_event.preventDefault();
+		_event.stopPropagation();
+
+		const email = _event.target.email.value;
+		const username = _event.target.username.value;
+		const password = _event.target.password.value;
+
+		if(validateEmail(_event.target.email.value || _event.target.username.value || _event.target.password.value)) {
+			userError({
+				...error,
+				email: validateEmail(email),
+				username: validateUsername(username),
+				password: validatePassword(password)
+			});
+		} else {
+			_props.formAction(_event);
+		}
+	}
+;
 	return (
-		<form onSubmit={_props.formAction}>
+		<form onSubmit={_submit}>
 			<Stack spacing={4} shadow='dark-lg' borderRadius='xl'
 				className={colorMode === 'dark' ? style.background : style.backgroundLight}>
 
@@ -68,10 +88,10 @@ export const RegisterForm: React.FunctionComponent<Props> = (_props) => {
 								{show ? 'Hide' : 'Show'}
 							</Button>
 						</InputRightElement>
-						<FormErrorMessage>
-							{error.password}
-						</FormErrorMessage>
 					</InputGroup>
+					<FormErrorMessage>
+						{error.password}
+					</FormErrorMessage>
 				</FormControl>
 
 				<Button mt={4} width='100%' type="submit">
