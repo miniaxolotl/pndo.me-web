@@ -10,36 +10,37 @@ interface UserData {
 	banned: boolean;
 }
 
-// interface FileLong {
-// 	file_id: string;
-// 	sha256: string;
-// 	md5: string;
-// 	filename: string;
-// 	type: string;
-// 	bytes: number;
-// 	protected: boolean;
-// 	hidden: boolean;
-// 	create_date: Date | number;
-// 	expire_date: Date | number;
-// 	downloads: number;
-// 	views: number;
-// 	ext: boolean;
-// }
-
-interface FileShort {
-	album_id: number;
-	filename: number;
-	type: boolean;
-	bytes: boolean;
+interface FileLong {
+	file_id: string;
 	sha256: string;
 	md5: string;
-	type: boolean;
-	d_count: number;
-	v_count: number;
+	filename: string;
+	type: string;
+	bytes: number;
+	protected: boolean;
+	hidden: boolean;
 	create_date: Date | number;
+	expire_date: Date | number;
+	downloads: number;
+	views: number;
+	ext: boolean;
+}
+
+interface FileShort {
+	album_id?: string;
+	file_id?: string;
+	filename?: string;
+	type?: string;
+	bytes?: number;
+	protected?: boolean;
+	hidden?: boolean;
+	d_count?: number;
+	v_count?: number;
+	create_date?: Date | number;
 }
 
 interface FileState extends FileShort {
+	initiated?: number;
 	temp_id?: string;
 	progress?: number;
 	complete?: boolean;
@@ -57,7 +58,7 @@ interface UploadOptionState extends BaseState {
 
 interface UploadHistoryState extends BaseState {
 	file_list: FileState[];
-	file: FileState | null;
+	new_upload: FileState;
 }
 
 interface AuthState extends UserData, BaseState {

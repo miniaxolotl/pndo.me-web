@@ -1,23 +1,17 @@
 import { NextPage } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
+import { config } from '../../res/config';
+
 interface Props {
 	seo?: NextSeoProps;
 }
 
 export const SeoHead: NextPage<Props> = (_props: Props) => {
 	const seo = {
-		title: 'pndo.me',
-		description: 'private file hosting service',
-		openGraph: {
-
-		},
-		twitter: {
-
-		},
+		...config.seo,
 		..._props.seo
 	};
-
 	return(
 		<>
 			<NextSeo

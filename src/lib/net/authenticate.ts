@@ -2,7 +2,6 @@ import fetch from 'node-fetch';
 import qs from 'qs';
 
 import { config } from '../../res/config';
-import { cookieStorage } from '../data/cookie.storage';
 
 export const postRegister = async (form: HTMLFormElement) => {
 	const request = {

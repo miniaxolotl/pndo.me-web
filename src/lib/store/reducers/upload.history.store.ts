@@ -3,19 +3,22 @@ import { useMemo } from 'react';
 import create, { State } from 'zustand';
 
 import { UploadHistoryAction } from '../store.enum';
+import { ACTION_CLEAR, ACTION_COMPLETE, ACTION_PROGRESS } from './upload.history.action';
 
 const defaultState: UploadHistoryState & State = {
 	dispatch: (_args) => _args,
 	file_list: [],
-	file: null
+	new_upload: null
 };
 
 const reducer = (state = defaultState, _state): any => {
 	switch (_state.type) {
 	case UploadHistoryAction.PROGRESS:
-		return state;
+		return ACTION_PROGRESS(state, _state);
 	case UploadHistoryAction.COMPLETE:
-		return state;
+		return ACTION_COMPLETE(state, _state);
+	case UploadHistoryAction.CLEAR:
+		return ACTION_CLEAR(state, _state);
 	}
 };
 

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import fetch from 'node-fetch';
 import { Link as CLink, Flex, Icon, IconButton, Menu, MenuButton, MenuDivider,
 	MenuGroup, MenuItem, MenuList, Spacer, Text, useColorMode } from '@chakra-ui/react';
 import { FiLogIn, FiLogOut, FiMenu, FiUser, FiUserPlus } from 'react-icons/fi';
@@ -7,6 +8,7 @@ import React, { SyntheticEvent } from 'react';
 import { AuthAction, UploadOptionAction } from '../../lib/store/store.enum';
 import { useAuth, useUploadOption } from '../../lib/store/store';
 
+import { config } from '../../res/config';
 import style from './MainMenuButton.module.css';
 
 interface Props { 
@@ -21,6 +23,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 	const logout = async (event: SyntheticEvent<HTMLElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
+		fetch(`${config.server}/api/auth/logout`, { method: 'post' });
 		auth({
 			type: AuthAction.LOGOUT
 		});

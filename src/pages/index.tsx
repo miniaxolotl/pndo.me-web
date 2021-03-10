@@ -1,11 +1,13 @@
-import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
+import { NextSeoProps } from 'next-seo';
+import { Box, Spacer } from '@chakra-ui/react';
 
 import { DefaultLayout } from '../components/DefaultLayout';
+import { FileList } from '../components/display/FileList';
 import { Masthead } from '../components/display/Masthead';
 import { UploadTool } from '../components/features/UploadTool';
 import { cookieStorage } from '../lib/data/cookie.storage';
-import { useAuth, useUploadOption } from '../lib/store/store';
+import { useAuth, useUploadHistory, useUploadOption } from '../lib/store/store';
 
 import { config } from '../res/config';
 
@@ -14,13 +16,18 @@ interface Props { }
 const Index: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
 	const upload_option = useUploadOption((_state) => _state);
+	const upload_history = useUploadHistory((_state) => _state);
+
+	const _seo: NextSeoProps = { };
 
 	return(
-		<DefaultLayout auth={auth} >
+		<DefaultLayout auth={auth} seo={_seo} >
 			<Box align='center' >
 				<Masthead heading={config.site_name} subheading={`max ${config.MAX_FILE / 2**20}MB upload`} />
 				<UploadTool auth={auth} upload_option={upload_option} />
 			</Box>
+			<Spacer height='1rem' />
+			<FileList file_list={upload_history.file_list}  />
 		</DefaultLayout>
 	);
 };
