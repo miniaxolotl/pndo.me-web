@@ -4,8 +4,8 @@ import { Link as CLink, Flex, Icon, IconButton, Menu, MenuButton, MenuDivider,
 import { FiLogIn, FiLogOut, FiMenu, FiUser, FiUserPlus } from 'react-icons/fi';
 import React, { SyntheticEvent } from 'react';
 
-import { AuthAction } from '../../lib/store/store.enum';
-import { useAuth } from '../../lib/store/store';
+import { AuthAction, UploadOptionAction } from '../../lib/store/store.enum';
+import { useAuth, useUploadOption } from '../../lib/store/store';
 
 import style from './MainMenuButton.module.css';
 
@@ -16,6 +16,7 @@ interface Props {
 export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) => {
 	const { colorMode } = useColorMode();
 	const auth = useAuth((_state) => _state.dispatch);
+	const upload_option_d = useUploadOption((_state) => _state.dispatch);
 	
 	const logout = async (event: SyntheticEvent<HTMLElement>) => {
 		event.preventDefault();
@@ -23,13 +24,18 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 		auth({
 			type: AuthAction.LOGOUT
 		});
+		upload_option_d({
+			type: UploadOptionAction.SET,
+			protected: false,
+			hidden: true
+		});
 	};
 	
 	return(
 		<Flex position='fixed' top='2rem' left='2rem' borderRadius='md' shadow='dark-lg'
 			className={colorMode === 'dark' ? style.background : style.backgroundLight}>
 			<Menu autoSelect={false}>
-				<MenuButton as={IconButton} colorScheme="pink" icon={<FiMenu />}
+				<MenuButton as={IconButton} borderRightRadius='none' colorScheme="pink" icon={<FiMenu />}
 					aria-label="Options" _focus={{ boxShadow: 'none' }} islazy='true'>
 				Profile
 				</MenuButton>
@@ -48,13 +54,6 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 											</CLink>
 										</MenuItem>
 										<MenuItem>
-											<CLink passHref as={Link} href={'/files'} >
-												<a>
-													<Text> My Files </Text>
-												</a>
-											</CLink>
-										</MenuItem>
-										<MenuItem>
 											<CLink passHref as={Link} href='/' >
 												<a onClick={logout}>
 													<Text> Logout </Text>
@@ -66,9 +65,32 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 							} else {
 								return (
 									<MenuItem>
-										<CLink as={Link} href='/login' >
+										<CLink as={Link} href='/login'>
 											<a>
 												<Text> Login </Text>
+											</a>
+										</CLink>
+									</MenuItem>
+								);
+							}
+						})()}
+					</MenuGroup>
+					<MenuGroup title="Files"
+						className={colorMode === 'dark' ? style.label : style.labelLight}>
+						<MenuItem isDisabled>
+							<CLink as={Link} href='/browse'>
+								<a>
+									<Text> Browse Files (soon) </Text>
+								</a>
+							</CLink>
+						</MenuItem>
+						{(() => {
+							if(_props.auth.loggedIn) {
+								return (
+									<MenuItem>
+										<CLink passHref as={Link} href={'/files'} >
+											<a>
+												<Text> My Files </Text>
 											</a>
 										</CLink>
 									</MenuItem>

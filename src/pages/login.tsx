@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
 import { Box, useToast } from '@chakra-ui/react';
 
-import { AuthAction } from '../lib/store/store.enum';
 import { DefaultLayout } from '../components/DefaultLayout';
 import { LoginForm } from '../components/form/LoginForm';
 import { Masthead } from '../components/display/Masthead';
 import { cookieStorage } from '../lib/data/cookie.storage';
 import { postLogin } from '../lib/net/authenticate';
-import { useAuth } from '../lib/store/store';
 import { useRouter } from 'next/dist/client/router';
+import { AuthAction, UploadOptionAction } from '../lib/store/store.enum';
+import { useAuth, useUploadOption } from '../lib/store/store';
 
 import { config } from '../res/config';
 
@@ -17,6 +17,7 @@ interface Props { }
 const Login: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
 	const auth_d = useAuth((_state) => _state.dispatch);
+	const upload_option_d = useUploadOption((_state) => _state.dispatch);
 	const router = useRouter();
 	const toast = useToast();
 
@@ -27,6 +28,11 @@ const Login: NextPage<Props> = (_props) => {
 				...responce.payload,
 				authorization: responce.session_id,
 				type: AuthAction.LOGIN
+			});
+			upload_option_d({
+				type: UploadOptionAction.SET,
+				protected: true,
+				hidden: true
 			});
 			toast({
 				title: `Logged in as: ${responce.payload.username}`,

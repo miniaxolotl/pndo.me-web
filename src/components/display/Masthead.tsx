@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { NextPage } from 'next';
 
-import { Box, Link as CLink, Heading, Img } from '@chakra-ui/react';
+import { Box, Link as CLink, Heading, Img, Text } from '@chakra-ui/react';
 
 import style from './Masthead.module.css';
 
 interface Props {
 	heading: string;
+	subheading?: string;
 	image?: string;
 	disableImage?: boolean;
 	href?: string;
@@ -33,6 +34,9 @@ export const Masthead: NextPage<Props> = (_props: Props) => {
 					</Heading>
 				</a>
 			</CLink>
+			<Text>
+				{_props.subheading}
+			</Text>
 		</Box>
 	);
 };

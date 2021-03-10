@@ -3,8 +3,9 @@ import { NextPage } from 'next';
 
 import { DefaultLayout } from '../components/DefaultLayout';
 import { Masthead } from '../components/display/Masthead';
+import { UploadTool } from '../components/features/UploadTool';
 import { cookieStorage } from '../lib/data/cookie.storage';
-import { useAuth } from '../lib/store/store';
+import { useAuth, useUploadOption } from '../lib/store/store';
 
 import { config } from '../res/config';
 
@@ -12,11 +13,13 @@ interface Props { }
 
 const Index: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
+	const upload_option = useUploadOption((_state) => _state);
 
 	return(
 		<DefaultLayout auth={auth} >
 			<Box align='center' >
-				<Masthead heading={config.site_name} />
+				<Masthead heading={config.site_name} subheading={`max ${config.MAX_FILE / 2**20}MB upload`} />
+				<UploadTool auth={auth} upload_option={upload_option} />
 			</Box>
 		</DefaultLayout>
 	);

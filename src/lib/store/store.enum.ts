@@ -7,7 +7,8 @@ export interface RootStore {
 
 export enum UploadOptionAction {
 	TOGGLE_HIDDEN,
-	TOGGLE_PROTECTED
+	TOGGLE_PROTECTED,
+	SET
 }
 
 export enum AuthAction {

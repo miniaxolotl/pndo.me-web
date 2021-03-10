@@ -17,10 +17,8 @@ export const DarkModeButton = (): JSX.Element => {
 			position="fixed"
 			top="2rem"
 			right="2rem"
-			_hover={{
-			}}
-			_active={{
-			}}
+			_active={{}}
+			_hover={{}}
 			_focus={{
 				border: 'none',
 				bg: color
