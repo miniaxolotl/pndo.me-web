@@ -40,7 +40,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 				Profile
 				</MenuButton>
 				<MenuList className={colorMode === 'dark' ? style.background : style.backgroundLight}>
-					<MenuGroup title="Profile"
+					{/* <MenuGroup title="Profile"
 						className={colorMode === 'dark' ? style.label : style.labelLight}>
 						{(() => {
 							if(_props.auth.loggedIn) {
@@ -74,29 +74,38 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 								);
 							}
 						})()}
-					</MenuGroup>
-					<MenuGroup title="Files"
+					</MenuGroup> */}
+					<MenuGroup title=""
 						className={colorMode === 'dark' ? style.label : style.labelLight}>
-						<MenuItem isDisabled>
-							<CLink as={Link} href='/browse'>
-								<a>
-									<Text> Browse Files (soon) </Text>
-								</a>
-							</CLink>
-						</MenuItem>
 						{(() => {
 							if(_props.auth.loggedIn) {
 								return (
-									<MenuItem>
-										<CLink passHref as={Link} href={'/files'} >
-											<a>
-												<Text> My Files </Text>
-											</a>
-										</CLink>
-									</MenuItem>
+									<>
+										<MenuItem>
+											<CLink passHref as={Link} href={'/dashboard'} >
+												<a>
+													<Text> Dashboard </Text>
+												</a>
+											</CLink>
+										</MenuItem>
+										<MenuItem>
+											<CLink passHref as={Link} href={'/dashboard/files'} >
+												<a>
+													<Text> My Files </Text>
+												</a>
+											</CLink>
+										</MenuItem>
+									</>
 								);
 							}
 						})()}
+						<MenuItem isDisabled>
+							{/* <CLink as={Link} href='/browse'> */}
+							{/* <a> */}
+							<Text> Browse (soon) </Text>
+							{/* </a> */}
+							{/* </CLink> */}
+						</MenuItem>
 					</MenuGroup>
 					<MenuDivider />
 					<MenuGroup title="Help"
