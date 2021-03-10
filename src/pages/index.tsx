@@ -28,10 +28,12 @@ const Index: NextPage<Props> = (_props) => {
 export const getServerSideProps = async (_context: any) => {
 	const _auth = JSON.parse(await cookieStorage.getItem('auth-store', _context));
 	const _upload_option = JSON.parse(await cookieStorage.getItem('upload-option', _context));
+	const _upload_history = JSON.parse(await cookieStorage.getItem('upload-history', _context));
 
 	return {
 		props: { 
 			state: {
+				upload_history: JSON.stringify(_upload_history ? _upload_history.state : null),
 				upload_option: JSON.stringify(_upload_option ? _upload_option.state : null),
 				auth: JSON.stringify(_auth ? _auth.state : null)
 			}
