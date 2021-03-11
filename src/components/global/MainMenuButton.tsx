@@ -78,12 +78,12 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 							}
 						})()}
 					</MenuGroup> */}
-					<MenuGroup title=""
-						className={colorMode === 'dark' ? style.label : style.labelLight}>
-						{(() => {
-							if(_props.auth.loggedIn) {
-								return (
-									<>
+					{(() => {
+						if(_props.auth.loggedIn) {
+							return (
+								<>
+									<MenuGroup title=""
+										className={colorMode === 'dark' ? style.label : style.labelLight}>
 										<MenuItem>
 											<CLink passHref as={Link} href={'/dashboard'} >
 												<a>
@@ -98,19 +98,12 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 												</a>
 											</CLink>
 										</MenuItem>
-									</>
-								);
-							}
-						})()}
-						<MenuItem isDisabled>
-							{/* <CLink as={Link} href='/browse'> */}
-							{/* <a> */}
-							<Text> Browse (soon) </Text>
-							{/* </a> */}
-							{/* </CLink> */}
-						</MenuItem>
-					</MenuGroup>
-					<MenuDivider />
+									</MenuGroup>
+									<MenuDivider />
+								</>
+							);
+						}
+					})()}
 					<MenuGroup title="Help"
 						className={colorMode === 'dark' ? style.label : style.labelLight}>
 						<MenuItem about='Open android app' isDisabled> FAQ (soon) </MenuItem>
