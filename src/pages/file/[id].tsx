@@ -6,7 +6,6 @@ import { DefaultLayout } from '../../components/DefaultLayout';
 import { DisplayFile } from '../../components/display/DisplayFile';
 import { ImageTitle } from '../../components/display/ImageTitle';
 import { Masthead } from '../../components/display/Masthead';
-import { Title } from '../../components/display/Title';
 import { cookieStorage } from '../../lib/data/cookie.storage';
 import { prefetchFile } from '../../lib/net/file.info';
 import { useAuth } from '../../lib/store/store';
