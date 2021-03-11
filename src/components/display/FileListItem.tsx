@@ -76,14 +76,21 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 					if(_data.complete) {
 						return (
 							<Flex direction='row' paddingX='8px' paddingY='4px' gridGap={1}>
-								<Tag> { _data.type ? _data.type  : 'album' } </Tag>
+								<Tag _hover={{ cursor: 'default' }}>
+									{ _data.type ? _data.type  : 'album' }
+								</Tag>
 								{
-									_data.file_id ? <Tag> { filesize(_data.bytes).human('si') } </Tag> : null
+									_data.file_id ?
+										<Tag _hover={{ cursor: 'default' }}>
+											{ filesize(_data.bytes).human('si') }
+										</Tag> : null
 								}
-								<Tag colorScheme={_data.protected ? 'green' : 'red'}>
+								<Tag _hover={{ cursor: 'default' }}
+									colorScheme={_data.protected ? 'green' : 'red'}>
 									{ _data.protected ? 'protected' : 'unprotected' } 
 								</Tag>
-								<Tag colorScheme={_data.hidden ? 'green' : 'red'}>
+								<Tag _hover={{ cursor: 'default' }}
+									colorScheme={_data.hidden ? 'green' : 'red'}>
 									{ _data.hidden ? 'hidden' : 'public' } 
 								</Tag>
 							</Flex>
@@ -98,7 +105,7 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 									<Fade animate={{ opacity }}
 										transition={{ duration: 0.5, ease: 'easeIn' }} >
 										<Input type='text' size='xs' variant='filled' borderRadius='md'
-											_hover={{ opacity: 0.5, cursor: 'copy' }}
+											_hover={{ cursor: 'copy' }}
 											onClick={_copyText} readOnly value={full_url}/>
 									</Fade>
 								</>

@@ -16,8 +16,8 @@ interface Props {
 export const Masthead: NextPage<Props> = (_props: Props) => {
 	return(
 		<Box className={style.masthead}>
-			<Flex justifyContent='center' alignItems='center'>
-				<CLink as={Link} href={_props.href ? _props.href : '/'} >
+			<Flex justifyContent='center' alignItems='center' _hover={{ cursor: 'pointer' }}>
+				<CLink as={Link} href={_props.href ? _props.href : '/'}>
 					<Flex as='a' direction='row'>
 						{(() => {
 							if(_props.disableImage) {

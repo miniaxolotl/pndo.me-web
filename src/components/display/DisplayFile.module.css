@@ -1,0 +1,7 @@
+.info_card span {
+	filter: drop-shadow(0.125rem 0.125rem 2rem #fff);
+}
+
+.info_cardLight span {
+	/* something */
+}

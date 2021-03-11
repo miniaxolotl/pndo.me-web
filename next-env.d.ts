@@ -21,8 +21,8 @@ interface FileLong {
 	hidden: boolean;
 	create_date: Date | number;
 	expire_date: Date | number;
-	downloads: number;
-	views: number;
+	v_count: number;
+	d_count: number;
 	ext: boolean;
 }
 
