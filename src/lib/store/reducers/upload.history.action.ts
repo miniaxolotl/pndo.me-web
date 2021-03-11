@@ -11,7 +11,7 @@ export const ACTION_PROGRESS = (state: UploadHistoryState & State, action: Actio
 	action.file_list = [ ...state.file_list, action.new_upload ];
 
 	action.file_list = [ ...action.file_list.sort((a, b) => {
-		return (a.initiated - b.initiated);
+		return (b.initiated - a.initiated);
 	}) ];
 	
 	return action;
@@ -31,9 +31,9 @@ export const ACTION_COMPLETE = (state: UploadHistoryState & State, action: Actio
 
 	action.file_list = [ ...state.file_list, _new_file ];
 	
-	action.file_list = action.file_list.sort((a, b) => {
-		return (a.initiated - b.initiated);
-	});
+	action.file_list = [ ...action.file_list.sort((a, b) => {
+		return (b.initiated - a.initiated);
+	}) ];
 	
 	return action;
 };
@@ -45,9 +45,9 @@ export const ACTION_CLEAR = (state: UploadHistoryState & State, action: ActionTy
 
 	action.file_list = [ ...state.file_list ];
 	
-	action.file_list = action.file_list.sort((a, b) => {
-		return (a.initiated - b.initiated);
-	});
+	action.file_list = [ ...action.file_list.sort((a, b) => {
+		return (b.initiated - a.initiated);
+	}) ];
 	
 	return action;
 };

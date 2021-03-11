@@ -1,49 +1,43 @@
 import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import { NextSeoProps } from 'next-seo';
+import React from 'react';
 
 import { DefaultLayout } from '../../components/DefaultLayout';
-import { DisplayFile } from '../../components/display/DisplayFile';
+import { DisplayAlbum } from '../../components/display/DisplayAlbum';
+import { ImageTitle } from '../../components/display/ImageTitle';
 import { Masthead } from '../../components/display/Masthead';
 import { Title } from '../../components/display/Title';
 import { cookieStorage } from '../../lib/data/cookie.storage';
-import { prefetchFile } from '../../lib/net/file.info';
+import { prefetchAlbum } from '../../lib/net/file.info';
 import { useAuth } from '../../lib/store/store';
 
 import { config } from '../../res/config';
 
 interface Props {
-	file_id: string;
+	album_id: string;
 	authorized: boolean;
-	file_data: FileLong;
+	album_data: { album: Album; files: FileShort[] };
 }
 
 const FileID: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
-	const title = _props.authorized ? _props.file_data.filename : 'you are not authorized to look at this!';
+	const album = _props.album_data ? _props.album_data.album : null;
+	const files = _props.album_data ? _props.album_data.files : null;
 
-	const full_url = `${config.server}/api/file/${_props.file_id}`;
+	const title = _props.authorized ? album.title : 'unauthorized access';
+	// const full_url = `${config.server}/api/file/${_props.album_id}`;
 
-	let seo: NextSeoProps = {
-	};
+	let seo: NextSeoProps = {};
 
 	if(!_props.authorized) {
 		seo = {
-			...seo,
 			title: `${config.site_name}: unauthorized access`,
-			description: 'you are not authorized tp view this file.'
+			description: 'you are not authorized to view this file.'
 		};
 	} else {
 		seo = {
-			...seo,
-			title: `${config.site_name}: ${title}`,
-			openGraph: {
-				type: 'image',
-				images: [ {
-					alt: title,
-					url: full_url
-				} ]
-			}
+			title: `${config.site_name}: album - ${title}`
 		};
 	}
 
@@ -51,11 +45,17 @@ const FileID: NextPage<Props> = (_props) => {
 		<DefaultLayout auth={auth} seo={seo} >
 			<Box align='center' >
 				<Masthead heading={config.site_name}/>
-				<Title heading={title} />
 				{(() => {
 					if(_props.authorized) {
 						return (
-							<DisplayFile file_data={_props.file_data} file_id={_props.file_id} />
+							<>
+								<ImageTitle filename='' album_id={_props.album_id} />
+								<DisplayAlbum files={files} album={album} />
+							</>
+						);
+					} else {
+						return (
+							<Title heading={title} />
 						);
 					}
 				})()}
@@ -69,13 +69,13 @@ export const getServerSideProps = async (_context: any) => {
 	const _upload_option = JSON.parse(await cookieStorage.getItem('upload-option', _context));
 	const _upload_history = JSON.parse(await cookieStorage.getItem('upload-history', _context));
 
-	const _file_data = await prefetchFile(_context.params.id);
-
+	const _album_data = await prefetchAlbum(_context.params.id, cookieStorage.getItem('session_id', _context));
+	
 	return {
 		props: {
-			file_id: _context.params.id,
-			authorized: !!_file_data,
-			file_data: _file_data,
+			album_id: _context.params.id,
+			authorized: !!_album_data,
+			album_data: _album_data,
 			state: {
 				upload_history: JSON.stringify(_upload_history ? _upload_history.state : null),
 				upload_option: JSON.stringify(_upload_option ? _upload_option.state : null),

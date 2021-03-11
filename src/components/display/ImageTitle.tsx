@@ -12,9 +12,8 @@ interface Props {
 
 export const ImageTitle: NextPage<Props> = (_props: Props) => {
 	return(
-		<Flex className={style.title} alignContent='center' justifyContent='center'>
-			<Flex direction='row' gridGap={1} textOverflow='ellipsis' overflow='hidden' width='100%'
-				alignContent='center' justifyContent='center'>
+		<Flex className={style.title}>
+			<Flex direction='row' gridGap={1} textOverflow='ellipsis' overflow='hidden' width='100%'>
 				<Heading as="h1" size='lg'  className={style.heading}>
 					<CLink passHref as={Link} href={`/album/${_props.album_id}`} >
 						<Flex  _hover={{ textDecoration: 'underline', cursor: 'pointer' }}>

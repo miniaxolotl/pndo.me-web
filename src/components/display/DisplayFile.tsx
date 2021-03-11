@@ -95,7 +95,50 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 	
 	return (
 		<Flex justifyContent="center" alignItems="center" direction="column">
-			<Flex marginTop="2rem" direction='column' borderRadius='md' gridGap={2} alignItems="center">
+			<Flex marginTop="2rem" direction='column' gridGap={2} alignItems="center">
+
+				<Flex gridGap={2} wrap='wrap' justifyContent="center"
+					className={colorMode === 'dark' ? style.info_card : style.info_cardLight}>
+					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
+						{ _props.file_data.type }
+					</Tag>
+
+					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
+						{ filesize(_props.file_data.bytes).human('si') }
+					</Tag>
+
+					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
+						{ create_date }
+					</Tag>
+
+					{(() => {
+						if(_props.file_data.protected) {
+							return (
+								<>
+									<Tag colorScheme='cyan' borderRadius="full" whiteSpace='nowrap' >
+										<Badge colorScheme="yellow" borderRadius="full"> { _props.file_data.v_count} </Badge>
+										<TagLabel> views </TagLabel>
+									</Tag>
+
+									<Tag colorScheme='cyan' borderRadius="full" whiteSpace='nowrap' >
+										<Badge colorScheme="yellow" borderRadius="full"> { _props.file_data.d_count} </Badge>
+										<TagLabel> downloads </TagLabel>
+									</Tag>
+								</>
+							);
+						} 
+					})()}
+
+					<Tag colorScheme={_props.file_data.protected
+						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
+						{ _props.file_data.protected ? 'private' : 'public' } 
+					</Tag>
+
+					{/* <Tag colorScheme={_props.file_data.hidden
+						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
+						{ _props.file_data.hidden ? 'hidden' : 'public' } 
+					</Tag> */}
+				</Flex>
 				{(() => {
 					if(loaded) {
 						if(_props.file_data.type.includes('image')) {
@@ -113,41 +156,6 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 						);
 					}
 				})()}
-
-				<Flex gridGap={2} wrap='wrap' justifyContent="center"
-					className={colorMode === 'dark' ? style.info_card : style.info_cardLight}>
-					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
-						{ _props.file_data.type }
-					</Tag>
-
-					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
-						{ filesize(_props.file_data.bytes).human('si') }
-					</Tag>
-
-					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
-						{ create_date }
-					</Tag>
-
-					<Tag colorScheme='cyan' borderRadius="full" whiteSpace='nowrap' >
-						<Badge colorScheme="yellow" borderRadius="full"> { _props.file_data.v_count} </Badge>
-						<TagLabel> views </TagLabel>
-					</Tag>
-
-					<Tag colorScheme='cyan' borderRadius="full" whiteSpace='nowrap' >
-						<Badge colorScheme="yellow" borderRadius="full"> { _props.file_data.d_count} </Badge>
-						<TagLabel> downloads </TagLabel>
-					</Tag>
-
-					<Tag colorScheme={_props.file_data.protected
-						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
-						{ _props.file_data.protected ? 'private' : 'public' } 
-					</Tag>
-
-					{/* <Tag colorScheme={_props.file_data.hidden
-						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
-						{ _props.file_data.hidden ? 'hidden' : 'public' } 
-					</Tag> */}
-				</Flex>
 				<Flex gridGap={2} wrap='wrap' justifyContent="center"
 					className={colorMode === 'dark' ? style.hashCard : style.hashCardLight}>
 					<Tag borderRadius="full" paddingLeft="0" className='hash'>
@@ -185,12 +193,10 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 						isLoading={isDownloading}
 						disabled={isDownloading}
     					loadingText="downloading...">
-
 						Download
 					</Button>
 				</Flex>
 			</Flex>
-
 		</Flex>
 	);
 };

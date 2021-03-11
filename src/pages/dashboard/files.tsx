@@ -1,6 +1,6 @@
+import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import { NextSeoProps } from 'next-seo';
-import { Box, Heading } from '@chakra-ui/react';
 
 import { DefaultLayout } from '../../components/DefaultLayout';
 import { Masthead } from '../../components/display/Masthead';
@@ -24,9 +24,7 @@ const Files: NextPage<Props> = (_props) => {
 			<Box align='center' >
 				<Masthead heading={config.site_name} />
 				<Title heading='my files' />
-				<Heading as='h1'>
-					Feature under construction!
-				</Heading>
+				Feature under construction!
 			</Box>
 		</DefaultLayout>
 	);

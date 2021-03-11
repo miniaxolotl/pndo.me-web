@@ -6,6 +6,7 @@ import { DefaultLayout } from '../../components/DefaultLayout';
 import { DisplayFile } from '../../components/display/DisplayFile';
 import { ImageTitle } from '../../components/display/ImageTitle';
 import { Masthead } from '../../components/display/Masthead';
+import { Title } from '../../components/display/Title';
 import { cookieStorage } from '../../lib/data/cookie.storage';
 import { prefetchFile } from '../../lib/net/file.info';
 import { useAuth } from '../../lib/store/store';
@@ -20,18 +21,17 @@ interface Props {
 
 const FileID: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
-	const title = _props.authorized ? _props.file_data.filename : 'you are not authorized to look at this!';
+	const title = _props.authorized ? _props.file_data.filename : 'unauthorized access';
 
 	const full_url = `${config.server}/api/file/${_props.file_id}`;
 
-	let seo: NextSeoProps = {
-	};
+	let seo: NextSeoProps = {};
 
 	if(!_props.authorized) {
 		seo = {
 			...seo,
 			title: `${config.site_name}: unauthorized access`,
-			description: 'you are not authorized tp view this file.'
+			description: 'you are not authorized to view this file.'
 		};
 	} else {
 		seo = {
@@ -51,11 +51,17 @@ const FileID: NextPage<Props> = (_props) => {
 		<DefaultLayout auth={auth} seo={seo} >
 			<Box align='center' >
 				<Masthead heading={config.site_name}/>
-				<ImageTitle filename={title} album_id={_props.file_data.album_id} />
 				{(() => {
 					if(_props.authorized) {
 						return (
-							<DisplayFile file_data={_props.file_data} file_id={_props.file_id} />
+							<>
+								<ImageTitle filename={title} album_id={_props.file_data.album_id} />
+								<DisplayFile file_data={_props.file_data} file_id={_props.file_id} />
+							</>
+						);
+					} else {
+						return (
+							<Title heading={title} />
 						);
 					}
 				})()}
@@ -69,7 +75,7 @@ export const getServerSideProps = async (_context: any) => {
 	const _upload_option = JSON.parse(await cookieStorage.getItem('upload-option', _context));
 	const _upload_history = JSON.parse(await cookieStorage.getItem('upload-history', _context));
 
-	const _file_data = await prefetchFile(_context.params.id);
+	const _file_data = await prefetchFile(_context.params.id, cookieStorage.getItem('session_id', _context));
 
 	return {
 		props: {

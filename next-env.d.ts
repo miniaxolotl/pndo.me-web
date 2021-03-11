@@ -10,6 +10,18 @@ interface UserData {
 	banned: boolean;
 }
 
+interface Album {
+	album_id: string;
+	title: string;
+	files: number;
+	bytes: number;
+	protected: boolean;
+	hidden: boolean;
+	d_count: number;
+	v_count: number;
+	create_date: Date | string;
+}
+
 interface FileLong {
 	album_id: string;
 	file_id: string;
@@ -20,8 +32,8 @@ interface FileLong {
 	bytes: number;
 	protected: boolean;
 	hidden: boolean;
-	create_date: Date | number;
-	expire_date: Date | number;
+	create_date: Date | string;
+	expire_date: Date | string;
 	v_count: number;
 	d_count: number;
 	ext: boolean;
