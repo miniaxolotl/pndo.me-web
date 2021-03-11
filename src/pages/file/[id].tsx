@@ -39,10 +39,13 @@ const FileID: NextPage<Props> = (_props) => {
 			title: `${config.site_name}: ${title}`
 		};
 		if(_props.file_data.type.includes('image')) {
-			seo.openGraph.images = [ {
-				alt: title,
-				url: full_url
-			} ];
+			const openGraph = {
+				images: [ {
+					alt: title,
+					url: full_url
+				} ]
+			};
+			seo.openGraph = openGraph;
 		}
 	}
 
