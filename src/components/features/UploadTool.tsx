@@ -1,4 +1,4 @@
-import { FiEye, FiEyeOff, FiLock, FiTrash, FiUnlock, FiUpload } from 'react-icons/fi';
+import { FiLock, FiTrash, FiUnlock, FiUpload } from 'react-icons/fi';
 import { Flex, IconButton, Input, Tooltip, useColorMode } from '@chakra-ui/react';
 import React, { SyntheticEvent, useRef } from 'react';
 
@@ -92,13 +92,6 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 		});
 	};
 	
-	const _toggleHidden = async (event: SyntheticEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		event.stopPropagation();
-		upload_option_d({
-			type: UploadOptionAction.TOGGLE_HIDDEN
-		});
-	};
 
 	const _clear = async (event: SyntheticEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -144,7 +137,7 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 					/>
 				</Tooltip>
 
-				<Tooltip label="hide file" >
+				{/* <Tooltip label="hide file" >
 					<IconButton
 						colorScheme={
 							_props.upload_option.hidden ? null : 'red'
@@ -157,7 +150,7 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 						}}
 						icon={_props.upload_option.hidden ? <FiEyeOff /> : <FiEye />}
 					/>
-				</Tooltip>
+				</Tooltip> */}
 
 				<Tooltip label="clear recent uploads" 
 					_selected={{}}>

@@ -1,5 +1,5 @@
 import filesize from 'file-size';
-import { Button, Fade, Flex, Input, Spinner, Tag, TagLabel, useColorMode } from '@chakra-ui/react';
+import { Badge, Button, Fade, Flex, Input, Spinner, Tag, TagLabel, useColorMode } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
 import { ImagePreview } from './ImagePreview';
@@ -24,13 +24,14 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 	const [ loaded, useLoaded ] = useState(false);
 	const [ isDownloading, useIsDownloading ] = useState(false);
 
-
 	useEffect(() => {
 		(async () => {
-			if(_props.file_data.type.includes('image')
-				|| _props.file_data.type.includes('video')) {
+			if(_props.file_data.type.includes('image')) {
 				const _anchor = await downloadFile(_props.file_data, _props.file_id);
+				
 				usePreview((_anchor as HTMLAnchorElement).href);
+			} else if (_props.file_data.type.includes('video')) {
+				usePreview(`${config.server}/api/stream/${_props.file_id}`);
 			}
 			useLoaded(true);
 		})();
@@ -127,27 +128,29 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 						{ create_date }
 					</Tag>
 
-					<Tag colorScheme="gray" borderRadius="full" whiteSpace='nowrap' >
-						<TagLabel> { `${_props.file_data.v_count} - views` } </TagLabel>
+					<Tag colorScheme='cyan' borderRadius="full" whiteSpace='nowrap' >
+						<Badge colorScheme="yellow" borderRadius="full"> { _props.file_data.v_count} </Badge>
+						<TagLabel> views </TagLabel>
 					</Tag>
 
-					<Tag colorScheme="gray" borderRadius="full" whiteSpace='nowrap' >
-						<TagLabel> { `${_props.file_data.d_count} - downloads` } </TagLabel>
+					<Tag colorScheme='cyan' borderRadius="full" whiteSpace='nowrap' >
+						<Badge colorScheme="yellow" borderRadius="full"> { _props.file_data.d_count} </Badge>
+						<TagLabel> downloads </TagLabel>
 					</Tag>
 
 					<Tag colorScheme={_props.file_data.protected
 						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
-						{ _props.file_data.protected ? 'protected' : 'unprotected' } 
+						{ _props.file_data.protected ? 'private' : 'public' } 
 					</Tag>
 
-					<Tag colorScheme={_props.file_data.hidden
+					{/* <Tag colorScheme={_props.file_data.hidden
 						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
 						{ _props.file_data.hidden ? 'hidden' : 'public' } 
-					</Tag>
+					</Tag> */}
 				</Flex>
 				<Flex gridGap={2} wrap='wrap' justifyContent="center"
-					className={colorMode === 'dark' ? style.info_card : style.info_cardLight}>
-					<Tag borderRadius="full" paddingLeft="0">
+					className={colorMode === 'dark' ? style.hashCard : style.hashCardLight}>
+					<Tag borderRadius="full" paddingLeft="0" className='hash'>
 						<Fade animate={{ opacity: opacitySHA }}
 							transition={{ duration: 0.5, ease: 'easeIn' }} >
 							<Input borderRadius="full" type="text" size="xs"
@@ -157,7 +160,7 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 						sha256
 					</Tag>
 
-					<Tag borderRadius="full" paddingLeft="0">
+					<Tag borderRadius="full" paddingLeft="0" >
 						<Fade animate={{ opacity: opacityMD5 }}
 							transition={{ duration: 0.5, ease: 'easeIn' }} >
 							<Input borderRadius="full" type="text" size="xs" value={_props.file_data.md5} 
@@ -167,7 +170,7 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 					</Tag>
 				</Flex>
 				<Flex marginY="0.25rem"
-					className={colorMode === 'dark' ? style.info_card : style.info_cardLight}>
+					className={colorMode === 'dark' ? style.hashCard : style.hashCardLight}>
 					<Tag borderRadius="full" paddingLeft="0" >
 						<Fade animate={{ opacity: opacityDL }}
 							transition={{ duration: 0.5, ease: 'easeIn' }} >

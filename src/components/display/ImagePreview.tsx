@@ -7,7 +7,7 @@ interface Props {
 
 export const ImagePreview: React.FunctionComponent<Props> = (_props) => {
 	return (
-		<Img marginY='2rem' src={_props.url} maxH='20vh' alt='image preview'
+		<Img marginY='2rem' src={_props.url} width='100%' alt='image preview'
 			style={{ filter: 'drop-shadow(0.25rem 0.25rem 0.5rem #16161D)' }} />
 	);
 };

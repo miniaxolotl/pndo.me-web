@@ -3,5 +3,13 @@
 }
 
 .info_cardLight span {
-	/* something */
+	/* filter: drop-shadow(0.125rem 0.125rem 2rem #fff); */
+}
+
+.hashCard span {
+	background: #16161D;
+}
+
+.hashCardLight span {
+	background: #c3c3d1;
 }

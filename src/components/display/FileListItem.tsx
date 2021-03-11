@@ -87,12 +87,12 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 								}
 								<Tag _hover={{ cursor: 'default' }}
 									colorScheme={_data.protected ? 'green' : 'red'}>
-									{ _data.protected ? 'protected' : 'unprotected' } 
+									{ _data.protected ? 'private' : 'public' } 
 								</Tag>
-								<Tag _hover={{ cursor: 'default' }}
+								{/* <Tag _hover={{ cursor: 'default' }}
 									colorScheme={_data.hidden ? 'green' : 'red'}>
 									{ _data.hidden ? 'hidden' : 'public' } 
-								</Tag>
+								</Tag> */}
 							</Flex>
 						);
 					}

@@ -4,7 +4,6 @@ import { NextSeoProps } from 'next-seo';
 
 import { DefaultLayout } from '../../components/DefaultLayout';
 import { DisplayFile } from '../../components/display/DisplayFile';
-import { ImageTitle } from '../../components/display/ImageTitle';
 import { Masthead } from '../../components/display/Masthead';
 import { Title } from '../../components/display/Title';
 import { cookieStorage } from '../../lib/data/cookie.storage';
@@ -52,7 +51,7 @@ const FileID: NextPage<Props> = (_props) => {
 		<DefaultLayout auth={auth} seo={seo} >
 			<Box align='center' >
 				<Masthead heading={config.site_name}/>
-				<ImageTitle filename={title} album_id={_props.file_data.album_id} />
+				<Title heading={title} />
 				{(() => {
 					if(_props.authorized) {
 						return (

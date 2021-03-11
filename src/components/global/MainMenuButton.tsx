@@ -120,7 +120,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					if(_props.auth.loggedIn) {
 						return (
 							<Flex>
-								<CLink as={Link} href='/account' >
+								<CLink as={Link} href='/dashboard' >
 									<a>
 										<Text> { _props.auth.username } <Icon mx="1px" as={FiUser} /> </Text>
 									</a>

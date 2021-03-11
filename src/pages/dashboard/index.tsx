@@ -2,28 +2,29 @@ import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import { NextSeoProps } from 'next-seo';
 
-import { DefaultLayout } from '../components/DefaultLayout';
-import { Masthead } from '../components/display/Masthead';
-import { Title } from '../components/display/Title';
-import { cookieStorage } from '../lib/data/cookie.storage';
-import { useAuth } from '../lib/store/store';
+import { DefaultLayout } from '../../components/DefaultLayout';
+import { Masthead } from '../../components/display/Masthead';
+import { Title } from '../../components/display/Title';
+import { cookieStorage } from '../../lib/data/cookie.storage';
+import { useAuth } from '../../lib/store/store';
 
-import { config } from '../res/config';
+import { config } from '../../res/config';
 
 interface Props { }
 
-const Login: NextPage<Props> = (_props) => {
+const Index: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
 
 	const seo: NextSeoProps = {
-		title: `${config.site_name}: account`
+		title: `${config.site_name}: dashboard`
 	};
 
 	return(
 		<DefaultLayout auth={auth} seo={seo} >
 			<Box align='center' >
 				<Masthead heading={config.site_name} />
-				<Title heading='my account' />
+				<Title heading='dashboard' />
+				Feature under construction!
 			</Box>
 		</DefaultLayout>
 	);
@@ -44,5 +45,5 @@ export const getServerSideProps = async (_context: any) => {
 		}
 	};
 };
-  
-export default Login;
+
+export default Index;

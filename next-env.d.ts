@@ -11,6 +11,7 @@ interface UserData {
 }
 
 interface FileLong {
+	album_id: string;
 	file_id: string;
 	sha256: string;
 	md5: string;
