@@ -1,0 +1,10 @@
+.title {
+	/* nothing */
+}
+
+.heading {
+}
+
+.image {
+	filter: drop-shadow(0.125rem 0.125rem 0.25rem #16161D);
+}

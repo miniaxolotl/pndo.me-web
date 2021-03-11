@@ -1,88 +1,51 @@
-import { NextPage } from 'next'
+import { NextPage } from 'next';
+import { NextSeoProps } from 'next-seo';
+import { Box, Spacer } from '@chakra-ui/react';
 
-import { Container } from '../components/Container'
-import { Hero } from '../components/Hero'
-import { UploadTool } from '../components/UploadTool'
-import { Main } from '../components/Main'
-import { FileList } from '../components/FileList'
-import { Layout } from '../components/Layout'
+import { DefaultLayout } from '../components/DefaultLayout';
+import { FileList } from '../components/display/FileList';
+import { Masthead } from '../components/display/Masthead';
+import { UploadTool } from '../components/features/UploadTool';
+import { cookieStorage } from '../lib/data/cookie.storage';
+import { useAuth, useUploadHistory, useUploadOption } from '../lib/store/store';
 
-import { uploadOptionStore } from '../store/uploadoption.store';
-import { authenticationStore } from '../store/authentication.store';
-import { uploadHistoryStore } from '../store/uploadhistory.store';
+import { config } from '../res/config';
 
-import nookies from 'nookies';
-import { useState } from 'react'
-import { State } from 'zustand'
+interface Props { }
 
-interface Props {
-	authentication: AuthenticationState & State;
-	uploadOption: UploadOptionState & State;
-	uploadHistory: UploadHistoryState & State;
-	hostname: string;
-};
+const Index: NextPage<Props> = (_props) => {
+	const auth = useAuth((_state) => _state);
+	const upload_option = useUploadOption((_state) => _state);
+	const upload_history = useUploadHistory((_state) => _state);
 
-const Index: NextPage<Props> = (props) => {
-
-	const [first, useFirst] = useState(false);
-	if(!first) {
-		authenticationStore.setState(props.authentication);
-		uploadHistoryStore.setState(props.uploadHistory);
-		uploadOptionStore.setState(props.uploadOption);
-		!first ? useFirst(true) : void(null);
-	}
-	
-	const state = {
-		authentication: {
-			...authenticationStore((state: AuthenticationState) => (state)),
-		},
-		uploadHistory: {
-			...uploadHistoryStore((state: UploadHistoryState) => (state)),
-		},
-		uploadOption: {
-			...uploadOptionStore((state: UploadOptionState) => (state)),
-		}
-	};
+	const _seo: NextSeoProps = { };
 
 	return(
-		<Layout authentication={state.authentication}>
-			<Container direction="column" width="90vw" minHeight="40vh"
-				justifyContent="flex-end" alignItems="center">
-				<Hero title="pandome" hostname={props.hostname} />
-				<UploadTool uploadOption={state.uploadOption}
-					authentication={state.authentication}/>
-			</Container>
-
-			<Main direction="column" width="90vw"
-				justifyContent="center" alignItems="center">
-
-				<FileList uploadHistory={state.uploadHistory}
-					hostname={props.hostname} />
-			</Main>
-		</Layout>
-	)
+		<DefaultLayout auth={auth} seo={_seo} >
+			<Box align='center' >
+				<Masthead heading={config.site_name} subheading={`max ${config.MAX_FILE / 2**20}MB upload`} />
+				<UploadTool auth={auth} upload_option={upload_option} />
+			</Box>
+			<Spacer height='1rem' />
+			<FileList file_list={upload_history.file_list}  />
+		</DefaultLayout>
+	);
 };
 
-Index.getInitialProps = (ctx) => {
+export const getServerSideProps = async (_context: any) => {
+	const _auth = JSON.parse(await cookieStorage.getItem('auth-store', _context));
+	const _upload_option = JSON.parse(await cookieStorage.getItem('upload-option', _context));
+	const _upload_history = JSON.parse(await cookieStorage.getItem('upload-history', _context));
 
-	const cookies = nookies.get(ctx);
-	const props: any = {};
-	
-	const authentication = cookies['authentication']
-	const uploadHistory = cookies['upload-history']
-	const uploadOption = cookies['upload-option']
-
-	props.hostname = ctx.req && ctx.req.headers.host
-		? ctx.req.headers.host : "";
-	
-	if(authentication)
-		props.authentication = JSON.parse(authentication);
-	if(uploadHistory)
-		props.uploadHistory = JSON.parse(uploadHistory);
-	if(uploadOption)
-		props.uploadOption = JSON.parse(uploadOption);
-
-	return props;
+	return {
+		props: { 
+			state: {
+				upload_history: JSON.stringify(_upload_history ? _upload_history.state : null),
+				upload_option: JSON.stringify(_upload_option ? _upload_option.state : null),
+				auth: JSON.stringify(_auth ? _auth.state : null)
+			}
+		}
+	};
 };
 
-export default Index
+export default Index;

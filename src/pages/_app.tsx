@@ -1,21 +1,28 @@
 import { AnimatePresence } from 'framer-motion';
+import { AppProps } from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Global } from '@emotion/react';
 
-import { ChakraProvider } from '@chakra-ui/react'
-import theme from '../themes/theme'
+import { StoreProvider } from '../lib/store/StoreProvider';
+import { createAllStore, hydrateAllStore } from '../lib/store/store';
 
-import { AppProps } from 'next/app'
+import fonts from '../styles/font-face';
+import theme from '../styles/default';
 
-const MyApp = (props: AppProps) => {
+const MyApp = ({ Component, pageProps }: AppProps) => {
+	const state = pageProps.state ? pageProps.state : createAllStore();
+	const store = hydrateAllStore(state);
 
-	const { Component, pageProps } = props;
-	
 	return (
-		<AnimatePresence exitBeforeEnter>
-			<ChakraProvider resetCSS theme={theme}>
+		<ChakraProvider resetCSS theme={theme}>
+			<StoreProvider store={store}>
+				<Global styles={fonts} />
+				<AnimatePresence>
 					<Component {...pageProps} />
-			</ChakraProvider>
-		</AnimatePresence>
-	)
+				</AnimatePresence>
+			</StoreProvider>
+		</ChakraProvider>
+	);
 };
 
 export default MyApp;
