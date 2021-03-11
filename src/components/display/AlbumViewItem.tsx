@@ -1,10 +1,8 @@
-import { FiFile, FiFilm, FiImage, FiVideo, FiX } from 'react-icons/fi';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import React from 'react';
-import { Link as CLink, Flex, GridItem, IconButton, Tag, Text } from '@chakra-ui/react';
-
-import { config } from '../../res/config';
+import { Link as CLink, Flex, GridItem, IconButton, Text } from '@chakra-ui/react';
+import { FiFile, FiFilm, FiImage } from 'react-icons/fi';
 
 interface Props {
 	file: FileShort;

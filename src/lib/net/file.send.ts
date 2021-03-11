@@ -27,10 +27,10 @@ export const fileSend = async (_files: FileList, _key: string,
 				_files
 			});
 		});
-
 		request.addEventListener('load', async (_event) => {
+			const data = JSON.parse((_event.target as XMLHttpRequest).responseText);
 			resolve({
-				...JSON.parse((_event.target as XMLHttpRequest).responseText),
+				...data,
 				complete: true,
 				progress: 100,
 				temp_id: temp_id,

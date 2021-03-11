@@ -69,6 +69,8 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 			}
 			responce.album_id = responce.album.album_id;
 			responce.filename = _list.join(' - ');
+			responce.protected = (responce.album as FileLong).protected;
+			responce.hidden = (responce.album as FileLong).hidden;
 		} else {
 			responce.file_id = (responce.files[0] as FileLong).file_id;
 			responce.filename = (responce.files[0] as FileLong).filename;
