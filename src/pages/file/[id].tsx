@@ -36,15 +36,14 @@ const FileID: NextPage<Props> = (_props) => {
 	} else {
 		seo = {
 			...seo,
-			title: `${config.site_name}: ${title}`,
-			openGraph: {
-				type: 'image',
-				images: [ {
-					alt: title,
-					url: full_url
-				} ]
-			}
+			title: `${config.site_name}: ${title}`
 		};
+		if(_props.file_data.type.includes('image')) {
+			seo.openGraph.images = [ {
+				alt: title,
+				url: full_url
+			} ];
+		}
 	}
 
 	return(
