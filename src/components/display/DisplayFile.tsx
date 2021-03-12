@@ -58,7 +58,6 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 		useLoading(false);
 		useLoaded(true);
 	};
-	console.log(_props.file_data);
 	
 	const _copySHA = (e: any) => {
 		e.target.select();
