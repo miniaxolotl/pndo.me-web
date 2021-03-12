@@ -9,7 +9,6 @@
   [![Build Status](https://travis-ci.com/songmawa/pndo.me-server.svg?branch=master)](https://travis-ci.com/songmawa/pndo.me-web)
   [![GitHub Issues](https://img.shields.io/github/issues/songmawa/pndo.me-server.svg)](https://github.com/songmawa/pndo.me-web/issues)
   [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/songmawa/pndo.me-server.svg)](https://github.com/songmawa/pndo.me-web/pulls)
-  ![GitHub](https://img.shields.io/github/license/songmawa/pndo.me-web)
   [![GitHub License](https://img.shields.io/github/license/songmawa/pndo.me-web)](/LICENSE)
 
 </div>
