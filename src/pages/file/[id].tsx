@@ -8,8 +8,8 @@ import { ImageTitle } from '../../components/display/ImageTitle';
 import { Masthead } from '../../components/display/Masthead';
 import { Title } from '../../components/display/Title';
 import { cookieStorage } from '../../lib/data/cookie.storage';
-import { prefetchFile } from '../../lib/net/file.info';
 import { useAuth } from '../../lib/store/store';
+import { prefetchAlbum, prefetchFile } from '../../lib/net/file.info';
 
 import { config } from '../../res/config';
 
@@ -17,13 +17,14 @@ interface Props {
 	file_id: string;
 	authorized: boolean;
 	file_data: FileLong;
+	album_data: Album;
 }
 
 const FileID: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
 	const title = _props.authorized ? _props.file_data.filename : 'unauthorized access';
 
-	const full_url = `${config.server}/api/file/${_props.file_id}`;
+	const full_url = `${config.canonical}/api/file/${_props.file_id}`;
 
 	let seo: NextSeoProps = {};
 
@@ -48,7 +49,7 @@ const FileID: NextPage<Props> = (_props) => {
 			seo.openGraph = openGraph;
 		}
 	}
-
+	
 	return(
 		<DefaultLayout auth={auth} seo={seo} >
 			<Box align='center' >
@@ -57,7 +58,8 @@ const FileID: NextPage<Props> = (_props) => {
 					if(_props.authorized) {
 						return (
 							<>
-								<ImageTitle filename={title} album_id={_props.file_data.album_id} />
+								<ImageTitle filename={title} album_id={_props.album_data.album_id}
+									album_title={_props.album_data.title} />
 								<DisplayFile file_data={_props.file_data} file_id={_props.file_id} />
 							</>
 						);
@@ -77,13 +79,17 @@ export const getServerSideProps = async (_context: any) => {
 	const _upload_option = JSON.parse(await cookieStorage.getItem('upload-option', _context));
 	const _upload_history = JSON.parse(await cookieStorage.getItem('upload-history', _context));
 
-	const _file_data = await prefetchFile(_context.params.id, cookieStorage.getItem('session_id', _context));
+	const session_id = cookieStorage.getItem('session_id', _context);
+
+	const _file_data = await prefetchFile(_context.params.id, session_id) as FileLong;
+	const _album_data = await prefetchAlbum(_file_data ? _file_data.album_id : '', session_id) as any;
 
 	return {
 		props: {
 			file_id: _context.params.id,
 			authorized: !!_file_data,
 			file_data: _file_data,
+			album_data: _album_data ? _album_data.album : null,
 			state: {
 				upload_history: JSON.stringify(_upload_history ? _upload_history.state : null),
 				upload_option: JSON.stringify(_upload_option ? _upload_option.state : null),

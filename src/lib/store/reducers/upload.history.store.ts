@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import create, { State } from 'zustand';
 
 import { UploadHistoryAction } from '../store.enum';
-import { ACTION_CLEAR, ACTION_COMPLETE, ACTION_PROGRESS } from './upload.history.action';
+import { ACTION_CHECK, ACTION_CLEAR, ACTION_COMPLETE, ACTION_DELETE, ACTION_PROGRESS } from './upload.history.action';
 
 const defaultState: UploadHistoryState & State = {
 	dispatch: (_args) => _args,
@@ -19,6 +19,10 @@ const reducer = (state = defaultState, _state): any => {
 		return ACTION_COMPLETE(state, _state);
 	case UploadHistoryAction.CLEAR:
 		return ACTION_CLEAR(state, _state);
+	case UploadHistoryAction.DELETE:
+		return ACTION_DELETE(state, _state);
+	case UploadHistoryAction.CHECK:
+		return ACTION_CHECK(state, _state);
 	}
 };
 

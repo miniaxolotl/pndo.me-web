@@ -1,7 +1,7 @@
 import ConfigType from './config-example';
 
 export const config: ConfigType = {
-	canonical: 'https://home.emawa.io:3002/',
+	canonical: 'https://home.emawa.io:3002',
 	site_name: 'pndo.me',
 	server: 'https://home.emawa.io:3002',
 	MAX_FILE: (2**20)*500,

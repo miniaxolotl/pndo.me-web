@@ -65,7 +65,7 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 		if(responce.files.length > 1) {
 			const _list = [];
 			for(let i = 0; i< responce.files.length; i++) {
-				_list.push(responce.files[0].filename);
+				_list.push(responce.files[i].filename);
 			}
 			responce.album_id = responce.album.album_id;
 			responce.filename = _list.join(' - ');
@@ -104,7 +104,7 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 	};
 
 	return (
-		<Flex direction="row" borderRadius='md' margin='0rem 1rem' justifyContent='center' width='100%'>
+		<Flex direction="row" borderRadius='md' justifyContent='center' width='100%'>
 			<form name="select_file_form">
 				<Input name="file" type="file" ref={select_file_form_input}
 					onInput={_sendFileForm}
@@ -123,7 +123,6 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 			</Tooltip>
 			<Flex direction="row" borderRadius='md' style={{ filter: 'drop-shadow(0.25rem 0.25rem 0.5rem #16161D)' }}
 				className={colorMode === 'dark' ? style.background : style.backgroundLight }>
-
 				<Tooltip label="protect file" >
 					<IconButton isDisabled={!_props.auth.loggedIn}
 						colorScheme={
@@ -153,7 +152,6 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 						icon={_props.upload_option.hidden ? <FiEyeOff /> : <FiEye />}
 					/>
 				</Tooltip> */}
-
 				<Tooltip label="clear recent uploads" 
 					_selected={{}}>
 					<IconButton

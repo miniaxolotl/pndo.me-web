@@ -23,7 +23,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 	const logout = async (event: SyntheticEvent<HTMLElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
-		fetch(`${config.server}/api/auth/logout`, { method: 'post' });
+		fetch(`${config.canonical}/api/auth/logout`, { method: 'post' });
 		auth({
 			type: AuthAction.LOGOUT
 		});
@@ -84,13 +84,13 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 								<>
 									<MenuGroup title=""
 										className={colorMode === 'dark' ? style.label : style.labelLight}>
-										<MenuItem>
+										{/* <MenuItem>
 											<CLink passHref as={Link} href={'/dashboard'} >
 												<a>
 													<Text> Dashboard </Text>
 												</a>
 											</CLink>
-										</MenuItem>
+										</MenuItem> */}
 										<MenuItem>
 											<CLink passHref as={Link} href={'/dashboard/files'} >
 												<a>

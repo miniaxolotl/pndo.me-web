@@ -20,13 +20,13 @@ interface Props {
 	album_data: { album: Album; files: FileShort[] };
 }
 
-const FileID: NextPage<Props> = (_props) => {
+const AlbumID: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
 	const album = _props.album_data ? _props.album_data.album : null;
 	const files = _props.album_data ? _props.album_data.files : null;
 
 	const title = _props.authorized ? album.title : 'unauthorized access';
-	// const full_url = `${config.server}/api/file/${_props.album_id}`;
+	// const full_url = `${config.canonical}/api/file/${_props.album_id}`;
 
 	let seo: NextSeoProps = {};
 
@@ -49,8 +49,9 @@ const FileID: NextPage<Props> = (_props) => {
 					if(_props.authorized) {
 						return (
 							<>
-								<ImageTitle filename='' album_id={_props.album_id} />
-								<DisplayAlbum files={files} album={album} />
+								<ImageTitle filename='' album_id={_props.album_data.album.album_id}
+									album_title={_props.album_data.album.title} />
+								<DisplayAlbum auth={auth} files={files} album={album} />
 							</>
 						);
 					} else {
@@ -85,4 +86,4 @@ export const getServerSideProps = async (_context: any) => {
 	};
 };
 
-export default FileID;
+export default AlbumID;

@@ -7,6 +7,7 @@ import style from './Title.module.css';
 
 interface Props {
 	album_id: string;
+	album_title: string;
 	filename: string;
 }
 
@@ -18,7 +19,7 @@ export const ImageTitle: NextPage<Props> = (_props: Props) => {
 					<CLink passHref as={Link} href={`/album/${_props.album_id}`} >
 						<Flex  _hover={{ textDecoration: 'underline', cursor: 'pointer' }}>
 							<Icon as={FiFolder}/>
-							<Text> {_props.album_id} </Text>
+							<Text> {_props.album_title} </Text>
 						</Flex>
 					</CLink>
 				</Heading>

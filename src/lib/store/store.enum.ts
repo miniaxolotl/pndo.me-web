@@ -7,9 +7,11 @@ export interface RootStore {
 }
 
 export enum UploadHistoryAction {
+	CHECK,
 	COMPLETE,
 	PROGRESS,
 	DELETE,
+	DELETEED,
 	ERROR,
 	CLEAR
 }

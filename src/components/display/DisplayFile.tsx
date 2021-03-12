@@ -1,5 +1,6 @@
+import { FiDownload } from 'react-icons/fi';
 import filesize from 'file-size';
-import { Badge, Button, Fade, Flex, Input, Spinner, Tag, TagLabel, useColorMode } from '@chakra-ui/react';
+import { Badge, Button, Fade, Flex, Icon, Input, Spinner, Tag, TagLabel, Text, useColorMode } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
 import { ImagePreview } from './ImagePreview';
@@ -19,23 +20,13 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 	const [ opacitySHA, useOpacitySHA ] = useState(1);
 	const [ opacityMD5, useOpacityMD5 ] = useState(1);
 	const [ opacityDL, useOpacityDL ] = useState(1);
+	const [ opacityPage, useOpacityPage ] = useState(1);
+	const [ type, useType ] = useState(null);
 
 	const [ preview, usePreview ] = useState(null);
+	const [ loading, useLoading ] = useState(false);
 	const [ loaded, useLoaded ] = useState(false);
 	const [ isDownloading, useIsDownloading ] = useState(false);
-
-	useEffect(() => {
-		(async () => {
-			if(_props.file_data.type.includes('image')) {
-				const _anchor = await downloadFile(_props.file_data, _props.file_id);
-				
-				usePreview((_anchor as HTMLAnchorElement).href);
-			} else if (_props.file_data.type.includes('video')) {
-				usePreview(`${config.server}/api/stream/${_props.file_id}`);
-			}
-			useLoaded(true);
-		})();
-	}, []);
 
 	const date = new Date(_props.file_data.create_date);
 	const year = date.getUTCFullYear();
@@ -43,8 +34,32 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 	const day = date.getUTCDay() < 10 ? '0' + date.getUTCDay() : date.getUTCDay();
 	const create_date = `${year}-${month}-${day}`;
 
-	const full_url = `${config.server}/api/stream/${_props.file_id}`;
+	const full_url = `${config.canonical}/api/${preview ? 'stream' : 'file'}/${_props.file_id}`;
+	const page_url = `${config.canonical}/file/${_props.file_id}`;
+	
+	useEffect(() => {
+		(async () => {
+			if(_props.file_data.type.includes('image')) {
+				useType('image');
+			} else if (_props.file_data.type.includes('video')) {
+				useType('video');
+			}
+		})();
+	}, []);
 
+	const _openPreview = async () => {
+		useLoading(true);
+		if(type === 'image') {
+			const _anchor = await downloadFile(_props.file_data, _props.file_id);
+			usePreview((_anchor as HTMLAnchorElement).href);
+		} else if (type === 'video') {
+			usePreview(`${config.canonical}/api/stream/${_props.file_id}`);
+		}
+		useLoading(false);
+		useLoaded(true);
+	};
+	console.log(_props.file_data);
+	
 	const _copySHA = (e: any) => {
 		e.target.select();
 		document.execCommand('copy');
@@ -80,6 +95,19 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 		
 		setTimeout(() => {
 			useOpacityDL(1);
+			e.target.value = tmp;
+		}, 500);
+	};
+
+	const _copyPage = (e: any) => {
+		e.target.select();
+		document.execCommand('copy');
+
+		const tmp = e.target.value;
+		useOpacityPage(0);
+		
+		setTimeout(() => {
+			useOpacityPage(1);
 			e.target.value = tmp;
 		}, 500);
 	};
@@ -133,26 +161,27 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
 						{ _props.file_data.protected ? 'private' : 'public' } 
 					</Tag>
-
-					{/* <Tag colorScheme={_props.file_data.hidden
-						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
-						{ _props.file_data.hidden ? 'hidden' : 'public' } 
-					</Tag> */}
 				</Flex>
 				{(() => {
 					if(loaded) {
-						if(_props.file_data.type.includes('image')) {
+						if(type === 'image') {
 							return (
 								<ImagePreview url={preview} />
 							);
-						} else if(_props.file_data.type.includes('video')) {
+						} else if(type === 'video') {
 							return (
 								<VideoPreview url={preview} type={_props.file_data.type} />
 							);
 						}
-					} else {
+					} else if(loading) {
 						return (
 							<Spinner />
+						);
+					} else if(type) {
+						return (
+							<Text onClick={_openPreview} _hover={{ cursor: 'pointer' }} margin='1rem'>
+								open preview
+							</Text>
 						);
 					}
 				})()}
@@ -177,22 +206,34 @@ export const DisplayFile: React.FunctionComponent<Props> = (_props) => {
 						md5
 					</Tag>
 				</Flex>
-				<Flex marginY="0.25rem"
+				<Flex
 					className={colorMode === 'dark' ? style.hashCard : style.hashCardLight}>
 					<Tag borderRadius="full" paddingLeft="0" >
+						<Fade animate={{ opacity: opacityPage }}
+							transition={{ duration: 0.5, ease: 'easeIn' }} >
+							<Input borderRadius="full" type="text" size="xs" value={page_url} 
+								variant="filled" aria-label='direct link' onClick={_copyPage} readOnly />
+						</Fade>
+						link
+					</Tag>
+				</Flex>
+				<Flex
+					className={colorMode === 'dark' ? style.hashCard : style.hashCardLight}>
+					<Tag borderRadius="full" paddingLeft="0">
 						<Fade animate={{ opacity: opacityDL }}
 							transition={{ duration: 0.5, ease: 'easeIn' }} >
-							<Input borderRadius="full" type="text" size="xs" value={full_url} 
-								variant="filled" aria-label='direct link' onClick={_copyDL} readOnly />
+							<Input borderRadius="full" type="text" size="xs" value={full_url}
+								variant="filled" aria-label='direct link' onClick={_copyDL} readOnly/>
 						</Fade>
 						direct link
 					</Tag>
 				</Flex>
-				<Flex marginY="0.25rem">
+				<Flex marginY="0.125rem">
 					<Button onClick={_downloadfile}
 						isLoading={isDownloading}
 						disabled={isDownloading}
     					loadingText="downloading...">
+						<Icon as={FiDownload} marginRight='4px' />
 						Download
 					</Button>
 				</Flex>

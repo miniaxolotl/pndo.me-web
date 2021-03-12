@@ -1,10 +1,11 @@
 import { NextPage } from 'next';
 import React from 'react';
-import { Flex, Grid, Spacer } from '@chakra-ui/react';
+import { Flex, Grid } from '@chakra-ui/react';
 
 import { AlbumViewItem } from './AlbumViewItem';
 
 interface Props {
+	update_hook: any;
 	album: Album;
 	files: FileShort[];
 }
@@ -15,8 +16,9 @@ export const AlbumView: NextPage<Props> = (_props: Props) => {
 		_props.files.forEach((_element: FileShort, _i) => {
 			file_list.push(
 				<>
-					<AlbumViewItem file={_element} key={_element.file_id} />
-					<Spacer backgroundColor='grey' borderRadius='3xl' height='2px' />
+					{/* <FileListItem file={_element} key={_element.file_id} /> */}
+					<AlbumViewItem update_hook={_props.update_hook} file={_element} key={_element.file_id} />
+					{/* <Spacer backgroundColor='grey' borderRadius='3xl' height='4px' opacity='40%' /> */}
 				</>
 			);
 		});

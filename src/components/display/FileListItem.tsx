@@ -22,7 +22,7 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 	const { colorMode } = useColorMode();
 	const _data = _props.file;
 	const param = `${_data.file_id ? _data.file_id : _data.album_id}`;
-	const full_url = `${config.server}/${_data.file_id ? 'file' : 'album'}/${param}`;
+	const full_url = `${config.canonical}/${_data.file_id ? 'file' : 'album'}/${param}`;
 
 	const _deleteEntry = (event: SyntheticEvent<HTMLButtonElement, MouseEvent>) => {
 		event.preventDefault();
@@ -49,10 +49,10 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 	};
 
 	return(
-		<Box borderRadius='md' shadow='dark-lg' paddingY='4px'
+		<Box borderRadius='md' shadow='dark-lg' paddingY='1rem'
 			className={colorMode === 'dark' ? style.background : style.backgroundLight}>
 			<Flex direction='column'>
-				<Flex direction='row' paddingX='8px'>
+				<Flex direction='row' paddingX='1rem'>
 					<Flex whiteSpace='nowrap' overflow='hidden' width='100%' justifyContent='space-between'>
 						<Flex width='80%' alignItems='center'>
 							<Icon as={_data.file_id ? FiFile : FiFolder}/>
@@ -73,9 +73,9 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 					</Flex>
 				</Flex>
 				{(() => {
-					if(_data.complete) {
+					if(_data.complete && !_data.error) {
 						return (
-							<Flex direction='row' paddingX='8px' paddingY='4px' gridGap={1}>
+							<Flex direction='row' paddingX='1rem' paddingY='4px' gridGap={1}>
 								<Tag _hover={{ cursor: 'default' }}>
 									{ _data.type ? _data.type  : 'album' }
 								</Tag>
@@ -97,9 +97,9 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 						);
 					}
 				})()}
-				<Flex direction='column' paddingX='8px' paddingBottom='4px'>
+				<Flex direction='column' paddingX='1rem' paddingBottom='4px'>
 					{(() => {
-						if(_data.complete) {
+						if(_data.complete && !_data.error) {
 							return (
 								<>
 									<Fade animate={{ opacity }}
@@ -113,7 +113,8 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 						} else {
 							return (
 								<>
-									<Progress max={100} value={_data.progress} width="100%" size="xs" borderRadius="md"/>
+									<Progress max={100} value={_data.progress} width="100%" size="xs" borderRadius="md"
+										colorScheme={!_data.complete &&  !_data.error ? 'blue' : _data.error ? 'red' : 'green'}/>
 								</>
 							);
 						}

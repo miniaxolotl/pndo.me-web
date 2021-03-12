@@ -1,0 +1,15 @@
+.background {
+	background: #16161D;
+	margin: 0rem 1rem 1rem;
+	text-align: start;
+
+	width: auto;
+}
+
+.backgroundLight {
+	background: #fff;
+	margin: 0rem 1rem 1rem;
+	text-align: start;
+
+	width: auto;
+}

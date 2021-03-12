@@ -27,7 +27,7 @@ const Index: NextPage<Props> = (_props) => {
 				<UploadTool auth={auth} upload_option={upload_option} />
 			</Box>
 			<Spacer height='1rem' />
-			<FileList file_list={upload_history.file_list}  />
+			<FileList file_list={upload_history.file_list} />
 		</DefaultLayout>
 	);
 };

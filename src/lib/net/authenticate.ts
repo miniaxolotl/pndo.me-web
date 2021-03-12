@@ -11,7 +11,7 @@ export const postRegister = async (form: HTMLFormElement) => {
 	};
 
 	const responce = new Promise<any>((resolve) => {
-		fetch(`${config.server}/api/auth/register`, {
+		fetch(`${config.canonical}/api/auth/register`, {
 			method: 'post',
 			body: qs.stringify(request),
 			headers: {
@@ -39,7 +39,7 @@ export const postLogin = async (form: HTMLFormElement) => {
 	};
 
 	const responce = new Promise<any>((resolve) => {
-		fetch(`${config.server}/api/auth/login`, {
+		fetch(`${config.canonical}/api/auth/login`, {
 			method: 'post',
 			body: JSON.stringify(request),
 			headers: {
