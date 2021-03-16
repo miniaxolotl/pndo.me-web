@@ -1,27 +1,27 @@
 .background {
-	background-image: url(/bg_image_1.jpg);
+	min-height: 100%;
+	min-width: 100%;
+	position: fixed;
 	z-index: -5;
 
 	filter: blur(0.3rem);
 	-webkit-filter: blur(0.3rem);
 
-	height: 100%;
-
-	background-position: center;
+	background-position: bottom;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
 .backgroundLight {
-	background-image: url(/bg_image_2.jpg);
+	min-height: 100%;
+	min-width: 100%;
+	position: fixed;
 	z-index: -5;
 
 	filter: blur(0.3rem);
 	-webkit-filter: blur(0.3rem);
 
-	height: 100%;
-
-	background-position: center;
+	background-position: bottom;
 	background-repeat: no-repeat;
 	background-size: cover;
 }

@@ -43,54 +43,19 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 				Profile
 				</MenuButton>
 				<MenuList className={colorMode === 'dark' ? style.background : style.backgroundLight}>
-					{/* <MenuGroup title="Profile"
-						className={colorMode === 'dark' ? style.label : style.labelLight}>
-						{(() => {
-							if(_props.auth.loggedIn) {
-								return (
-									<>
-										<MenuItem>
-											<CLink as={Link} href={'/account'} >
-												<a>
-													<Text> My Account </Text>
-												</a>
-											</CLink>
-										</MenuItem>
-										<MenuItem>
-											<CLink passHref as={Link} href='/' >
-												<a onClick={logout}>
-													<Text> Logout </Text>
-												</a>
-											</CLink>
-										</MenuItem>
-									</>
-								);
-							} else {
-								return (
-									<MenuItem>
-										<CLink as={Link} href='/login'>
-											<a>
-												<Text> Login </Text>
-											</a>
-										</CLink>
-									</MenuItem>
-								);
-							}
-						})()}
-					</MenuGroup> */}
 					{(() => {
 						if(_props.auth.loggedIn) {
 							return (
 								<>
 									<MenuGroup title=""
 										className={colorMode === 'dark' ? style.label : style.labelLight}>
-										{/* <MenuItem>
+										<MenuItem>
 											<CLink passHref as={Link} href={'/dashboard'} >
 												<a>
 													<Text> Dashboard </Text>
 												</a>
 											</CLink>
-										</MenuItem> */}
+										</MenuItem>
 										<MenuItem>
 											<CLink passHref as={Link} href={'/dashboard/files'} >
 												<a>
@@ -151,8 +116,8 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 						);
 					}
 				})()}
-				<Spacer width="0.5rem" />
 			</Flex>
+			<Spacer width="0.5rem" />
 		</Flex>
 	);
 };

@@ -9,7 +9,9 @@ interface Props {
 
 export const SeoHead: NextPage<Props> = (_props: Props) => {
 	const seo = {
+		/** default configuration */
 		...config.seo,
+		/** overwrite default configuration */
 		..._props.seo
 	};
 	return(
