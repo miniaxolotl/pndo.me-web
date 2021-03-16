@@ -2,15 +2,13 @@
 	margin: 2rem 0rem;
 	padding: 1rem 0rem 0rem;
 	border-color: #fff;
-
 	overflow-y: scroll;
 	height: 40vh;
 	max-height: 40vh;
-
 	border-width: 0.125rem;
 	border-style: dashed;
-
 	scrollbar-color: #d6d6d6 #00000000;
+	scrollbar-width: thin;
 }
 
 .container::-webkit-scrollbar {
@@ -35,14 +33,11 @@
 	margin: 2rem 0rem;
 	padding: 1rem 0rem 0rem;
 	border-color: #16161D;
-
 	overflow-y: scroll;
 	height: 40vh;
 	max-height: 40vh;
-
 	border-width: 0.125rem;
 	border-style: dashed;
-
 	scrollbar-color: #16161D #00000000;
 	scrollbar-width: thin;
 }

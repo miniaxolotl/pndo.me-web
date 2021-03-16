@@ -38,10 +38,8 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 	const _copyText = (e: any) => {
 		e.target.select();
 		document.execCommand('copy');
-
 		const tmp = e.target.value;
 		useOpacity(0);
-		
 		setTimeout(() => {
 			useOpacity(1);
 			e.target.value = tmp;
@@ -49,7 +47,7 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 	};
 
 	return(
-		<Box borderRadius='md' shadow='dark-lg' paddingY='1rem'
+		<Box borderRadius='md' shadow='dark-lg' paddingY='4px' width='100%'
 			className={colorMode === 'dark' ? style.background : style.backgroundLight}>
 			<Flex direction='column'>
 				<Flex direction='row' paddingX='1rem'>
@@ -89,10 +87,6 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 									colorScheme={_data.protected ? 'green' : 'red'}>
 									{ _data.protected ? 'private' : 'public' } 
 								</Tag>
-								{/* <Tag _hover={{ cursor: 'default' }}
-									colorScheme={_data.hidden ? 'green' : 'red'}>
-									{ _data.hidden ? 'hidden' : 'public' } 
-								</Tag> */}
 							</Flex>
 						);
 					}
@@ -101,21 +95,19 @@ export const FileListItem: NextPage<Props> = (_props: Props) => {
 					{(() => {
 						if(_data.complete && !_data.error) {
 							return (
-								<>
-									<Fade animate={{ opacity }}
-										transition={{ duration: 0.5, ease: 'easeIn' }} >
-										<Input type='text' size='xs' variant='filled' borderRadius='md'
-											_hover={{ cursor: 'copy' }}
-											onClick={_copyText} readOnly value={full_url}/>
-									</Fade>
-								</>
+								<Fade animate={{ opacity }}
+									transition={{ duration: 0.5, ease: 'easeIn' }} >
+									<Input type='text' size='xs' variant='filled' borderRadius='md'
+										_hover={{ cursor: 'copy' }}
+										onClick={_copyText} readOnly value={full_url}/>
+								</Fade>
 							);
 						} else {
 							return (
-								<>
-									<Progress max={100} value={_data.progress} width="100%" size="xs" borderRadius="md"
-										colorScheme={!_data.complete &&  !_data.error ? 'blue' : _data.error ? 'red' : 'green'}/>
-								</>
+								<Progress max={100} value={_data.progress} width="100%" size="xs" borderRadius="md"
+									colorScheme={(!_data.complete &&  !_data.error)
+										? 'blue' : _data.error ? 'red' : 'green'}>
+								</Progress>
 							);
 						}
 					})()}

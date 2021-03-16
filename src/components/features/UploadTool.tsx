@@ -21,7 +21,6 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 
 	const _uploadProgress = ({ _progress, _files, _temp_id, _initiated }: any) => {
 		const _percent_completed = (_progress.loaded / _progress.total) * 100;
-		
 		const new_upload: FileState = {
 			initiated: _initiated,
 			temp_id: _temp_id,
@@ -29,20 +28,17 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 			complete: false,
 			error: false
 		};
-		
 		if(_files.length > 1) {
 			const _list = [];
 			for(let i = 0; i< _files.length; i++) {
 				_list.push(_files[0].name);
 			}
-
 			new_upload.album_id = _temp_id;
 			new_upload.filename = _list.join(' - ');
 		} else {
 			new_upload.file_id = _temp_id;
 			new_upload.filename = (_files[0] as File).name;
 		}
-
 		upload_history_d({
 			type: UploadHistoryAction.PROGRESS,
 			new_upload
@@ -94,7 +90,6 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 		});
 	};
 	
-
 	const _clear = async (event: SyntheticEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -137,21 +132,6 @@ export const UploadTool: React.FunctionComponent<Props> = (_props) => {
 						icon={_props.upload_option.protected ? <FiLock /> : <FiUnlock />}
 					/>
 				</Tooltip>
-
-				{/* <Tooltip label="hide file" >
-					<IconButton
-						colorScheme={
-							_props.upload_option.hidden ? null : 'red'
-						}
-						onClick={_toggleHidden}
-						borderRadius='none'
-						aria-label="upload file"
-						_focus={{
-							boxShadow: 'none'
-						}}
-						icon={_props.upload_option.hidden ? <FiEyeOff /> : <FiEye />}
-					/>
-				</Tooltip> */}
 				<Tooltip label="clear recent uploads" 
 					_selected={{}}>
 					<IconButton

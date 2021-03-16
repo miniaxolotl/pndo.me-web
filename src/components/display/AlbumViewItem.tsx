@@ -2,14 +2,16 @@ import Link from 'next/link';
 import { NextPage } from 'next';
 import fetch from 'node-fetch';
 import filesize from 'file-size';
-import { Box, Link as CLink, Fade, Flex, Icon, IconButton, Input, Progress, Tag, Text, useColorMode } from '@chakra-ui/react';
+import { Box, Link as CLink, Fade, Flex, Icon, IconButton, Input, Progress, Tag,
+	Text, useColorMode } from '@chakra-ui/react';
 import { FiFile, FiFolder, FiX } from 'react-icons/fi';
 import React, { SyntheticEvent, useState } from 'react';
 
 import { UploadHistoryAction } from '../../lib/store/store.enum';
+import { useAuth, useUploadHistory } from '../../lib/store/store';
+
 import { config } from '../../res/config';
 import style from './AlbumViewitem.module.css';
-import { useAuth, useUploadHistory } from '../../lib/store/store';
 
 interface Props {
 	file: FileState;
@@ -60,10 +62,8 @@ export const AlbumViewItem: NextPage<Props> = (_props: Props) => {
 	const _copyText = (e: any) => {
 		e.target.select();
 		document.execCommand('copy');
-
 		const tmp = e.target.value;
 		useOpacity(0);
-		
 		setTimeout(() => {
 			useOpacity(1);
 			e.target.value = tmp;
@@ -94,7 +94,6 @@ export const AlbumViewItem: NextPage<Props> = (_props: Props) => {
 						</Flex>
 					</Flex>
 				</Flex>
-
 				{(() => {
 					if(!_data.error) {
 						return (
@@ -108,27 +107,10 @@ export const AlbumViewItem: NextPage<Props> = (_props: Props) => {
 											{ filesize(_data.bytes).human('si') }
 										</Tag> : null
 								}
-								{/* <Tag _hover={{ cursor: 'default' }}
-									colorScheme={_data.protected ? 'green' : 'red'}>
-									{ _data.protected ? 'private' : 'public' } 
-								</Tag> */}
-								{/* <Tag _hover={{ cursor: 'default' }}
-									colorScheme={_data.hidden ? 'green' : 'red'}>
-									{ _data.hidden ? 'hidden' : 'public' } 
-								</Tag> */}
 							</Flex>
 						);
 					}
 				})()}
-				
-				{/* <Flex direction='row' paddingX='8px' paddingY='4px' gridGap={1}>
-					<Tag _hover={{ cursor: 'default' }}>
-						{ _data.type ? _data.type  : 'album' }
-					</Tag>
-					<Tag _hover={{ cursor: 'default' }}>
-						{ filesize(_data.bytes).human('si') }
-					</Tag>
-				</Flex> */}
 				<Flex direction='column' paddingX='8px' paddingBottom='4px'>
 					{(() => {
 						if(!_data.complete && !_data.error) {
@@ -144,10 +126,9 @@ export const AlbumViewItem: NextPage<Props> = (_props: Props) => {
 							);
 						} else {
 							return (
-								<>
-									<Progress max={100} value={_data.progress} width="100%" size="xs" borderRadius="md"
-										colorScheme={!_data.complete &&  !_data.error ? 'blue' : _data.error ? 'red' : 'green'}/>
-								</>
+								<Progress max={100} value={_data.progress} width="100%" size="xs" borderRadius="md"
+									colorScheme={(!_data.complete &&  !_data.error)
+										? 'blue' : _data.error ? 'red' : 'green'}/>
 							);
 						}
 					})()}

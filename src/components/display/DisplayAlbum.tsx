@@ -1,14 +1,12 @@
 import { NextPage } from 'next';
 import filesize from 'file-size';
+import { Badge, Button, Flex, Icon, IconButton, Input, Tag, TagLabel, Tooltip } from '@chakra-ui/react';
 import { FiDownload, FiUpload } from 'react-icons/fi';
 import React, { useEffect, useRef, useState } from 'react';
-
-import { Badge, Button, Flex, Icon, IconButton, Input, Tag, TagLabel, Tooltip } from '@chakra-ui/react';
 
 import { AlbumView } from './AlbumView';
 import { addToAlbum } from '../../lib/net/file.send';
 import { downloadAlbum } from '../../lib/net/file.download';
-
 
 interface Props {
 	auth: AuthState;
@@ -41,11 +39,9 @@ export const DisplayAlbum: NextPage<Props> = (_props: Props) => {
 
 	const _uploadProgress = ({ _progress, _file, _temp_id, _initiated }: any) => {
 		const _percent_completed = (_progress.loaded / _progress.total) * 100;
-		
 		let _filter = files.filter(item => {
 			return (_temp_id != item._temp_id);
 		});
-
 		const update_package = {
 			filename: _file.name,
 			create_date: _initiated,
@@ -55,13 +51,10 @@ export const DisplayAlbum: NextPage<Props> = (_props: Props) => {
 			complete: true,
 			error: false
 		};
-		
 		_filter = [ update_package, ...files ];
-		
 		_filter = [ ..._filter.sort((a, b) => {
 			return (new Date(a.create_date).getTime() - new Date(b.create_date).getTime());
 		}) ];
-		
 		useFiles(_filter);
 	};
 
@@ -73,12 +66,10 @@ export const DisplayAlbum: NextPage<Props> = (_props: Props) => {
 		_event.preventDefault();
 		_event.stopPropagation();
 		select_file_form_input.current.click();
-		
 		const n_files = select_file_form_input.current.files.length;
 		const _files = select_file_form_input.current.files;
 		for(let i = 0; i < n_files; i++) {
 			const file = _files[i];
-			
 			const responce = await addToAlbum(file,
 				_props.album.album_id,
 				_props.auth.authorization,
@@ -96,11 +87,9 @@ export const DisplayAlbum: NextPage<Props> = (_props: Props) => {
 					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
 						{ filesize(parseInt(_props.album.bytes as any)).human('si') }
 					</Tag>
-
 					<Tag colorScheme="cyan" borderRadius="full" whiteSpace='nowrap' >
 						{ create_date }
 					</Tag>
-
 					{(() => {
 						if(_props.album.protected) {
 							return (
@@ -122,7 +111,6 @@ export const DisplayAlbum: NextPage<Props> = (_props: Props) => {
 							);
 						} 
 					})()}
-
 					<Tag colorScheme={_props.album.protected
 						? 'green' : 'red'} borderRadius="full" whiteSpace='nowrap'>
 						{ _props.album.protected ? 'private' : 'public' } 
@@ -152,7 +140,7 @@ export const DisplayAlbum: NextPage<Props> = (_props: Props) => {
 							marginX='2rem'
 							loadingText="downloading...">
 							<Icon as={FiDownload} marginRight='4px' />
-						Download
+							Download
 						</Button>
 					</Tooltip>
 				</Flex>

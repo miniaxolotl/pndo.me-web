@@ -15,11 +15,7 @@ export const AlbumView: NextPage<Props> = (_props: Props) => {
 	if(_props.files && (_props.files.length > 0)) {
 		_props.files.forEach((_element: FileShort, _i) => {
 			file_list.push(
-				<>
-					{/* <FileListItem file={_element} key={_element.file_id} /> */}
-					<AlbumViewItem update_hook={_props.update_hook} file={_element} key={_element.file_id} />
-					{/* <Spacer backgroundColor='grey' borderRadius='3xl' height='4px' opacity='40%' /> */}
-				</>
+				<AlbumViewItem update_hook={_props.update_hook} file={_element} key={_element.file_id} />
 			);
 		});
 	}

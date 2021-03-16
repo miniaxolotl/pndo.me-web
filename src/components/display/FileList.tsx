@@ -122,25 +122,22 @@ export const FileList: NextPage<Props> = (_props: Props) => {
 	};
 	
 	return(
-		<Flex borderRadius='md' direction='column' justifyItems='center' textAlign='center' shadow='dark-lg'
+		<Flex borderRadius='md' direction='column' shadow='dark-lg' paddingX='1rem' alignItems='center'
 			onDragEnter={_dragIn} onDrop={_drop} onDragEnd={_drop} onDragOver={_dragIn}
 			className={colorMode === 'dark' ? style.container : style.containerLight}>
 			{ file_list.length ? file_list : <Text _hover={{ cursor: 'default' }}> {_props.placeholder} </Text> }
 			<form name="select_file_form">
-				<Input name="file" type="file" ref={select_file_form_input}
-					onInput={_sendFileForm}
-					multiple hidden/>
+				<Input name="file" type="file" ref={select_file_form_input} onInput={_sendFileForm} multiple hidden/>
 			</form>
 			{(() => {
 				if(open) {
 					return (
 						<Flex position='absolute' onDragEnter={_dragIn} onDragExit={_dragOut} onDragEnd={_drop}
-							display={open ? 'block' : 'none'} zIndex='400'
+							display={open ? 'block' : 'none'} zIndex='10'
 							top='0' left='0' backgroundColor='black' opacity='50%' width='100%' height='100%' />
 					);
 				}
 			})()}
-			<Flex position='fixed' />
 		</Flex>
 	);
 };
