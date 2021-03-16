@@ -1,4 +1,5 @@
-import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, InputGroup, InputRightElement, Stack, Text, useColorMode } from '@chakra-ui/react';
+import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel,
+	Input, InputGroup, InputRightElement, Stack, Text, useColorMode } from '@chakra-ui/react';
 import React, { SyntheticEvent, useState } from 'react';
 
 import { validateEmail, validatePassword, validateUsername } from '../../lib/schema/validate';
@@ -18,26 +19,25 @@ export const RegisterForm: React.FunctionComponent<Props> = (_props) => {
 		password: null
 	});
 
-	const handleClick = () => setShow(!show);
+	const hideToggle = () => setShow(!show);
 
-	const _validateEmail = (event) => {
-		const value = event.target.value;
+	const _validateEmail = (_event) => {
+		const value = _event.target.value;
 		userError({ ...error, email: validateEmail(value) });
 	};
 
-	const _validateUsername = (event) => {
-		const value = event.target.value;
+	const _validateUsername = (_event) => {
+		const value = _event.target.value;
 		userError({ ...error, username: validateUsername(value) });
 	};
-	const _validatePassword = (event) => {
-		const value = event.target.value;
+	const _validatePassword = (_event) => {
+		const value = _event.target.value;
 		userError({ ...error, password: validatePassword(value) });
 	};
 
 	const _submit = (_event) => {
 		_event.preventDefault();
 		_event.stopPropagation();
-
 		const email = _event.target.email.value;
 		const username = _event.target.username.value;
 		const password = _event.target.password.value;
@@ -52,52 +52,46 @@ export const RegisterForm: React.FunctionComponent<Props> = (_props) => {
 		} else {
 			_props.formAction(_event);
 		}
-	}
-;
+	};
 	return (
 		<form onSubmit={_submit}>
 			<Stack spacing={4} shadow='dark-lg' borderRadius='xl'
 				className={colorMode === 'dark' ? style.background : style.backgroundLight}>
-
 				<FormControl id="email" isInvalid={error.email}>
 					<FormLabel>Email address</FormLabel>
 					<Input type="email" placeholder='email' name='email' onChange={_validateEmail} />
-					<FormErrorMessage>
+					<FormErrorMessage justifyContent='center'>
 						{error.email}
 					</FormErrorMessage>
 					<FormHelperText display={!error.email ? 'block' : 'none'}>
 						<Text> We{'\''}ll never share your email. </Text>
 					</FormHelperText>
 				</FormControl>
-
 				<FormControl id="username" isInvalid={error.username}>
 					<FormLabel> Username </FormLabel>
 					<Input type="text" placeholder='username' name='username' onChange={_validateUsername} />
-					<FormErrorMessage>
+					<FormErrorMessage justifyContent='center'>
 						{error.username}
 					</FormErrorMessage>
 				</FormControl>
-
 				<FormControl id="password" isInvalid={error.password}>
 					<FormLabel> Password </FormLabel>
 					<InputGroup size="md">
 						<Input type={show ? 'text' : 'password'} placeholder='password' name='password'
 							onChange={_validatePassword} />
 						<InputRightElement width="4.5rem">
-							<Button h="60%" size="sm" onClick={handleClick}>
+							<Button h="60%" size="sm" onClick={hideToggle}>
 								{show ? 'Hide' : 'Show'}
 							</Button>
 						</InputRightElement>
 					</InputGroup>
-					<FormErrorMessage>
+					<FormErrorMessage justifyContent='center'>
 						{error.password}
 					</FormErrorMessage>
 				</FormControl>
-
 				<Button mt={4} width='100%' type="submit">
-					Submit
+					Register
 				</Button>
-				
 			</Stack>
 		</form>
 	);
