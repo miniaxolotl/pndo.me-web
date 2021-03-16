@@ -15,12 +15,11 @@ export const SeoHead: NextPage<Props> = (_props: Props) => {
 		..._props.seo
 	};
 	return(
-		<>
-			<NextSeo
-				title={seo.title}
-				description={seo.description}
-				openGraph={seo.openGraph}
-				twitter={seo.twitter} />
-		</>
+		<NextSeo
+			title={seo.title}
+			description={seo.description}
+			openGraph={seo.openGraph}
+			twitter={seo.twitter} >
+		</NextSeo>
 	);
 };

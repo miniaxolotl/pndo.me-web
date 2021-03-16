@@ -33,7 +33,6 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 			hidden: true
 		});
 	};
-	
 	return(
 		<Flex position='fixed' top='2rem' left='2rem' borderRadius='md' shadow='dark-lg'
 			className={colorMode === 'dark' ? style.background : style.backgroundLight}>
@@ -77,9 +76,7 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					</MenuGroup>
 				</MenuList>
 			</Menu>
-			
 			<Spacer width="0.5rem" />
-			
 			<Flex alignItems="center">
 				{(() => {
 					if(_props.auth.loggedIn) {
