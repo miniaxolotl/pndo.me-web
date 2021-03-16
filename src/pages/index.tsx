@@ -23,7 +23,7 @@ const Index: NextPage<Props> = (_props) => {
 	return(
 		<DefaultLayout auth={auth} seo={_seo} >
 			<Box align='center' >
-				<Masthead heading={config.site_name} subheading={`max ${config.MAX_FILE / 2**20}MB upload`} />
+				<Masthead heading={config.site_name} subheading={`max ${config.MAX_BYTES / 2**20}MB upload`} />
 				<UploadTool auth={auth} upload_option={upload_option} />
 			</Box>
 			<Spacer height='1rem' />
