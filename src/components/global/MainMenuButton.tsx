@@ -55,13 +55,13 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 												</a>
 											</CLink>
 										</MenuItem>
-										<MenuItem>
+										{/* <MenuItem>
 											<CLink passHref as={Link} href={'/dashboard/files'} >
 												<a>
 													<Text> My Files </Text>
 												</a>
 											</CLink>
-										</MenuItem>
+										</MenuItem> */}
 									</MenuGroup>
 									<MenuDivider />
 								</>
@@ -70,9 +70,9 @@ export const MainMenuButton: React.FunctionComponent<Props> = (_props: Props) =>
 					})()}
 					<MenuGroup title="Help"
 						className={colorMode === 'dark' ? style.label : style.labelLight}>
-						<MenuItem about='Open android app' isDisabled> FAQ (soon) </MenuItem>
-						<MenuItem about='Open android app' isDisabled> Android App (soon) </MenuItem>
-						<MenuItem about='View documentation' isDisabled> API Documentation (soon) </MenuItem>
+						<MenuItem about='Open android app' isDisabled> FAQ </MenuItem>
+						{/* <MenuItem about='Open android app' isDisabled> Android App (soon) </MenuItem> */}
+						<MenuItem about='View documentation' isDisabled> API Documentation </MenuItem>
 					</MenuGroup>
 				</MenuList>
 			</Menu>

@@ -1,22 +1,60 @@
-import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import { NextSeoProps } from 'next-seo';
+import React from 'react';
+import { Box, useToast } from '@chakra-ui/react';
 
+import { DashboardForm } from '../../components/form/DashboardForm';
 import { DefaultLayout } from '../../components/DefaultLayout';
 import { Masthead } from '../../components/display/Masthead';
 import { Title } from '../../components/display/Title';
 import { cookieStorage } from '../../lib/data/cookie.storage';
-import { useAuth } from '../../lib/store/store';
+import { patchUser } from '../../lib/net/authenticate';
+import { useAuth, useUploadOption } from '../../lib/store/store';
 
 import { config } from '../../res/config';
+import { AuthAction, UploadOptionAction } from '../../lib/store/store.enum';
 
 interface Props { }
 
 const Index: NextPage<Props> = (_props) => {
 	const auth = useAuth((_state) => _state);
+	const auth_d = useAuth((_state) => _state.dispatch);
+	const upload_option_d = useUploadOption((_state) => _state.dispatch);
+	const toast = useToast();
 
 	const seo: NextSeoProps = {
 		title: `${config.site_name}: dashboard`
+	};
+
+	const dashboard = async (_event) => {
+		const responce = await patchUser(_event.target, auth.authorization);
+		if(responce) {
+			auth_d({
+				...responce,
+				authorization: responce.session_id,
+				type: AuthAction.LOGIN
+			});
+			upload_option_d({
+				type: UploadOptionAction.SET,
+				protected: true,
+				hidden: true
+			});
+			toast({
+				title: `Success: ${responce.username}`,
+				description: 'Successfully altered account:.',
+				status: 'success',
+				duration: 4000,
+				isClosable: true
+			});
+		} else {
+			toast({
+				title: 'Request failed',
+				description: 'Are you sure you are who you are ?',
+				status: 'error',
+				duration: 4000,
+				isClosable: true
+			});
+		}
 	};
 
 	return(
@@ -24,7 +62,7 @@ const Index: NextPage<Props> = (_props) => {
 			<Box align='center' >
 				<Masthead heading={config.site_name} />
 				<Title heading='dashboard' />
-				Feature under construction!
+				<DashboardForm formAction={dashboard} auth={auth} />
 			</Box>
 		</DefaultLayout>
 	);
