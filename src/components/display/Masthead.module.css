@@ -10,4 +10,5 @@
 .image {
 	filter: drop-shadow(0.125rem 0.125rem 1rem #16161D);
 	padding: 0rem 1rem;
+	z-index: -1;
 }
